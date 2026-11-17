@@ -835,42 +835,58 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             />
           </div>
 
-          {/* WILL YOU BE THERE? (Gaegu font) */}
-          <div className="text-center space-y-3 pt-2">
-            <h3 className="font-gaegu text-[#6C1420] text-3xl font-bold tracking-wider">
-              WILL YOU BE THERE?
-            </h3>
-            <div className="inline-flex flex-col items-start font-gaegu text-xl font-bold text-[#6C1420] space-y-2">
-              <button 
-                type="button"
-                onClick={() => {
-                  setWillBeThere("yes");
-                  setRsvpStatus("attending");
-                }}
-                className="flex items-center gap-3 cursor-pointer group"
-              >
-                <div className="w-5 h-5 rounded border-2 border-[#6C1420] flex items-center justify-center bg-white">
-                  {willBeThere === "yes" && (
-                    <span className="text-[#C82127] font-bold text-lg leading-none">✓</span>
-                  )}
-                </div>
-                <span className="group-hover:opacity-80 transition-opacity">Yes!</span>
-              </button>
-              <button 
-                type="button"
-                onClick={() => {
-                  setWillBeThere("no");
-                  setRsvpStatus("not_attending");
-                }}
-                className="flex items-center gap-3 cursor-pointer group"
-              >
-                <div className="w-5 h-5 rounded border-2 border-[#6C1420] flex items-center justify-center bg-white">
-                  {willBeThere === "no" && (
-                    <span className="text-[#C82127] font-bold text-lg leading-none">✓</span>
-                  )}
-                </div>
-                <span className="group-hover:opacity-80 transition-opacity">Sorry, cant make it</span>
-              </button>
+          {/* GAMBAR 1: RSVP Card with WILL YOU BE THERE inside & Banquet Dinner Table */}
+          <div className="relative max-w-[340px] sm:max-w-[380px] mx-auto select-none rounded-[28px] overflow-hidden bg-white/70 border border-[#6C1420]/25 shadow-xs pt-5 pb-0 mb-4">
+            {/* WILL YOU BE THERE? inside Gambar 1 */}
+            <div className="text-center space-y-2.5 px-4 mb-2">
+              <h3 className="font-gaegu text-[#6C1420] text-3xl font-bold tracking-wider">
+                WILL YOU BE THERE?
+              </h3>
+              <div className="inline-flex flex-col items-start font-gaegu text-xl font-bold text-[#6C1420] space-y-2">
+                <button 
+                  type="button"
+                  onClick={() => {
+                    if (hasSubmittedRsvp) return;
+                    setWillBeThere("yes");
+                    setRsvpStatus("attending");
+                  }}
+                  disabled={hasSubmittedRsvp}
+                  className="flex items-center gap-3 cursor-pointer group"
+                >
+                  <div className="w-5 h-5 rounded border-2 border-[#6C1420] flex items-center justify-center bg-white shadow-xs">
+                    {willBeThere === "yes" && (
+                      <span className="text-[#C82127] font-bold text-lg leading-none">✓</span>
+                    )}
+                  </div>
+                  <span className="group-hover:opacity-80 transition-opacity">Yes!</span>
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => {
+                    if (hasSubmittedRsvp) return;
+                    setWillBeThere("no");
+                    setRsvpStatus("not_attending");
+                  }}
+                  disabled={hasSubmittedRsvp}
+                  className="flex items-center gap-3 cursor-pointer group"
+                >
+                  <div className="w-5 h-5 rounded border-2 border-[#6C1420] flex items-center justify-center bg-white shadow-xs">
+                    {willBeThere === "no" && (
+                      <span className="text-[#C82127] font-bold text-lg leading-none">✓</span>
+                    )}
+                  </div>
+                  <span className="group-hover:opacity-80 transition-opacity">Sorry, cant make it</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Banquet Dinner Table (10-24.png) as the base illustration of Gambar 1 */}
+            <div className="w-full flex justify-center px-1">
+              <img 
+                src={ASSETS.tableBanquet} 
+                alt="Banquet Dinner Table" 
+                className="w-full h-auto object-contain pointer-events-none drop-shadow-xs" 
+              />
             </div>
           </div>
 
@@ -1014,15 +1030,6 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               )}
             </form>
           )}
-
-          {/* Dinner Banquet Table (10-24.png) directly in the unified RSVP section */}
-          <div className="pt-6 flex justify-center">
-            <img 
-              src={ASSETS.tableBanquet} 
-              alt="Banquet Dinner Table" 
-              className="w-full max-w-[340px] sm:max-w-[360px] h-auto object-contain select-none pointer-events-none drop-shadow-xs" 
-            />
-          </div>
         </motion.section>
 
         {/* SECTION 7: BLESSINGS */}
