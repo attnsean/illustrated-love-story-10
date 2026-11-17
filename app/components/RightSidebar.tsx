@@ -417,11 +417,21 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   className="w-14 sm:w-16 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
               </div>
-              {/* Couple Name: Annisa (500pt ratio) & (330pt ratio) Firman (500pt ratio) in RT Brawford */}
-              <h1 className="text-[#6C1420] leading-none tracking-tight my-0.5">
-                <span className="font-brawford font-bold text-4xl sm:text-[46px] block">{brideNickname}</span>
-                <span className="font-brawford font-normal text-2xl sm:text-3xl block my-0.5">&amp;</span>
-                <span className="font-brawford font-bold text-4xl sm:text-[46px] block">{groomNickname}</span>
+              {/* Couple Name: Annisa & on line 1, Firman on line 2 (Matching Gambar 1) */}
+              <h1 className="text-[#6C1420] text-center my-0.5 select-none">
+                <div className="flex items-baseline justify-center leading-[0.9]">
+                  <span className="font-brawford font-normal text-4xl sm:text-5xl tracking-tight">
+                    {brideNickname}
+                  </span>
+                  <span className="font-brawford font-normal text-2xl sm:text-3xl ml-2">
+                    &amp;
+                  </span>
+                </div>
+                <div className="leading-[0.9] -mt-1">
+                  <span className="font-brawford font-normal text-4xl sm:text-5xl tracking-tight">
+                    {groomNickname}
+                  </span>
+                </div>
               </h1>
             </div>
 
@@ -472,42 +482,52 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
       </AnimatePresence>
 
       {/* MAIN INVITATION STRIP (Scrollable after opening) */}
-      <div className="relative max-w-md mx-auto px-5 py-8 space-y-16 z-10">
+      <div className="relative max-w-md mx-auto px-5 py-6 space-y-6 sm:space-y-8 z-10">
 
-        {/* SECTION 1: HERO / COUPLE */}
+        {/* SECTION 1: HERO / COUPLE (Exact Match to Gambar 1) */}
         <motion.section 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center space-y-3 pt-2"
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-center space-y-1.5 pt-1"
         >
           <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
             you are invited to our wedding
           </p>
 
-          <div className="flex justify-center py-1">
+          <div className="flex justify-center py-0.5">
             <img 
               src={ASSETS.bowRibbon} 
               alt="Bow Ribbon" 
-              className="w-20 sm:w-24 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
+              className="w-14 sm:w-16 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
             />
           </div>
 
-          {/* Couple Name: Annisa (500pt ratio) & (330pt ratio) Firman (500pt ratio) in RT Brawford */}
-          <h1 className="text-[#6C1420] leading-[0.95] tracking-tight">
-            <span className="font-brawford font-bold text-5xl sm:text-6xl block">{brideNickname}</span>
-            <span className="font-brawford font-normal text-3xl sm:text-4xl block my-0.5">&amp;</span>
-            <span className="font-brawford font-bold text-5xl sm:text-6xl block">{groomNickname}</span>
+          {/* Couple Name: Annisa & Firman (2 lines, exactly matching Gambar 1) */}
+          <h1 className="text-[#6C1420] text-center my-1 select-none">
+            <div className="flex items-baseline justify-center leading-[0.9]">
+              <span className="font-brawford font-normal text-6xl sm:text-7xl md:text-[84px] tracking-tight">
+                {brideNickname}
+              </span>
+              <span className="font-brawford font-normal text-4xl sm:text-5xl md:text-6xl ml-3">
+                &amp;
+              </span>
+            </div>
+            <div className="leading-[0.9] -mt-2 sm:-mt-3">
+              <span className="font-brawford font-normal text-6xl sm:text-7xl md:text-[84px] tracking-tight">
+                {groomNickname}
+              </span>
+            </div>
           </h1>
 
-          <div className="pt-4 flex justify-center">
+          <div className="pt-2 flex justify-center">
             <motion.img 
-              animate={{ y: [0, -6, 0] }}
+              animate={{ y: [0, -5, 0] }}
               transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}
               src={ASSETS.couple} 
               alt="Illustrated Couple" 
-              className="w-64 sm:w-72 h-auto object-contain select-none pointer-events-none drop-shadow-md" 
+              className="w-full max-w-[340px] sm:max-w-[360px] h-auto object-contain select-none pointer-events-none drop-shadow-md" 
             />
           </div>
         </motion.section>

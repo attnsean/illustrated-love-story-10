@@ -208,11 +208,21 @@ export default async function Home({ params, searchParams }: Props) {
             <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-14 lg:w-16 h-auto object-contain select-none" />
           </div>
 
-          {/* Couple Name in RT Brawford */}
-          <h1 className="text-[#6C1420] leading-none tracking-tight my-0.5">
-            <span className="font-brawford font-bold text-4xl lg:text-[44px] block">{brideNickname}</span>
-            <span className="font-brawford font-normal text-2xl lg:text-3xl block my-0.5">&amp;</span>
-            <span className="font-brawford font-bold text-4xl lg:text-[44px] block">{groomNickname}</span>
+          {/* Couple Name in RT Brawford (Matching Gambar 1) */}
+          <h1 className="text-[#6C1420] text-center my-1 select-none">
+            <div className="flex items-baseline justify-center leading-[0.9]">
+              <span className="font-brawford font-normal text-4xl lg:text-5xl tracking-tight">
+                {brideNickname}
+              </span>
+              <span className="font-brawford font-normal text-2xl lg:text-3xl ml-2">
+                &amp;
+              </span>
+            </div>
+            <div className="leading-[0.9] -mt-1">
+              <span className="font-brawford font-normal text-4xl lg:text-5xl tracking-tight">
+                {groomNickname}
+              </span>
+            </div>
           </h1>
 
           {(brideFull || groomFull) && (
