@@ -73,8 +73,8 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const brideFull = dbData.project?.bride_name || "Annisa Rahmawati";
   const groomFull = dbData.project?.groom_name || "Firman Hidayat";
 
-  const title = `Wedding Invitation for ${guestName} | ${groomName} & ${brideName}`;
-  const description = `We cordially invite ${guestName} to share our special day. The wedding celebration of ${groomFull} & ${brideFull}.`;
+  const title = `Wedding Invitation for ${guestName} | ${brideName} & ${groomName}`;
+  const description = `We cordially invite ${guestName} to share our special day. The wedding celebration of ${brideFull} & ${groomFull}.`;
   const weddingDateRaw = dbData.events?.[0]?.event_date || dbData.project?.wedding_date;
   const formattedDate = formatDateDisplay(weddingDateRaw);
 
@@ -82,9 +82,8 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const hasCustomCover = Boolean(rawCover && !rawCover.includes("/defaults") && !rawCover.includes("onyx") && rawCover.trim() !== "");
   
   const protocol = host && (host.includes("localhost") || host.includes("127.0.0.1")) ? "http" : "https";
-  const baseUrl = host ? `${protocol}://${host}` : "";
-  const dynamicOgUrl = baseUrl ? `${baseUrl}/api/og?b=${encodeURIComponent(brideName)}&g=${encodeURIComponent(groomName)}&d=${encodeURIComponent(formattedDate)}` : "/api/og";
-  const imageUrl = hasCustomCover ? (rawCover as string) : "https://cdn.serastory.com/templates/covers/illustrated-10-cover.jpg";
+  const baseUrl = host ? `${protocol}://${host}` : "https://illustrated-love-story-10.serastory.com";
+  const imageUrl = hasCustomCover ? (rawCover as string) : `${baseUrl}/og-image.jpg?v=2`;
 
   return {
     title,
@@ -92,7 +91,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     openGraph: {
       title,
       description,
-      siteName: `${groomName} & ${brideName} Wedding`,
+      siteName: `${brideName} & ${groomName} Wedding`,
       images: [
         {
           url: imageUrl,
@@ -198,51 +197,41 @@ export default async function Home({ params, searchParams }: Props) {
           </>
         ) : null}
 
-        {/* Center Smartphone Mockup Frame */}
-        <div className="relative z-10 text-center px-6 py-5 rounded-[36px] bg-[#FFFDF3] border-[2.5px] border-neutral-800 shadow-[0_20px_50px_rgba(0,0,0,0.12)] max-w-[340px] lg:max-w-sm w-full mx-6 space-y-1 overflow-hidden">
-          <p className="font-beautylife text-2xl text-[#6C1420] leading-tight">
-            you are invited to our wedding
-          </p>
+        {/* Center Smartphone Mockup Frame (Matching Gambar 1) */}
+        <div className="relative z-10 text-center px-5 py-6 rounded-[38px] bg-[#FFFDF3] border-[2.5px] border-neutral-800 shadow-[0_20px_50px_rgba(0,0,0,0.12)] max-w-[350px] lg:max-w-[370px] w-full mx-6 flex flex-col justify-between items-center overflow-hidden">
+          <div className="w-full space-y-1">
+            <p className="font-beautylife text-2xl lg:text-3xl text-[#6C1420] leading-tight">
+              you are invited to our wedding
+            </p>
 
-          <div className="flex justify-center py-0.5">
-            <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-14 lg:w-16 h-auto object-contain select-none" />
+            <div className="flex justify-center py-0.5">
+              <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-14 lg:w-16 h-auto object-contain select-none pointer-events-none drop-shadow-sm" />
+            </div>
+
+            {/* Couple Name in RT Brawford (Matching Gambar 1) */}
+            <h1 className="text-[#6C1420] text-center my-0 select-none">
+              <div className="flex items-baseline justify-center leading-[0.75]">
+                <span className="font-brawford font-normal text-[96px] lg:text-[110px] tracking-tight">
+                  {brideNickname}
+                </span>
+                <span className="font-brawford font-normal text-[62px] lg:text-[70px] ml-2">
+                  &amp;
+                </span>
+              </div>
+              <div className="leading-[0.75] -mt-4 lg:-mt-5">
+                <span className="font-brawford font-normal text-[96px] lg:text-[110px] tracking-tight">
+                  {groomNickname}
+                </span>
+              </div>
+            </h1>
           </div>
 
-          {/* Couple Name in RT Brawford (Matching Gambar 1) */}
-          <h1 className="text-[#6C1420] text-center my-0.5 select-none">
-            <div className="flex items-baseline justify-center leading-[0.8]">
-              <span className="font-brawford font-normal text-5xl lg:text-6xl tracking-tight">
-                {brideNickname}
-              </span>
-              <span className="font-brawford font-normal text-3xl lg:text-4xl ml-2">
-                &amp;
-              </span>
-            </div>
-            <div className="leading-[0.8] -mt-2">
-              <span className="font-brawford font-normal text-5xl lg:text-6xl tracking-tight">
-                {groomNickname}
-              </span>
-            </div>
-          </h1>
-
-          {(brideFull || groomFull) && (
-            <p className="font-gaegu font-bold text-xs lg:text-sm text-[#6C1420] tracking-wide pt-0.5">
-              {brideFull} &amp; {groomFull}
-            </p>
-          )}
-
-          <div className="h-0.5 w-10 bg-[#6C1420] mx-auto my-1.5 opacity-50"></div>
-
-          <p className="text-xs font-brawford font-bold tracking-[0.25em] text-[#6C1420] uppercase">
-            {formattedDate}
-          </p>
-
-          {/* Illustrated couple in heart (Never cut off) */}
-          <div className="pt-1 flex justify-center">
+          {/* Illustrated couple in heart (Matching Gambar 1, Large and never cut off) */}
+          <div className="w-full flex justify-center -mt-2">
             <img 
               src={ASSETS.couple} 
               alt="Illustrated Couple" 
-              className="w-48 lg:w-52 h-auto max-h-[190px] lg:max-h-[220px] object-contain select-none pointer-events-none drop-shadow-md"
+              className="w-full max-w-[310px] lg:max-w-[330px] h-auto max-h-[300px] lg:max-h-[330px] object-contain select-none pointer-events-none drop-shadow-md" 
             />
           </div>
         </div>

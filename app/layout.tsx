@@ -52,25 +52,28 @@ export async function generateMetadata(): Promise<Metadata> {
     ...weddingData
   };
 
-  const brideName = data?.bride_name || "Bride";
-  const groomName = data?.groom_name || "Groom";
-  const brideNick = data?.bride_nickname || "Bride";
-  const groomNick = data?.groom_nickname || "Groom";
+  const brideName = data?.bride_name || "Annisa Rahmawati";
+  const groomName = data?.groom_name || "Firman Hidayat";
+  const brideNick = data?.bride_nickname || "Annisa";
+  const groomNick = data?.groom_nickname || "Firman";
   const rawCover = data?.cover_photo_url || data?.opening_photo_url;
-  const coverUrl = (rawCover && !rawCover.includes("/defaults") && !rawCover.includes("onyx")) ? rawCover : 'https://cdn.serastory.com/templates/covers/illustrated-10-cover.jpg';
   const siteUrl = data?.custom_domain || data?.site_url || 'https://illustrated-love-story-10.serastory.com';
+  const cleanSiteUrl = siteUrl.startsWith('http') ? siteUrl : `https://${siteUrl}`;
+  const coverUrl = (rawCover && !rawCover.includes("/defaults") && !rawCover.includes("onyx")) 
+    ? rawCover 
+    : `${cleanSiteUrl}/og-image.jpg?v=2`;
 
-  const title = `${brideName.toUpperCase()} & ${groomName.toUpperCase()} Wedding Invitation`;
-  const description = `The wedding celebration of ${brideName} & ${groomName}`;
+  const title = `${brideNick} & ${groomNick} Wedding Invitation`;
+  const description = `We cordially invite you to celebrate the wedding of ${brideName} & ${groomName}.`;
 
   return {
-    metadataBase: new URL(siteUrl.startsWith('http') ? siteUrl : `https://${siteUrl}`),
+    metadataBase: new URL(cleanSiteUrl),
     title,
     description,
     openGraph: {
       title,
       description,
-      url: siteUrl.startsWith('http') ? siteUrl : `https://${siteUrl}`,
+      url: cleanSiteUrl,
       siteName: `${brideNick} & ${groomNick} Wedding`,
       images: [
         {
