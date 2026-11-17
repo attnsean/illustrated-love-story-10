@@ -179,7 +179,7 @@ export default async function Home({ params, searchParams }: Props) {
     || (!isDefaultStorageUrl(dbData.project?.groom_photo_url) ? dbData.project?.groom_photo_url : null);
 
   return (
-    <main className="min-h-[100dvh] w-full flex flex-col md:flex-row bg-[#FFFDF3] text-neutral-900 overflow-hidden relative font-brawford">
+    <main className="min-h-[100dvh] w-full flex flex-col md:flex-row bg-[#FFFDF3] text-neutral-900 overflow-hidden relative font-gaegu">
       
       {/* Left side: Desktop Cover Mockup (Hidden on mobile) */}
       <div className="hidden md:flex relative md:w-[58%] lg:w-[62%] md:h-[100dvh] items-center justify-center overflow-hidden bg-[#FAF7EE] border-r border-neutral-200 p-8">
@@ -208,13 +208,14 @@ export default async function Home({ params, searchParams }: Props) {
             <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-10 h-auto object-contain select-none" />
           </div>
 
-          <h1 className="font-beautylife text-5xl lg:text-6xl text-[#6C1420] leading-[1.08]">
+          {/* Couple Name in RT Brawford */}
+          <h1 className="font-brawford text-4xl lg:text-5xl text-[#6C1420] font-bold leading-[1.1]">
             {brideNickname} &amp; <br />
             {groomNickname}
           </h1>
 
           {(brideFull || groomFull) && (
-            <p className="font-brawford text-base text-[#6C1420] tracking-wide pt-1">
+            <p className="font-gaegu font-bold text-base text-[#6C1420] tracking-wide pt-1">
               {brideFull} &amp; {groomFull}
             </p>
           )}

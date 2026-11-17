@@ -338,7 +338,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
   };
 
   return (
-    <div className={`relative w-full md:w-[42%] lg:w-[38%] ${isOpened ? "min-h-[100dvh] md:h-[100dvh] md:overflow-y-auto md:overflow-x-hidden" : "h-[100dvh] max-h-[100dvh] overflow-hidden overscroll-none touch-none"} bg-[#FFFDF3] text-neutral-900 border-l border-neutral-200 shadow-2xl flex-shrink-0 font-brawford`}>
+    <div className={`relative w-full md:w-[42%] lg:w-[38%] ${isOpened ? "min-h-[100dvh] md:h-[100dvh] md:overflow-y-auto md:overflow-x-hidden" : "h-[100dvh] max-h-[100dvh] overflow-hidden overscroll-none touch-none"} bg-[#FFFDF3] text-neutral-900 border-l border-neutral-200 shadow-2xl flex-shrink-0 font-gaegu`}>
       {/* Audio Element */}
       <audio 
         ref={audioRef} 
@@ -386,7 +386,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[#6C1420] text-white px-5 py-2.5 rounded-full shadow-2xl font-brawford text-sm font-bold flex items-center gap-2 border border-white/20 select-none"
+            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[#6C1420] text-white px-5 py-2.5 rounded-full shadow-2xl font-gaegu text-sm font-bold flex items-center gap-2 border border-white/20 select-none"
           >
             <span className="text-emerald-300">✓</span>
             <span>{copiedText} berhasil disalin!</span>
@@ -416,7 +416,8 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   className="w-10 sm:w-11 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
               </div>
-              <h1 className="font-beautylife text-5xl sm:text-6xl text-[#6C1420] leading-[1.08] my-1">
+              {/* Couple Name in RT Brawford */}
+              <h1 className="font-brawford text-4xl sm:text-5xl text-[#6C1420] font-bold leading-[1.1] my-1">
                 {brideNickname} &amp; <br />
                 {groomNickname}
               </h1>
@@ -446,7 +447,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             {/* Bottom: Guest Greeting & Button */}
             <div className="relative z-10 w-full max-w-[300px] space-y-3 pb-3 shrink-0 mx-auto">
               <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-neutral-300 p-3 shadow-sm space-y-1">
-                <p className="font-brawford font-bold text-xs text-neutral-600 uppercase tracking-wider">
+                <p className="font-gaegu font-bold text-xs text-neutral-600 uppercase tracking-wider">
                   Kepada Yth. Bapak/Ibu/Saudara/i:
                 </p>
                 <p className="font-brawford font-bold text-xl sm:text-2xl text-[#6C1420] tracking-wide truncate">
@@ -491,7 +492,8 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             />
           </div>
 
-          <h1 className="font-beautylife text-5xl sm:text-6xl text-[#6C1420] leading-[1.08]">
+          {/* Couple Name in RT Brawford */}
+          <h1 className="font-brawford text-4xl sm:text-5xl text-[#6C1420] font-bold leading-[1.1]">
             {brideNickname} &amp; <br />
             {groomNickname}
           </h1>
@@ -536,16 +538,17 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               />
             </div>
 
+            {/* Time & Venue in Erabura font */}
             <div className="flex items-center justify-center gap-6 pt-1">
               <div className="flex items-center gap-2">
                 <img src={ASSETS.clockIcon} alt="Clock" className="w-5 sm:w-6 h-auto object-contain" />
-                <span className="font-brawford text-xl sm:text-2xl font-bold text-[#6C1420] tracking-wide">
+                <span className="font-erabura text-2xl sm:text-3xl text-[#6C1420] tracking-wide">
                   {formattedTime}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <img src={ASSETS.pinIcon} alt="Pin" className="w-5 sm:w-6 h-auto object-contain" />
-                <span className="font-brawford text-xl sm:text-2xl font-bold text-[#6C1420] tracking-wide uppercase">
+                <span className="font-erabura text-2xl sm:text-3xl text-[#6C1420] tracking-wide uppercase">
                   {venueName}
                 </span>
               </div>
@@ -566,7 +569,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
         </motion.section>
 
-        {/* SECTION 3: OUR STORY */}
+        {/* SECTION 3: OUR STORY (Milestones & Stories in Gaegu font) */}
         <motion.section 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -615,17 +618,17 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                     <div className="w-[45%] text-right pr-2">
                       {!isEven ? (
                         <div className="space-y-1">
-                          <h4 className="font-brawford font-bold text-base text-[#6C1420] leading-tight">
+                          <h4 className="font-gaegu font-bold text-lg text-[#6C1420] leading-tight">
                             {item.title}
                           </h4>
-                          <p className="font-brawford text-xs text-[#6C1420] leading-relaxed">
+                          <p className="font-gaegu text-sm text-[#6C1420] leading-relaxed">
                             {item.story || item.desc || item.description}
                           </p>
                         </div>
                       ) : (
                         <div className="flex flex-col items-end">
                           <img src={iconSrc} alt="Milestone Icon" className="w-14 h-14 object-contain" />
-                          <span className="font-brawford text-3xl sm:text-4xl font-bold text-[#014F2E] block tracking-wide mt-1">
+                          <span className="font-erabura text-3xl sm:text-4xl font-bold text-[#014F2E] block tracking-wide mt-1">
                             {item.year}
                           </span>
                         </div>
@@ -638,17 +641,17 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                     <div className="w-[45%] text-left pl-2">
                       {isEven ? (
                         <div className="space-y-1">
-                          <h4 className="font-brawford font-bold text-base text-[#6C1420] leading-tight">
+                          <h4 className="font-gaegu font-bold text-lg text-[#6C1420] leading-tight">
                             {item.title}
                           </h4>
-                          <p className="font-brawford text-xs text-[#6C1420] leading-relaxed">
+                          <p className="font-gaegu text-sm text-[#6C1420] leading-relaxed">
                             {item.story || item.desc || item.description}
                           </p>
                         </div>
                       ) : (
                         <div className="flex flex-col items-start">
                           <img src={iconSrc} alt="Milestone Icon" className="w-14 h-14 object-contain" />
-                          <span className="font-brawford text-3xl sm:text-4xl font-bold text-[#014F2E] block tracking-wide mt-1">
+                          <span className="font-erabura text-3xl sm:text-4xl font-bold text-[#014F2E] block tracking-wide mt-1">
                             {item.year}
                           </span>
                         </div>
@@ -700,7 +703,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
         </motion.section>
 
-        {/* SECTION 5: WEDDING GIFT */}
+        {/* SECTION 5: WEDDING GIFT (HankRnd Black for Cards & Gaegu for #Note) */}
         {isCashlessEnabled && (
           <motion.section 
             initial={{ opacity: 0, y: 40 }}
@@ -722,56 +725,57 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             </div>
 
             <div className="space-y-4 max-w-[300px] sm:max-w-[320px] mx-auto pt-2">
-              {/* Card 1: Annisa */}
+              {/* Card 1: Annisa in HankRnd Black */}
               <motion.div 
                 whileHover={{ scale: 1.02 }}
                 className="bg-[#6C1420] text-white p-5 rounded-2xl shadow-lg relative text-left overflow-hidden border border-[#58111A]"
               >
                 <div className="flex justify-between items-start">
-                  <span className="font-bold text-2xl tracking-wider font-brawford text-[#F2F2F2]">{brideBank.bank_name}</span>
+                  <span className="font-hankrnd text-2xl tracking-wider text-[#F2F2F2]">{brideBank.bank_name}</span>
                   <div className="w-10 h-8 rounded-md bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 border border-amber-200/80 shadow-inner flex items-center justify-center opacity-95">
                     <div className="w-7 h-5 border border-amber-600/40 rounded grid grid-cols-2"></div>
                   </div>
                 </div>
                 <div className="mt-6 space-y-0.5">
-                  <p className="font-brawford text-lg font-bold tracking-wider uppercase text-[#F2F2F2]">{brideBank.owner_name}</p>
-                  <p className="font-mono text-xl tracking-widest font-semibold text-[#F2F2F2]">{brideBank.account_number}</p>
+                  <p className="font-hankrnd text-lg tracking-wider uppercase text-[#F2F2F2]">{brideBank.owner_name}</p>
+                  <p className="font-hankrnd text-xl tracking-widest text-[#F2F2F2]">{brideBank.account_number}</p>
                 </div>
                 <button 
                   type="button" 
                   onClick={() => copyToClipboard(brideBank.account_number, `BCA ${brideBank.nickname}`)}
-                  className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-brawford font-bold tracking-wider uppercase transition-colors cursor-pointer"
+                  className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-gaegu font-bold tracking-wider uppercase transition-colors cursor-pointer"
                 >
                   SALIN REKENING
                 </button>
               </motion.div>
 
-              {/* Card 2: Firman */}
+              {/* Card 2: Firman in HankRnd Black */}
               <motion.div 
                 whileHover={{ scale: 1.02 }}
                 className="bg-[#6C1420] text-white p-5 rounded-2xl shadow-lg relative text-left overflow-hidden border border-[#58111A]"
               >
                 <div className="flex justify-between items-start">
-                  <span className="font-bold text-2xl tracking-wider font-brawford text-[#F2F2F2]">{groomBank.bank_name}</span>
+                  <span className="font-hankrnd text-2xl tracking-wider text-[#F2F2F2]">{groomBank.bank_name}</span>
                   <div className="w-10 h-8 rounded-md bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 border border-amber-200/80 shadow-inner flex items-center justify-center opacity-95">
                     <div className="w-7 h-5 border border-amber-600/40 rounded grid grid-cols-2"></div>
                   </div>
                 </div>
                 <div className="mt-6 space-y-0.5">
-                  <p className="font-brawford text-lg font-bold tracking-wider uppercase text-[#F2F2F2]">{groomBank.owner_name}</p>
-                  <p className="font-mono text-xl tracking-widest font-semibold text-[#F2F2F2]">{groomBank.account_number}</p>
+                  <p className="font-hankrnd text-lg tracking-wider uppercase text-[#F2F2F2]">{groomBank.owner_name}</p>
+                  <p className="font-hankrnd text-xl tracking-widest text-[#F2F2F2]">{groomBank.account_number}</p>
                 </div>
                 <button 
                   type="button" 
                   onClick={() => copyToClipboard(groomBank.account_number, `BCA ${groomBank.nickname}`)}
-                  className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-brawford font-bold tracking-wider uppercase transition-colors cursor-pointer"
+                  className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-gaegu font-bold tracking-wider uppercase transition-colors cursor-pointer"
                 >
                   SALIN REKENING
                 </button>
               </motion.div>
             </div>
 
-            <div className="text-center font-brawford text-[#C82127] space-y-0.5 pt-3 max-w-xs mx-auto">
+            {/* Note in Gaegu font */}
+            <div className="text-center font-gaegu text-[#C82127] space-y-0.5 pt-3 max-w-xs mx-auto">
               <p className="text-lg font-bold">#Note:</p>
               <p className="text-xs font-bold leading-snug">Before making Transfer/Shipment, please note:</p>
               <p className="text-xs font-bold leading-snug">- Bank Name, Recipient Name are already in accordance with the couple&apos;s names</p>
@@ -780,7 +784,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </motion.section>
         )}
 
-        {/* SECTION 6: ATTENDANCE */}
+        {/* SECTION 6: ATTENDANCE (Fields in Gaegu font) */}
         <motion.section 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -805,10 +809,10 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               <div className="w-12 h-12 bg-emerald-50 border-2 border-emerald-500 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
                 ✓
               </div>
-              <h4 className="font-brawford font-bold text-2xl text-neutral-900 leading-tight">
+              <h4 className="font-gaegu font-bold text-2xl text-neutral-900 leading-tight">
                 Konfirmasi Kehadiran Tersimpan
               </h4>
-              <p className="font-brawford text-sm text-neutral-600">
+              <p className="font-gaegu text-sm text-neutral-600">
                 Halo <strong>{rsvpName || guestName}</strong>, konfirmasi kehadiran Anda telah tercatat. Terima kasih!
               </p>
             </div>
@@ -816,7 +820,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             <form onSubmit={handleRsvpSubmit} className="space-y-4 pt-2 text-left max-w-sm mx-auto">
               {/* Field 1: Guest Identity */}
               <div>
-                <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+                <label className="block text-base font-gaegu font-bold text-[#6C1420] mb-1 ml-2">
                   Guest Identity
                 </label>
                 <div className="relative w-full h-[52px] flex items-center">
@@ -830,14 +834,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                     }}
                     readOnly={isGuestLocked}
                     placeholder="Guest Name"
-                    className="relative z-10 w-full h-full bg-transparent px-6 font-brawford text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
+                    className="relative z-10 w-full h-full bg-transparent px-6 font-gaegu font-bold text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
                   />
                 </div>
               </div>
 
               {/* Field 2: Email Address */}
               <div>
-                <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+                <label className="block text-base font-gaegu font-bold text-[#6C1420] mb-1 ml-2">
                   Email Address
                 </label>
                 <div className="relative w-full h-[52px] flex items-center">
@@ -847,14 +851,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                     value={rsvpEmail}
                     onChange={(e) => setRsvpEmail(e.target.value)}
                     placeholder="To Receive your digital invitation"
-                    className="relative z-10 w-full h-full bg-transparent px-6 font-brawford text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
+                    className="relative z-10 w-full h-full bg-transparent px-6 font-gaegu font-bold text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
                   />
                 </div>
               </div>
 
               {/* Field 3: WhatsApp Number */}
               <div>
-                <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+                <label className="block text-base font-gaegu font-bold text-[#6C1420] mb-1 ml-2">
                   WhatsApp Number
                 </label>
                 <div className="relative w-full h-[52px] flex items-center">
@@ -864,14 +868,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                     value={rsvpPhone}
                     onChange={(e) => setRsvpPhone(e.target.value)}
                     placeholder="Example: 081955562"
-                    className="relative z-10 w-full h-full bg-transparent px-6 font-brawford text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
+                    className="relative z-10 w-full h-full bg-transparent px-6 font-gaegu font-bold text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
                   />
                 </div>
               </div>
 
               {/* Field 4: Confirmation */}
               <div>
-                <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+                <label className="block text-base font-gaegu font-bold text-[#6C1420] mb-1 ml-2">
                   Confirmation
                 </label>
                 <div className="relative w-full h-[52px] flex items-center">
@@ -879,10 +883,10 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   <select
                     value={rsvpStatus}
                     onChange={(e) => setRsvpStatus(e.target.value)}
-                    className="relative z-10 w-full h-full bg-transparent appearance-none pl-6 pr-10 font-brawford text-base font-bold text-[#6C1420] focus:outline-none cursor-pointer"
+                    className="relative z-10 w-full h-full bg-transparent appearance-none pl-6 pr-10 font-gaegu text-base font-bold text-[#6C1420] focus:outline-none cursor-pointer"
                   >
-                    <option value="attending" className="bg-white text-neutral-900">Hadir (Attend)</option>
-                    <option value="not_attending" className="bg-white text-neutral-900">Tidak Hadir (Decline)</option>
+                    <option value="attending" className="bg-white text-neutral-900 font-gaegu">Hadir (Attend)</option>
+                    <option value="not_attending" className="bg-white text-neutral-900 font-gaegu">Tidak Hadir (Decline)</option>
                   </select>
                   <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-[#6C1420] text-xs font-bold">
                     ▼
@@ -892,7 +896,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
 
               {/* Field 5: Total Persons */}
               <div>
-                <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+                <label className="block text-base font-gaegu font-bold text-[#6C1420] mb-1 ml-2">
                   Total Persons
                 </label>
                 <div className="relative w-full h-[52px] flex items-center justify-between px-6">
@@ -900,17 +904,17 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   <button
                     type="button"
                     onClick={() => setGuestCount(Math.max(1, guestCount - 1))}
-                    className="relative z-10 w-8 h-8 rounded-full text-2xl font-bold font-brawford text-[#6C1420] hover:bg-[#6C1420]/10 flex items-center justify-center transition-colors cursor-pointer select-none"
+                    className="relative z-10 w-8 h-8 rounded-full text-2xl font-bold font-gaegu text-[#6C1420] hover:bg-[#6C1420]/10 flex items-center justify-center transition-colors cursor-pointer select-none"
                   >
                     -
                   </button>
-                  <span className="relative z-10 font-brawford font-bold text-base text-[#6C1420] tracking-wider select-none">
+                  <span className="relative z-10 font-gaegu font-bold text-lg text-[#6C1420] tracking-wider select-none">
                     {guestCount} {guestCount > 1 ? "GUESTS" : "GUEST"}
                   </span>
                   <button
                     type="button"
                     onClick={() => setGuestCount(Math.min(10, guestCount + 1))}
-                    className="relative z-10 w-8 h-8 rounded-full text-2xl font-bold font-brawford text-[#6C1420] hover:bg-[#6C1420]/10 flex items-center justify-center transition-colors cursor-pointer select-none"
+                    className="relative z-10 w-8 h-8 rounded-full text-2xl font-bold font-gaegu text-[#6C1420] hover:bg-[#6C1420]/10 flex items-center justify-center transition-colors cursor-pointer select-none"
                   >
                     +
                   </button>
@@ -931,7 +935,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               </div>
 
               {rsvpSuccess && (
-                <div className="text-center text-xs font-brawford font-bold text-emerald-600 bg-emerald-50 py-2 rounded-xl border border-emerald-200 mt-2">
+                <div className="text-center text-xs font-gaegu font-bold text-emerald-600 bg-emerald-50 py-2 rounded-xl border border-emerald-200 mt-2">
                   Terima kasih! Konfirmasi kehadiran Anda telah tersimpan.
                 </div>
               )}
@@ -962,7 +966,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           <form onSubmit={handleWishSubmit} className="space-y-4 pt-2 text-left max-w-sm mx-auto">
             {/* Name Input */}
             <div>
-              <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+              <label className="block text-base font-gaegu font-bold text-[#6C1420] mb-1 ml-2">
                 Name
               </label>
               <div className="relative w-full h-[52px] flex items-center">
@@ -973,14 +977,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   value={wishName}
                   onChange={(e) => setWishName(e.target.value)}
                   placeholder="Your Name"
-                  className="relative z-10 w-full h-full bg-transparent px-6 font-brawford text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
+                  className="relative z-10 w-full h-full bg-transparent px-6 font-gaegu font-bold text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
                 />
               </div>
             </div>
 
             {/* Prayers & Wishes inside Speech Bubble 10-23.png */}
             <div>
-              <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+              <label className="block text-base font-gaegu font-bold text-[#6C1420] mb-1 ml-2">
                 Prayers &amp; Wishes
               </label>
               <div className="relative w-full max-w-[340px] mx-auto aspect-[4437/2717] flex items-center justify-center p-6">
@@ -990,7 +994,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   value={wishMessage}
                   onChange={(e) => setWishMessage(e.target.value)}
                   placeholder="Write your warmest wishes for the bride & groom..."
-                  className="relative z-10 w-[82%] h-[68%] bg-transparent font-brawford text-sm sm:text-base text-[#6C1420] placeholder:text-[#6C1420]/50 focus:outline-none resize-none leading-relaxed text-center flex items-center justify-center pt-4"
+                  className="relative z-10 w-[82%] h-[68%] bg-transparent font-gaegu text-base text-[#6C1420] placeholder:text-[#6C1420]/50 focus:outline-none resize-none leading-relaxed text-center flex items-center justify-center pt-4"
                 />
               </div>
             </div>
@@ -1009,7 +1013,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             </div>
 
             {wishSuccess && (
-              <div className="text-center text-xs font-brawford font-bold text-emerald-600 bg-emerald-50 py-2 rounded-xl border border-emerald-200 mt-2">
+              <div className="text-center text-xs font-gaegu font-bold text-emerald-600 bg-emerald-50 py-2 rounded-xl border border-emerald-200 mt-2">
                 Terima kasih atas doa dan ucapan hangatnya!
               </div>
             )}
@@ -1018,7 +1022,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           {/* Wishes List */}
           <div className="pt-6 space-y-3 max-w-sm mx-auto text-left">
             <div className="flex items-center justify-between px-2">
-              <span className="font-brawford text-sm font-bold text-[#6C1420] uppercase tracking-widest">
+              <span className="font-gaegu text-base font-bold text-[#6C1420] uppercase tracking-widest">
                 Wishes Wall ({wishesList.length})
               </span>
               <span className="text-[#6C1420] font-bold text-sm">♥ with love</span>
@@ -1030,10 +1034,10 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   key={w.id || idx}
                   className="bg-white/90 border-2 border-[#6C1420]/25 rounded-2xl p-4 shadow-sm relative transition-all"
                 >
-                  <h5 className="font-brawford font-bold text-base text-[#6C1420] mb-0.5">
+                  <h5 className="font-gaegu font-bold text-base text-[#6C1420] mb-0.5">
                     {w.name}
                   </h5>
-                  <p className="font-brawford text-sm text-[#6C1420]/80 leading-relaxed">
+                  <p className="font-gaegu text-sm text-[#6C1420]/80 leading-relaxed">
                     {w.message}
                   </p>
                 </div>
@@ -1042,7 +1046,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
         </motion.section>
 
-        {/* SECTION 8: RSVP & BANQUET TABLE */}
+        {/* SECTION 8: RSVP & BANQUET TABLE (Gaegu font for RSVP questions & checkboxes) */}
         <motion.section 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1063,10 +1067,10 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
 
           <div className="text-center space-y-3 pt-2">
-            <h3 className="font-brawford text-[#6C1420] text-2xl font-bold tracking-wider">
+            <h3 className="font-gaegu text-[#6C1420] text-3xl font-bold tracking-wider">
               WILL YOU BE THERE?
             </h3>
-            <div className="inline-flex flex-col items-start font-brawford text-lg font-bold text-[#6C1420] space-y-2">
+            <div className="inline-flex flex-col items-start font-gaegu text-xl font-bold text-[#6C1420] space-y-2">
               <button 
                 type="button"
                 onClick={() => {
@@ -1112,10 +1116,10 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
 
         {/* FOOTER */}
         <footer className="text-center space-y-2 pt-6 pb-6 border-t border-[#6C1420]/20">
-          <p className="font-beautylife text-3xl text-[#6C1420]">
+          <p className="font-brawford text-3xl font-bold text-[#6C1420]">
             {brideNickname} &amp; {groomNickname}
           </p>
-          <p className="font-brawford text-xs text-[#6C1420]/70 tracking-wider">
+          <p className="font-gaegu text-sm text-[#6C1420]/70 tracking-wider">
             Thank you for being part of our special love story.
           </p>
           <div className="pt-1">
@@ -1123,7 +1127,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               href="https://www.serastory.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-[11px] font-brawford font-bold text-[#6C1420]/50 hover:text-[#6C1420] transition-colors uppercase tracking-widest"
+              className="text-xs font-gaegu font-bold text-[#6C1420]/50 hover:text-[#6C1420] transition-colors uppercase tracking-widest"
             >
               Crafted with ♥ by SERA STORY
             </a>

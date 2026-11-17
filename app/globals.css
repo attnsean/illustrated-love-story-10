@@ -11,6 +11,15 @@
 }
 
 @font-face {
+  font-family: "RT Brawford";
+  src: url("/assets/template/font/Brawford.otf") format("opentype"),
+       url("https://cdn.serastory.com/undangan/templates/illustrated-love-story-10/font/Brawford.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Brawford";
   src: url("/assets/template/font/Brawford.otf") format("opentype"),
        url("https://cdn.serastory.com/undangan/templates/illustrated-love-story-10/font/Brawford.otf") format("opentype");
@@ -55,12 +64,20 @@
   font-display: swap;
 }
 
-/* Fallbacks for backward compatibility */
 @font-face {
-  font-family: "Lovely Melody";
-  src: url("/assets/template/font/BeautyLife.ttf") format("truetype"),
-       url("https://cdn.serastory.com/undangan/templates/illustrated-love-story-10/font/BeautyLife.ttf") format("truetype");
-  font-weight: normal;
+  font-family: "HankRnd";
+  src: url("/assets/template/font/HankRnd-Black.otf") format("opentype"),
+       url("https://cdn.serastory.com/undangan/templates/illustrated-love-story-10/font/HankRnd-Black.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HankRnd Black";
+  src: url("/assets/template/font/HankRnd-Black.otf") format("opentype"),
+       url("https://cdn.serastory.com/undangan/templates/illustrated-love-story-10/font/HankRnd-Black.otf") format("opentype");
+  font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
@@ -72,26 +89,27 @@
 
 @theme inline {
   --font-beautylife: "Beauty Life", cursive, sans-serif;
-  --font-brawford: "Brawford", serif;
+  --font-brawford: "RT Brawford", "Brawford", serif;
   --font-erabura: "Erabura", cursive, sans-serif;
   --font-gaegu: "Gaegu", cursive, sans-serif;
-  --font-melody: "Beauty Life", cursive, sans-serif;
+  --font-hankrnd: "HankRnd Black", "HankRnd", sans-serif;
 }
 
 .font-beautylife {
   font-family: "Beauty Life", cursive, sans-serif;
 }
 
-.font-brawford {
-  font-family: "Brawford", serif;
+.font-brawford,
+.font-rt-brawford {
+  font-family: "RT Brawford", "Brawford", serif;
 }
 
 .font-erabura {
   font-family: "Erabura", cursive, sans-serif;
 }
 
-.font-melody {
-  font-family: "Beauty Life", cursive, sans-serif;
+.font-hankrnd {
+  font-family: "HankRnd Black", "HankRnd", sans-serif;
 }
 
 .font-gaegu {
@@ -161,28 +179,4 @@ iframe[title*="Vercel Toolbar"] {
 
 .animate-wiggle {
   animation: wiggle 3s ease-in-out infinite;
-}
-
-@font-face {
-  font-family: "BeautyLife";
-  src: url("/assets/template/font/BeautyLife.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Brawford";
-  src: url("/assets/template/font/Brawford.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Erabura";
-  src: url("/assets/template/font/Erabura%20Regular.otf") format("opentype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
 }
