@@ -68,6 +68,49 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
   const venueName = mainEvent?.venue_name || (project as any)?.venue_name || "Villa Dago";
   const mapsUrl = mainEvent?.venue_maps_url || (project as any)?.venue_maps_url || "https://maps.google.com/?q=Villa+Dago+Bandung";
 
+  // Countdown Timer
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  useEffect(() => {
+    const getTargetTimestamp = () => {
+      if ((project as any)?.countdown_target) {
+        const t = new Date((project as any).countdown_target).getTime();
+        if (!isNaN(t)) return t;
+      }
+      const dateStr = weddingDateRaw || "2028-02-02";
+      let timeStr = "15:00:00";
+      const rawT = mainEvent?.event_time || (project as any)?.wedding_time;
+      if (rawT && typeof rawT === "string") {
+        const match = rawT.match(/(\d{1,2})[:.](\d{2})/);
+        if (match) {
+          timeStr = `${match[1].padStart(2, "0")}:${match[2]}:00`;
+        } else if (rawT.length === 5) {
+          timeStr = rawT + ":00";
+        }
+      }
+      const isoStr = dateStr + "T" + timeStr;
+      const parsed = new Date(isoStr).getTime();
+      if (!isNaN(parsed)) return parsed;
+      const fallback = new Date(dateStr).getTime();
+      if (!isNaN(fallback)) return fallback;
+      return new Date("2028-02-02T15:00:00").getTime();
+    };
+
+    const targetTime = getTargetTimestamp();
+    const updateCountdown = () => {
+      const now = Date.now();
+      const diff = Math.max(0, targetTime - now);
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((diff % (1000 * 60)) / 1000),
+      });
+    };
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, [(project as any)?.countdown_target, weddingDateRaw, mainEvent?.event_time]);
+
   // Story Milestones
   const rawDbStories = (project as any)?.love_story_items || (project as any)?.wedding_stories;
   let dbStories: any[] = [];
@@ -419,24 +462,24 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               </div>
               {/* Couple Name: Annisa & on line 1, Firman on line 2 (Matching Gambar 1) */}
               <h1 className="text-[#6C1420] text-center my-0 select-none">
-                <div className="flex items-baseline justify-center leading-[0.78]">
-                  <span className="font-brawford font-normal text-6xl sm:text-7xl tracking-tight">
+                <div className="flex items-baseline justify-center leading-[0.75]">
+                  <span className="font-brawford font-normal text-[90px] sm:text-[104px] tracking-tight">
                     {brideNickname}
                   </span>
-                  <span className="font-brawford font-normal text-4xl sm:text-5xl ml-2">
+                  <span className="font-brawford font-normal text-[58px] sm:text-[68px] ml-2">
                     &amp;
                   </span>
                 </div>
-                <div className="leading-[0.78] -mt-2.5 sm:-mt-3">
-                  <span className="font-brawford font-normal text-6xl sm:text-7xl tracking-tight">
+                <div className="leading-[0.75] -mt-3.5 sm:-mt-4">
+                  <span className="font-brawford font-normal text-[90px] sm:text-[104px] tracking-tight">
                     {groomNickname}
                   </span>
                 </div>
               </h1>
             </div>
 
-            {/* Center: Couple Illustration (Never cut off) */}
-            <div className="relative z-10 my-auto flex-1 min-h-0 w-full max-w-sm flex flex-col items-center justify-center p-1 overflow-visible">
+            {/* Center: Couple Illustration */}
+            <div className="relative z-10 my-auto flex-1 min-h-0 w-full max-w-sm flex flex-col items-center justify-center p-0 overflow-visible">
               {coverPhoto ? (
                 <div className="relative flex-1 min-h-0 max-h-[40vh] aspect-[4/5] rounded-2xl overflow-hidden border-2 border-[#6C1420] shadow-xl bg-white p-1.5 flex items-center justify-center">
                   <img src={coverPhoto} alt="Cover Photo" className="w-full h-full object-cover rounded-xl" />
@@ -450,7 +493,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   <img
                     src={ASSETS.couple}
                     alt="Illustrated Couple"
-                    className="max-h-[30vh] sm:max-h-[33vh] max-w-[90%] w-auto h-auto object-contain select-none pointer-events-none drop-shadow-md"
+                    className="max-h-[36vh] sm:max-h-[40vh] w-full max-w-[340px] sm:max-w-[360px] h-auto object-contain select-none pointer-events-none drop-shadow-md"
                   />
                 </motion.div>
               )}
@@ -601,6 +644,34 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               >
                 <img src={ASSETS.openMapBtn} alt="OPEN MAP" className="h-10 sm:h-12 w-auto object-contain drop-shadow-sm" />
               </motion.a>
+            </div>
+
+            {/* Countdown Timer */}
+            <div className="pt-3 pb-1">
+              <div className="grid grid-cols-4 gap-2 sm:gap-3 max-w-[320px] sm:max-w-sm mx-auto">
+                {[
+                  { label: "Days", value: timeLeft.days },
+                  { label: "Hours", value: timeLeft.hours },
+                  { label: "Minutes", value: timeLeft.minutes },
+                  { label: "Seconds", value: timeLeft.seconds },
+                ].map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false, amount: 0.2 }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    className="flex flex-col items-center justify-center p-2 sm:p-2.5 bg-white/90 backdrop-blur-sm border-2 border-[#6C1420] rounded-2xl shadow-sm"
+                  >
+                    <div className="font-gaegu font-bold text-2xl sm:text-3xl text-[#6C1420] leading-none tabular-nums">
+                      {String(item.value).padStart(2, "0")}
+                    </div>
+                    <div className="font-gaegu text-[11px] sm:text-xs font-bold text-[#6C1420]/75 uppercase tracking-wider mt-0.5">
+                      {item.label}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </motion.section>
