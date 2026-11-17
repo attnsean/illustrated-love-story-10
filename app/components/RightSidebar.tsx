@@ -403,52 +403,52 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             initial={{ opacity: 1, y: 0 }}
             exit={{ y: "-100%", opacity: 0 }}
             transition={{ duration: 0.85, ease: [0.65, 0, 0.35, 1] }}
-            className="fixed md:absolute inset-0 z-50 h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between items-center text-center px-4 sm:px-6 py-5 overflow-hidden select-none bg-[#FFFDF3]"
+            className="fixed md:absolute inset-0 z-50 h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between items-center text-center px-4 sm:px-6 py-3 sm:py-4 overflow-hidden select-none bg-[#FFFDF3]"
           >
             {/* Top Text & Ribbon */}
-            <div className="relative z-10 pt-2 space-y-1 shrink-0">
+            <div className="relative z-10 pt-1 space-y-0.5 shrink-0">
               <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
                 you are invited to our wedding
               </p>
-              <div className="flex justify-center py-1">
+              <div className="flex justify-center py-0.5">
                 <img
                   src={ASSETS.bowRibbon}
                   alt="Bow Ribbon"
-                  className="w-20 sm:w-24 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
+                  className="w-14 sm:w-16 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
               </div>
               {/* Couple Name: Annisa (500pt ratio) & (330pt ratio) Firman (500pt ratio) in RT Brawford */}
-              <h1 className="text-[#6C1420] leading-[0.95] tracking-tight my-1">
-                <span className="font-brawford font-bold text-5xl sm:text-6xl block">{brideNickname}</span>
-                <span className="font-brawford font-normal text-3xl sm:text-4xl block my-0.5">&amp;</span>
-                <span className="font-brawford font-bold text-5xl sm:text-6xl block">{groomNickname}</span>
+              <h1 className="text-[#6C1420] leading-none tracking-tight my-0.5">
+                <span className="font-brawford font-bold text-4xl sm:text-[46px] block">{brideNickname}</span>
+                <span className="font-brawford font-normal text-2xl sm:text-3xl block my-0.5">&amp;</span>
+                <span className="font-brawford font-bold text-4xl sm:text-[46px] block">{groomNickname}</span>
               </h1>
             </div>
 
-            {/* Center: Couple Illustration */}
-            <div className="relative z-10 my-auto flex-1 min-h-0 w-full max-w-sm flex flex-col items-center justify-center py-2 px-2 overflow-hidden">
+            {/* Center: Couple Illustration (Never cut off) */}
+            <div className="relative z-10 my-auto flex-1 min-h-0 w-full max-w-sm flex flex-col items-center justify-center p-1 overflow-visible">
               {coverPhoto ? (
-                <div className="relative flex-1 min-h-0 max-h-[46vh] aspect-[4/5] rounded-2xl overflow-hidden border-2 border-[#6C1420] shadow-xl bg-white p-1.5 flex items-center justify-center">
+                <div className="relative flex-1 min-h-0 max-h-[40vh] aspect-[4/5] rounded-2xl overflow-hidden border-2 border-[#6C1420] shadow-xl bg-white p-1.5 flex items-center justify-center">
                   <img src={coverPhoto} alt="Cover Photo" className="w-full h-full object-cover rounded-xl" />
                 </div>
               ) : (
                 <motion.div
-                  animate={{ y: [0, -6, 0] }}
+                  animate={{ y: [0, -4, 0] }}
                   transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-                  className="flex justify-center items-center flex-1 min-h-0 w-full overflow-hidden"
+                  className="flex justify-center items-center w-full h-full"
                 >
                   <img
                     src={ASSETS.couple}
                     alt="Illustrated Couple"
-                    className="max-h-[38vh] max-w-[95%] w-auto h-auto object-contain select-none pointer-events-none drop-shadow-md"
+                    className="max-h-[30vh] sm:max-h-[33vh] max-w-[90%] w-auto h-auto object-contain select-none pointer-events-none drop-shadow-md"
                   />
                 </motion.div>
               )}
             </div>
 
             {/* Bottom: Guest Greeting & Button */}
-            <div className="relative z-10 w-full max-w-[300px] space-y-3 pb-3 shrink-0 mx-auto">
-              <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-neutral-300 p-3 shadow-sm space-y-1">
+            <div className="relative z-10 w-full max-w-[290px] space-y-2 pb-2 shrink-0 mx-auto">
+              <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-neutral-300 p-2.5 shadow-sm space-y-0.5">
                 <p className="font-gaegu font-bold text-xs text-neutral-600 uppercase tracking-wider">
                   Kepada Yth. Bapak/Ibu/Saudara/i:
                 </p>
@@ -462,7 +462,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                 whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={handleOpenInvitation}
-                className="w-full py-3.5 px-6 bg-[#6C1420] hover:bg-[#58111A] text-white rounded-full font-gaegu font-bold text-xl tracking-wider uppercase shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
+                className="w-full py-3 px-6 bg-[#6C1420] hover:bg-[#58111A] text-white rounded-full font-gaegu font-bold text-xl tracking-wider uppercase shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
                 <span>BUKA UNDANGAN</span>
               </motion.button>

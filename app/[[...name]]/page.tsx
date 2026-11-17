@@ -199,40 +199,40 @@ export default async function Home({ params, searchParams }: Props) {
         ) : null}
 
         {/* Center Smartphone Mockup Frame */}
-        <div className="relative z-10 text-center px-6 py-8 rounded-[36px] bg-[#FFFDF3] border-[2.5px] border-neutral-800 shadow-[0_20px_50px_rgba(0,0,0,0.12)] max-w-sm w-full mx-6 space-y-2">
+        <div className="relative z-10 text-center px-6 py-5 rounded-[36px] bg-[#FFFDF3] border-[2.5px] border-neutral-800 shadow-[0_20px_50px_rgba(0,0,0,0.12)] max-w-[340px] lg:max-w-sm w-full mx-6 space-y-1 overflow-hidden">
           <p className="font-beautylife text-2xl text-[#6C1420] leading-tight">
             you are invited to our wedding
           </p>
 
-          <div className="flex justify-center py-1">
-            <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-20 lg:w-24 h-auto object-contain select-none" />
+          <div className="flex justify-center py-0.5">
+            <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-14 lg:w-16 h-auto object-contain select-none" />
           </div>
 
           {/* Couple Name in RT Brawford */}
-          <h1 className="text-[#6C1420] leading-[0.95] tracking-tight my-1">
-            <span className="font-brawford font-bold text-5xl lg:text-6xl block">{brideNickname}</span>
-            <span className="font-brawford font-normal text-3xl lg:text-4xl block my-0.5">&amp;</span>
-            <span className="font-brawford font-bold text-5xl lg:text-6xl block">{groomNickname}</span>
+          <h1 className="text-[#6C1420] leading-none tracking-tight my-0.5">
+            <span className="font-brawford font-bold text-4xl lg:text-[44px] block">{brideNickname}</span>
+            <span className="font-brawford font-normal text-2xl lg:text-3xl block my-0.5">&amp;</span>
+            <span className="font-brawford font-bold text-4xl lg:text-[44px] block">{groomNickname}</span>
           </h1>
 
           {(brideFull || groomFull) && (
-            <p className="font-gaegu font-bold text-base text-[#6C1420] tracking-wide pt-1">
+            <p className="font-gaegu font-bold text-xs lg:text-sm text-[#6C1420] tracking-wide pt-0.5">
               {brideFull} &amp; {groomFull}
             </p>
           )}
 
-          <div className="h-0.5 w-12 bg-[#6C1420] mx-auto my-2 opacity-50"></div>
+          <div className="h-0.5 w-10 bg-[#6C1420] mx-auto my-1.5 opacity-50"></div>
 
-          <p className="text-sm font-brawford font-bold tracking-[0.25em] text-[#6C1420] uppercase">
+          <p className="text-xs font-brawford font-bold tracking-[0.25em] text-[#6C1420] uppercase">
             {formattedDate}
           </p>
 
-          {/* Illustrated couple in heart */}
-          <div className="pt-2 flex justify-center">
+          {/* Illustrated couple in heart (Never cut off) */}
+          <div className="pt-1 flex justify-center">
             <img 
               src={ASSETS.couple} 
               alt="Illustrated Couple" 
-              className="w-56 h-auto max-h-[260px] object-contain select-none pointer-events-none drop-shadow-md"
+              className="w-48 lg:w-52 h-auto max-h-[190px] lg:max-h-[220px] object-contain select-none pointer-events-none drop-shadow-md"
             />
           </div>
         </div>
