@@ -460,8 +460,13 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   className="w-14 sm:w-16 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
               </div>
-              {/* Couple Name: Annisa & on line 1, Firman on line 2 (Matching Gambar 3: Much Larger, Staggered Right) */}
-              <h1 className="text-[#6C1420] w-full px-2 sm:px-4 my-1 select-none">
+              {/* Couple Name: Annisa & on line 1, Firman on line 2 (Matching Gambar 3: Much Larger, Staggered Right, Easy Scale) */}
+              <motion.h1 
+                initial={{ opacity: 0, scale: 0.86 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="text-[#6C1420] w-full px-2 sm:px-4 my-1 select-none"
+              >
                 <div className="flex items-baseline justify-start pl-2 sm:pl-4 leading-[0.72]">
                   <span className="font-brawford font-normal text-[130px] sm:text-[150px] tracking-tight">
                     {brideNickname}
@@ -475,7 +480,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                     {groomNickname}
                   </span>
                 </div>
-              </h1>
+              </motion.h1>
             </div>
 
             {/* Center: Couple Illustration */}
@@ -527,12 +532,12 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
       {/* MAIN INVITATION STRIP (Scrollable after opening) */}
       <div className="relative max-w-md mx-auto px-4 py-6 space-y-6 sm:space-y-8 z-10">
 
-        {/* SECTION 1: HERO / COUPLE (Exact Match to Gambar 1) */}
+        {/* SECTION 1: HERO / COUPLE (Exact Match to Gambar 3) */}
         <motion.section 
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center space-y-1 pt-1"
         >
           <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
@@ -547,8 +552,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             />
           </div>
 
-          {/* Couple Name: Annisa & Firman (Matching Gambar 3: Much Larger, Staggered Right) */}
-          <h1 className="text-[#6C1420] w-full px-3 sm:px-5 my-1 select-none">
+          {/* Couple Name: Annisa & Firman (Matching Gambar 3: Much Larger, Staggered Right, Easy Scale) */}
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.86 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="text-[#6C1420] w-full px-3 sm:px-5 my-1 select-none"
+          >
             <div className="flex items-baseline justify-start pl-2 sm:pl-4 leading-[0.72]">
               <span className="font-brawford font-normal text-[138px] sm:text-[164px] md:text-[180px] tracking-tight">
                 {brideNickname}
@@ -562,7 +573,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                 {groomNickname}
               </span>
             </div>
-          </h1>
+          </motion.h1>
 
           <div className="-mt-3 sm:-mt-4 flex justify-center">
             <motion.img 
@@ -575,25 +586,31 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
         </motion.section>
 
-        {/* SECTION 2: DATE & PLACE */}
+        {/* SECTION 2: DATE & PLACE (Easy Scale) */}
         <motion.section 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.88 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center space-y-4 pt-1 sm:pt-2"
         >
           <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
             the details of our big day
           </p>
 
-          <div className="flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.86 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center"
+          >
             <img 
               src={ASSETS.titleDatePlace} 
               alt="DATE & PLACE" 
               className="w-56 sm:w-64 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
             />
-          </div>
+          </motion.div>
 
           <div className="space-y-4 pt-2">
             {/* Calendar with 02 in heart & February 2028 below */}
@@ -678,23 +695,29 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
 
         {/* SECTION 3: OUR STORY (Milestones & Stories in Gaegu font, Center line as clean vector wavy line) */}
         <motion.section 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.88 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center space-y-4 pt-4"
         >
           <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight px-4">
             a journey of a thousand miles begins with a single step.
           </p>
 
-          <div className="flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.86 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center"
+          >
             <img 
               src={ASSETS.titleOurStory} 
               alt="OUR STORY" 
               className="w-56 sm:w-64 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
             />
-          </div>
+          </motion.div>
 
           <div className="relative max-w-sm mx-auto pt-6 pb-2">
             {/* Center Wavy Serpentine Vector Line with Arrow */}
@@ -786,25 +809,31 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
         </motion.section>
 
-        {/* SECTION 4: DRESS CODE */}
+        {/* SECTION 4: DRESS CODE (Easy Scale) */}
         <motion.section 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.88 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center space-y-4 pt-4"
         >
           <p className="font-beautylife text-lg sm:text-xl text-[#6C1420] leading-tight max-w-xs mx-auto px-2">
             to maintain the harmony of our wedding theme, we kindly request our guests to wear
           </p>
 
-          <div className="flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.86 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center"
+          >
             <img 
               src={ASSETS.titleDressCode} 
               alt="DRESS CODE" 
               className="w-56 sm:w-64 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
             />
-          </div>
+          </motion.div>
 
           <div className="flex justify-center pt-2">
             <img 
@@ -825,26 +854,32 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
         </motion.section>
 
-        {/* SECTION 5: WEDDING GIFT (HankRnd Black for Cards & Gaegu for #Note) */}
+        {/* SECTION 5: WEDDING GIFT (HankRnd Black for Cards & Gaegu for #Note, Easy Scale) */}
         {isCashlessEnabled && (
           <motion.section 
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.88 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: false, amount: 0.15 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="text-center space-y-4 pt-4"
           >
             <p className="font-beautylife text-base sm:text-lg text-[#6C1420] leading-relaxed max-w-sm mx-auto px-4">
               your presence is the greatest gift of all. However, if you are unable to attend and would like to send us your wishes in the form of a gift, please use the account details below:
             </p>
 
-            <div className="flex justify-center">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.86 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="flex justify-center"
+            >
               <img 
                 src={ASSETS.titleWeddingGift} 
                 alt="WEDDING GIFT" 
                 className="w-64 sm:w-72 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
               />
-            </div>
+            </motion.div>
 
             <div className="space-y-4 max-w-[300px] sm:max-w-[320px] mx-auto pt-2">
               {/* Card 1: Annisa in HankRnd Black */}
@@ -906,28 +941,40 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </motion.section>
         )}
 
-        {/* SECTION 6: UNIFIED RSVP & ATTENDANCE */}
+        {/* SECTION 6: UNIFIED RSVP & ATTENDANCE (Easy Scale) */}
         <motion.section 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.88 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center space-y-4 pt-4"
         >
           <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight px-4">
             kindly let us know if you can join us
           </p>
 
-          <div className="flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.86 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center"
+          >
             <img 
               src={ASSETS.titleRsvp} 
               alt="RSVP" 
               className="w-56 sm:w-64 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
             />
-          </div>
+          </motion.div>
 
           {/* GAMBAR 1: RSVP Card with WILL YOU BE THERE inside & Banquet Dinner Table */}
-          <div className="relative max-w-[340px] sm:max-w-[380px] mx-auto select-none rounded-[28px] overflow-hidden bg-white/70 border border-[#6C1420]/25 shadow-xs pt-5 pb-0 mb-4">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="relative max-w-[340px] sm:max-w-[380px] mx-auto select-none rounded-[28px] overflow-hidden bg-white/70 border border-[#6C1420]/25 shadow-xs pt-5 pb-0 mb-4"
+          >
             {/* WILL YOU BE THERE? inside Gambar 1 */}
             <div className="text-center space-y-2.5 px-4 mb-2">
               <h3 className="font-gaegu text-[#6C1420] text-3xl font-bold tracking-wider">
@@ -979,7 +1026,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                 className="w-full h-auto object-contain pointer-events-none drop-shadow-xs" 
               />
             </div>
-          </div>
+          </motion.div>
 
           {hasSubmittedRsvp ? (
             <div className="bg-white/95 border-2 border-[#6C1420] rounded-3xl p-6 shadow-sm max-w-sm mx-auto text-center space-y-3.5 my-2">
@@ -1123,25 +1170,31 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           )}
         </motion.section>
 
-        {/* SECTION 7: BLESSINGS */}
+        {/* SECTION 7: BLESSINGS & ATTENDANCE (Easy Scale) */}
         <motion.section 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.88 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           className="text-center space-y-4 pt-4"
         >
           <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight px-4">
             leave your warmest words for the beginning of our new chapter.
           </p>
 
-          <div className="flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.86 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center"
+          >
             <img 
               src={ASSETS.titleBlessings} 
               alt="BLESSINGS" 
               className="w-60 sm:w-68 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
             />
-          </div>
+          </motion.div>
 
           <form onSubmit={handleWishSubmit} className="space-y-4 pt-2 text-left max-w-sm mx-auto">
             {/* Name Input */}
@@ -1202,9 +1255,15 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           {/* Wishes List */}
           <div className="pt-6 space-y-3 max-w-sm mx-auto text-left">
             <div className="flex items-center justify-between px-2">
-              <span className="font-gaegu text-base font-bold text-[#6C1420] uppercase tracking-widest">
+              <motion.span 
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: false, amount: 0.2 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="font-gaegu text-base font-bold text-[#6C1420] uppercase tracking-widest inline-block"
+              >
                 Wishes Wall ({wishesList.length})
-              </span>
+              </motion.span>
               <span className="text-[#6C1420] font-bold text-sm">♥ with love</span>
             </div>
 
