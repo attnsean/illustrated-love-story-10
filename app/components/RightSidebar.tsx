@@ -267,6 +267,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
 
     try {
       const activeProjectId = project?.id || "fc4a817c-0f4b-4f0a-8e92-574e2921d280";
+      const finalStatus = willBeThere === "no" ? "tidak_hadir" : (rsvpStatus === "not_attending" ? "tidak_hadir" : "hadir");
       const res = await fetch("/api/rsvp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -277,8 +278,8 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           guest_name: rsvpName,
           email: rsvpEmail,
           phone: rsvpPhone,
-          status: rsvpStatus === "attending" ? "hadir" : "tidak_hadir",
-          attendance: rsvpStatus === "attending" ? "hadir" : "tidak_hadir",
+          status: finalStatus,
+          attendance: finalStatus,
           pax: guestCount,
           guests_count: guestCount,
           notes: rsvpNotes,
@@ -405,7 +406,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             className="fixed md:absolute inset-0 z-50 h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between items-center text-center px-4 sm:px-6 py-5 overflow-hidden select-none bg-[#FFFDF3]"
           >
             {/* Top Text & Ribbon */}
-            <div className="relative z-10 pt-2 space-y-1.5 shrink-0">
+            <div className="relative z-10 pt-2 space-y-1 shrink-0">
               <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
                 you are invited to our wedding
               </p>
@@ -416,10 +417,11 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   className="w-10 sm:w-11 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
               </div>
-              {/* Couple Name in RT Brawford */}
-              <h1 className="font-brawford text-4xl sm:text-5xl text-[#6C1420] font-bold leading-[1.1] my-1">
-                {brideNickname} &amp; <br />
-                {groomNickname}
+              {/* Couple Name: Annisa (500pt ratio) & (330pt ratio) Firman (500pt ratio) in RT Brawford */}
+              <h1 className="text-[#6C1420] leading-[1.05] tracking-tight my-1">
+                <span className="font-brawford font-bold text-4xl sm:text-5xl block">{brideNickname}</span>
+                <span className="font-brawford font-normal text-2xl sm:text-3xl block my-0.5">&amp;</span>
+                <span className="font-brawford font-bold text-4xl sm:text-5xl block">{groomNickname}</span>
               </h1>
             </div>
 
@@ -492,10 +494,11 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             />
           </div>
 
-          {/* Couple Name in RT Brawford */}
-          <h1 className="font-brawford text-4xl sm:text-5xl text-[#6C1420] font-bold leading-[1.1]">
-            {brideNickname} &amp; <br />
-            {groomNickname}
+          {/* Couple Name: Annisa (500pt ratio) & (330pt ratio) Firman (500pt ratio) in RT Brawford */}
+          <h1 className="text-[#6C1420] leading-[1.05] tracking-tight">
+            <span className="font-brawford font-bold text-4xl sm:text-5xl block">{brideNickname}</span>
+            <span className="font-brawford font-normal text-2xl sm:text-3xl block my-0.5">&amp;</span>
+            <span className="font-brawford font-bold text-4xl sm:text-5xl block">{groomNickname}</span>
           </h1>
 
           <div className="pt-4 flex justify-center">
@@ -530,12 +533,25 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
 
           <div className="space-y-4 pt-2">
-            <div className="flex justify-center">
+            {/* Calendar with 02 in heart & February 2028 below */}
+            <div className="relative w-48 sm:w-56 aspect-[1918/2258] mx-auto select-none">
               <img 
                 src={ASSETS.calendarIcon} 
                 alt="02 February 2028 Calendar" 
-                className="w-44 sm:w-52 h-auto object-contain select-none drop-shadow-sm" 
+                className="w-full h-full object-contain pointer-events-none drop-shadow-sm" 
               />
+              {/* Inside Heart: 02 */}
+              <div className="absolute top-[49%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
+                <span className="font-beautylife text-4xl sm:text-5xl text-[#C82127] font-bold tracking-tight">
+                  02
+                </span>
+              </div>
+              {/* Under Heart: February 2028 */}
+              <div className="absolute bottom-[16%] left-[50%] -translate-x-1/2 text-center pointer-events-none w-full">
+                <span className="font-beautylife text-base sm:text-lg text-[#6C1420] block leading-tight tracking-wide">
+                  February 2028
+                </span>
+              </div>
             </div>
 
             {/* Time & Venue in Erabura font */}
@@ -569,7 +585,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
         </motion.section>
 
-        {/* SECTION 3: OUR STORY (Milestones & Stories in Gaegu font) */}
+        {/* SECTION 3: OUR STORY (Milestones & Stories in Gaegu font, Center line as clean vector wavy line) */}
         <motion.section 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -590,9 +606,24 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
 
           <div className="relative max-w-sm mx-auto pt-6 pb-2">
-            {/* Center Wavy Line */}
-            <div className="absolute top-2 bottom-2 left-1/2 -translate-x-1/2 w-8 sm:w-10 pointer-events-none z-0 flex justify-center">
-              <img src={ASSETS.timelineLine} alt="Timeline Line" className="w-full h-full object-fill opacity-90" />
+            {/* Center Wavy Serpentine Vector Line with Arrow */}
+            <div className="absolute top-4 bottom-4 left-1/2 -translate-x-1/2 w-8 pointer-events-none z-0 flex justify-center">
+              <svg 
+                viewBox="0 0 32 600" 
+                fill="none" 
+                preserveAspectRatio="none" 
+                className="w-full h-full stroke-[#6C1420] opacity-80"
+              >
+                <path 
+                  d="M16,0 C28,80 4,160 16,240 C28,320 4,400 16,480 C24,530 16,570 16,588" 
+                  strokeWidth="2.5" 
+                  strokeLinecap="round" 
+                />
+                <polygon 
+                  points="16,598 11,584 21,584" 
+                  fill="#6C1420" 
+                />
+              </svg>
             </div>
 
             <div className="space-y-12 relative z-10">
@@ -784,7 +815,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </motion.section>
         )}
 
-        {/* SECTION 6: ATTENDANCE (Fields in Gaegu font) */}
+        {/* SECTION 6: UNIFIED RSVP & ATTENDANCE */}
         <motion.section 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -793,15 +824,54 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           className="text-center space-y-4 pt-4"
         >
           <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight px-4">
-            your presence is our greatest honor
+            kindly let us know if you can join us
           </p>
 
           <div className="flex justify-center">
             <img 
-              src={ASSETS.titleAttendance} 
-              alt="ATTENDANCE" 
-              className="w-64 sm:w-72 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
+              src={ASSETS.titleRsvp} 
+              alt="RSVP" 
+              className="w-56 sm:w-64 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
             />
+          </div>
+
+          {/* WILL YOU BE THERE? (Gaegu font) */}
+          <div className="text-center space-y-3 pt-2">
+            <h3 className="font-gaegu text-[#6C1420] text-3xl font-bold tracking-wider">
+              WILL YOU BE THERE?
+            </h3>
+            <div className="inline-flex flex-col items-start font-gaegu text-xl font-bold text-[#6C1420] space-y-2">
+              <button 
+                type="button"
+                onClick={() => {
+                  setWillBeThere("yes");
+                  setRsvpStatus("attending");
+                }}
+                className="flex items-center gap-3 cursor-pointer group"
+              >
+                <div className="w-5 h-5 rounded border-2 border-[#6C1420] flex items-center justify-center bg-white">
+                  {willBeThere === "yes" && (
+                    <span className="text-[#C82127] font-bold text-lg leading-none">✓</span>
+                  )}
+                </div>
+                <span className="group-hover:opacity-80 transition-opacity">Yes!</span>
+              </button>
+              <button 
+                type="button"
+                onClick={() => {
+                  setWillBeThere("no");
+                  setRsvpStatus("not_attending");
+                }}
+                className="flex items-center gap-3 cursor-pointer group"
+              >
+                <div className="w-5 h-5 rounded border-2 border-[#6C1420] flex items-center justify-center bg-white">
+                  {willBeThere === "no" && (
+                    <span className="text-[#C82127] font-bold text-lg leading-none">✓</span>
+                  )}
+                </div>
+                <span className="group-hover:opacity-80 transition-opacity">Sorry, cant make it</span>
+              </button>
+            </div>
           </div>
 
           {hasSubmittedRsvp ? (
@@ -882,7 +952,10 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   <img src={ASSETS.inputBorder} alt="" className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none" />
                   <select
                     value={rsvpStatus}
-                    onChange={(e) => setRsvpStatus(e.target.value)}
+                    onChange={(e) => {
+                      setRsvpStatus(e.target.value);
+                      setWillBeThere(e.target.value === "attending" ? "yes" : "no");
+                    }}
                     className="relative z-10 w-full h-full bg-transparent appearance-none pl-6 pr-10 font-gaegu text-base font-bold text-[#6C1420] focus:outline-none cursor-pointer"
                   >
                     <option value="attending" className="bg-white text-neutral-900 font-gaegu">Hadir (Attend)</option>
@@ -941,6 +1014,15 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               )}
             </form>
           )}
+
+          {/* Dinner Banquet Table (10-24.png) directly in the unified RSVP section */}
+          <div className="pt-6 flex justify-center">
+            <img 
+              src={ASSETS.tableBanquet} 
+              alt="Banquet Dinner Table" 
+              className="w-full max-w-[340px] sm:max-w-[360px] h-auto object-contain select-none pointer-events-none drop-shadow-xs" 
+            />
+          </div>
         </motion.section>
 
         {/* SECTION 7: BLESSINGS */}
@@ -1046,78 +1128,12 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
         </motion.section>
 
-        {/* SECTION 8: RSVP & BANQUET TABLE (Gaegu font for RSVP questions & checkboxes) */}
-        <motion.section 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.7 }}
-          className="text-center space-y-4 pt-4"
-        >
-          <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight px-4">
-            kindly let us know if you can join us
-          </p>
-
-          <div className="flex justify-center">
-            <img 
-              src={ASSETS.titleRsvp} 
-              alt="RSVP" 
-              className="w-52 sm:w-60 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
-            />
-          </div>
-
-          <div className="text-center space-y-3 pt-2">
-            <h3 className="font-gaegu text-[#6C1420] text-3xl font-bold tracking-wider">
-              WILL YOU BE THERE?
-            </h3>
-            <div className="inline-flex flex-col items-start font-gaegu text-xl font-bold text-[#6C1420] space-y-2">
-              <button 
-                type="button"
-                onClick={() => {
-                  setWillBeThere("yes");
-                  setRsvpStatus("attending");
-                }}
-                className="flex items-center gap-3 cursor-pointer group"
-              >
-                <div className="w-5 h-5 rounded border-2 border-[#6C1420] flex items-center justify-center bg-white">
-                  {willBeThere === "yes" && (
-                    <span className="text-[#C82127] font-bold text-lg leading-none">✓</span>
-                  )}
-                </div>
-                <span className="group-hover:opacity-80 transition-opacity">Yes!</span>
-              </button>
-              <button 
-                type="button"
-                onClick={() => {
-                  setWillBeThere("no");
-                  setRsvpStatus("not_attending");
-                }}
-                className="flex items-center gap-3 cursor-pointer group"
-              >
-                <div className="w-5 h-5 rounded border-2 border-[#6C1420] flex items-center justify-center bg-white">
-                  {willBeThere === "no" && (
-                    <span className="text-[#C82127] font-bold text-lg leading-none">✓</span>
-                  )}
-                </div>
-                <span className="group-hover:opacity-80 transition-opacity">Sorry, cant make it</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Dinner Banquet Table (10-24.png) */}
-          <div className="pt-4 flex justify-center">
-            <img 
-              src={ASSETS.tableBanquet} 
-              alt="Banquet Dinner Table" 
-              className="w-full max-w-[340px] sm:max-w-[360px] h-auto object-contain select-none pointer-events-none drop-shadow-xs" 
-            />
-          </div>
-        </motion.section>
-
         {/* FOOTER */}
         <footer className="text-center space-y-2 pt-6 pb-6 border-t border-[#6C1420]/20">
-          <p className="font-brawford text-3xl font-bold text-[#6C1420]">
-            {brideNickname} &amp; {groomNickname}
+          <p className="text-[#6C1420] font-bold">
+            <span className="font-brawford text-3xl">{brideNickname}</span>
+            <span className="font-brawford text-xl mx-2 font-normal">&amp;</span>
+            <span className="font-brawford text-3xl">{groomNickname}</span>
           </p>
           <p className="font-gaegu text-sm text-[#6C1420]/70 tracking-wider">
             Thank you for being part of our special love story.
