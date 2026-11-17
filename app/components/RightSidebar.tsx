@@ -470,7 +470,8 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                 brideSize="text-[92px] sm:text-[104px]"
                 ampSize="text-[60px] sm:text-[68px]"
                 groomSize="text-[92px] sm:text-[104px]"
-                line2NegativeMargin="-mt-3.5 sm:-mt-5"
+                line2Indent="justify-start pl-[34%] sm:pl-[36%]"
+                line2NegativeMargin="-mt-5 sm:-mt-6"
               />
             </div>
 
@@ -575,7 +576,8 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             brideSize="text-[130px] sm:text-[148px] md:text-[160px]"
             ampSize="text-[84px] sm:text-[96px] md:text-[104px]"
             groomSize="text-[130px] sm:text-[148px] md:text-[160px]"
-            line2NegativeMargin="-mt-6 sm:-mt-8 md:-mt-10"
+            line2Indent="justify-start pl-[35%] sm:pl-[38%] md:pl-[40%]"
+            line2NegativeMargin="-mt-7 sm:-mt-9 md:-mt-10"
           />
 
           <motion.div 

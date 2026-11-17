@@ -38,6 +38,7 @@ interface AnimatedCoupleNameProps {
   ampSize?: string;
   groomSize?: string;
   line2NegativeMargin?: string;
+  line2Indent?: string;
   isCover?: boolean;
   isOpened?: boolean;
   delayChildren?: number;
@@ -51,6 +52,7 @@ export function AnimatedCoupleName({
   ampSize = "text-[62px] sm:text-[72px]",
   groomSize = "text-[94px] sm:text-[108px]",
   line2NegativeMargin = "-mt-3.5 sm:-mt-5",
+  line2Indent,
   isCover = false,
   isOpened,
   delayChildren = 0.1,
@@ -109,7 +111,7 @@ export function AnimatedCoupleName({
           &amp;
         </motion.span>
       </div>
-      <div className={`flex justify-end pr-2 sm:pr-4 leading-[0.72] whitespace-nowrap ${line2NegativeMargin}`}>
+      <div className={`flex items-baseline ${line2Indent || "justify-end pr-2 sm:pr-4"} leading-[0.72] whitespace-nowrap ${line2NegativeMargin}`}>
         {groomChars.map((char, i) => (
           <motion.span
             key={`g-${i}`}

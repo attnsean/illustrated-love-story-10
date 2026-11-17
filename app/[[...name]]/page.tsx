@@ -218,7 +218,8 @@ export default async function Home({ params, searchParams }: Props) {
               brideSize="text-[94px] lg:text-[108px]"
               ampSize="text-[62px] lg:text-[72px]"
               groomSize="text-[94px] lg:text-[108px]"
-              line2NegativeMargin="-mt-3.5 lg:-mt-5"
+              line2Indent="justify-start pl-[34%] lg:pl-[36%]"
+              line2NegativeMargin="-mt-5 lg:-mt-6"
             />
           </div>
 
