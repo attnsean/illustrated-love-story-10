@@ -83,7 +83,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   
   const protocol = host && (host.includes("localhost") || host.includes("127.0.0.1")) ? "http" : "https";
   const baseUrl = host ? `${protocol}://${host}` : "https://illustrated-love-story-10.serastory.com";
-  const imageUrl = hasCustomCover ? (rawCover as string) : `${baseUrl}/og-image.jpg?v=2`;
+  const imageUrl = hasCustomCover ? (rawCover as string) : `${baseUrl}/og-image.jpg?v=3`;
 
   return {
     title,

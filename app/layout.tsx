@@ -61,7 +61,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const cleanSiteUrl = siteUrl.startsWith('http') ? siteUrl : `https://${siteUrl}`;
   const coverUrl = (rawCover && !rawCover.includes("/defaults") && !rawCover.includes("onyx")) 
     ? rawCover 
-    : `${cleanSiteUrl}/og-image.jpg?v=2`;
+    : `${cleanSiteUrl}/og-image.jpg?v=3`;
 
   const title = `${brideNick} & ${groomNick} Wedding Invitation`;
   const description = `We cordially invite you to celebrate the wedding of ${brideName} & ${groomName}.`;
