@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import RightSidebar from "../components/RightSidebar";
+import { AnimatedCoupleName } from "../components/AnimatedHeaders";
 import { ASSETS } from "../../lib/assets";
 import { headers } from "next/headers";
 import { resolveProjectData, isDefaultStorageUrl } from "../../lib/resolveProject";
@@ -208,22 +209,17 @@ export default async function Home({ params, searchParams }: Props) {
               <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-14 lg:w-16 h-auto object-contain select-none pointer-events-none drop-shadow-sm" />
             </div>
 
-            {/* Couple Name in RT Brawford (Matching Gambar 3: Much Larger, Staggered Right) */}
-            <h1 className="text-[#6C1420] w-full px-2 lg:px-4 my-1 select-none">
-              <div className="flex items-baseline justify-start pl-1 lg:pl-2 leading-[0.72]">
-                <span className="font-brawford font-normal text-[130px] lg:text-[148px] tracking-tight">
-                  {brideNickname}
-                </span>
-                <span className="font-brawford font-normal text-[82px] lg:text-[94px] ml-2 lg:ml-3">
-                  &amp;
-                </span>
-              </div>
-              <div className="flex justify-end pr-1 lg:pr-2 leading-[0.72] -mt-5 lg:-mt-7">
-                <span className="font-brawford font-normal text-[130px] lg:text-[148px] tracking-tight">
-                  {groomNickname}
-                </span>
-              </div>
-            </h1>
+            {/* Couple Name in RT Brawford (Matching Comp_1.mp4 Staggered Character Easy Scale) */}
+            <AnimatedCoupleName
+              bride={brideNickname}
+              groom={groomNickname}
+              isCover={true}
+              className="text-[#6C1420] w-full px-2 lg:px-4 my-1 select-none"
+              brideSize="text-[94px] lg:text-[108px]"
+              ampSize="text-[62px] lg:text-[72px]"
+              groomSize="text-[94px] lg:text-[108px]"
+              line2NegativeMargin="-mt-3.5 lg:-mt-5"
+            />
           </div>
 
           {/* Illustrated couple in heart (Matching Gambar 1, Large and never cut off) */}

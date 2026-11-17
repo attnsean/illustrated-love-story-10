@@ -5,6 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { DbGuest, DbProject, DbEvent, DbWish, isDefaultStorageUrl } from "../../lib/resolveProject";
 import { ASSETS } from "../../lib/assets";
+import { AnimatedCoupleName, AnimatedTitle } from "./AnimatedHeaders";
 
 export { ASSETS };
 
@@ -460,27 +461,17 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   className="w-14 sm:w-16 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
               </div>
-              {/* Couple Name: Annisa & on line 1, Firman on line 2 (Matching Gambar 3: Much Larger, Staggered Right, Easy Scale) */}
-              <motion.h1 
-                initial={{ opacity: 0, scale: 0.86 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              {/* Couple Name: Annisa & on line 1, Firman on line 2 (Matching Comp_1.mp4 Staggered Character Easy Scale) */}
+              <AnimatedCoupleName
+                bride={brideNickname}
+                groom={groomNickname}
+                isCover={true}
                 className="text-[#6C1420] w-full px-2 sm:px-4 my-1 select-none"
-              >
-                <div className="flex items-baseline justify-start pl-2 sm:pl-4 leading-[0.72]">
-                  <span className="font-brawford font-normal text-[130px] sm:text-[150px] tracking-tight">
-                    {brideNickname}
-                  </span>
-                  <span className="font-brawford font-normal text-[82px] sm:text-[96px] ml-2 sm:ml-3">
-                    &amp;
-                  </span>
-                </div>
-                <div className="flex justify-end pr-2 sm:pr-4 leading-[0.72] -mt-5 sm:-mt-7">
-                  <span className="font-brawford font-normal text-[130px] sm:text-[150px] tracking-tight">
-                    {groomNickname}
-                  </span>
-                </div>
-              </motion.h1>
+                brideSize="text-[92px] sm:text-[104px]"
+                ampSize="text-[60px] sm:text-[68px]"
+                groomSize="text-[92px] sm:text-[104px]"
+                line2NegativeMargin="-mt-3.5 sm:-mt-5"
+              />
             </div>
 
             {/* Center: Couple Illustration */}
@@ -552,28 +543,16 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             />
           </div>
 
-          {/* Couple Name: Annisa & Firman (Matching Gambar 3: Much Larger, Staggered Right, Easy Scale) */}
-          <motion.h1 
-            initial={{ opacity: 0, scale: 0.86 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          {/* Couple Name: Annisa & Firman (Matching Comp_1.mp4 Staggered Character Easy Scale) */}
+          <AnimatedCoupleName
+            bride={brideNickname}
+            groom={groomNickname}
             className="text-[#6C1420] w-full px-3 sm:px-5 my-1 select-none"
-          >
-            <div className="flex items-baseline justify-start pl-2 sm:pl-4 leading-[0.72]">
-              <span className="font-brawford font-normal text-[138px] sm:text-[164px] md:text-[180px] tracking-tight">
-                {brideNickname}
-              </span>
-              <span className="font-brawford font-normal text-[86px] sm:text-[104px] md:text-[114px] ml-2 sm:ml-3">
-                &amp;
-              </span>
-            </div>
-            <div className="flex justify-end pr-2 sm:pr-4 leading-[0.72] -mt-6 sm:-mt-8">
-              <span className="font-brawford font-normal text-[138px] sm:text-[164px] md:text-[180px] tracking-tight">
-                {groomNickname}
-              </span>
-            </div>
-          </motion.h1>
+            brideSize="text-[104px] sm:text-[120px] md:text-[132px]"
+            ampSize="text-[68px] sm:text-[78px] md:text-[86px]"
+            groomSize="text-[104px] sm:text-[120px] md:text-[132px]"
+            line2NegativeMargin="-mt-4 sm:-mt-6"
+          />
 
           <div className="-mt-3 sm:-mt-4 flex justify-center">
             <motion.img 
@@ -598,19 +577,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             the details of our big day
           </p>
 
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.86 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center"
-          >
-            <img 
-              src={ASSETS.titleDatePlace} 
-              alt="DATE & PLACE" 
-              className="w-56 sm:w-64 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
+          <div className="flex justify-center">
+            <AnimatedTitle
+              type="datePlace"
+              alt="DATE & PLACE"
+              className="w-56 sm:w-64"
+              fallbackSrc={ASSETS.titleDatePlace}
             />
-          </motion.div>
+          </div>
 
           <div className="space-y-4 pt-2">
             {/* Calendar with 02 in heart & February 2028 below */}
@@ -705,19 +679,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             a journey of a thousand miles begins with a single step.
           </p>
 
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.86 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center"
-          >
-            <img 
-              src={ASSETS.titleOurStory} 
-              alt="OUR STORY" 
-              className="w-56 sm:w-64 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
+          <div className="flex justify-center">
+            <AnimatedTitle
+              type="ourStory"
+              alt="OUR STORY"
+              className="w-56 sm:w-64"
+              fallbackSrc={ASSETS.titleOurStory}
             />
-          </motion.div>
+          </div>
 
           <div className="relative max-w-sm mx-auto pt-6 pb-2">
             {/* Center Wavy Serpentine Vector Line with Arrow */}
@@ -821,19 +790,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             to maintain the harmony of our wedding theme, we kindly request our guests to wear
           </p>
 
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.86 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center"
-          >
-            <img 
-              src={ASSETS.titleDressCode} 
-              alt="DRESS CODE" 
-              className="w-56 sm:w-64 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
+          <div className="flex justify-center">
+            <AnimatedTitle
+              type="dressCode"
+              alt="DRESS CODE"
+              className="w-56 sm:w-64"
+              fallbackSrc={ASSETS.titleDressCode}
             />
-          </motion.div>
+          </div>
 
           <div className="flex justify-center pt-2">
             <img 
@@ -867,19 +831,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               your presence is the greatest gift of all. However, if you are unable to attend and would like to send us your wishes in the form of a gift, please use the account details below:
             </p>
 
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.86 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="flex justify-center"
-            >
-              <img 
-                src={ASSETS.titleWeddingGift} 
-                alt="WEDDING GIFT" 
-                className="w-64 sm:w-72 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
+            <div className="flex justify-center">
+              <AnimatedTitle
+                type="weddingGift"
+                alt="WEDDING GIFT"
+                className="w-64 sm:w-72"
+                fallbackSrc={ASSETS.titleWeddingGift}
               />
-            </motion.div>
+            </div>
 
             <div className="space-y-4 max-w-[300px] sm:max-w-[320px] mx-auto pt-2">
               {/* Card 1: Annisa in HankRnd Black */}
@@ -953,19 +912,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             kindly let us know if you can join us
           </p>
 
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.86 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center"
-          >
-            <img 
-              src={ASSETS.titleRsvp} 
-              alt="RSVP" 
-              className="w-56 sm:w-64 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
+          <div className="flex justify-center">
+            <AnimatedTitle
+              type="rsvp"
+              alt="RSVP"
+              className="w-56 sm:w-64"
+              fallbackSrc={ASSETS.titleRsvp}
             />
-          </motion.div>
+          </div>
 
           {/* GAMBAR 1: RSVP Card with WILL YOU BE THERE inside & Banquet Dinner Table */}
           <motion.div 
@@ -1182,19 +1136,14 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             leave your warmest words for the beginning of our new chapter.
           </p>
 
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.86 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center"
-          >
-            <img 
-              src={ASSETS.titleBlessings} 
-              alt="BLESSINGS" 
-              className="w-60 sm:w-68 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
+          <div className="flex justify-center">
+            <AnimatedTitle
+              type="blessings"
+              alt="BLESSINGS"
+              className="w-60 sm:w-68"
+              fallbackSrc={ASSETS.titleBlessings}
             />
-          </motion.div>
+          </div>
 
           <form onSubmit={handleWishSubmit} className="space-y-4 pt-2 text-left max-w-sm mx-auto">
             {/* Name Input */}
