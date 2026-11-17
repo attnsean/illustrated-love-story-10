@@ -719,11 +719,11 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   className="w-10 sm:w-12 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
               </div>
-              <p className="font-gaegu font-bold text-[11px] sm:text-xs tracking-[0.3em] uppercase text-neutral-600">
+              <p className="font-erabura font-bold text-[11px] sm:text-xs tracking-[0.3em] uppercase text-neutral-600">
                 THE WEDDING OF
               </p>
-              <h1 className="font-gaegu font-bold text-3xl sm:text-4xl lg:text-4xl text-neutral-900 leading-tight tracking-wide drop-shadow-sm">
-                {brideNickname} <span className="text-red-600 font-gaegu text-2xl sm:text-3xl">&amp;</span> {groomNickname}
+              <h1 className="font-beautylife text-4xl sm:text-5xl lg:text-5xl text-[#6B1020] leading-tight tracking-wide drop-shadow-sm">
+                {brideNickname} <span className="text-[#8B1D2C] font-beautylife text-3xl sm:text-4xl">&amp;</span> {groomNickname}
               </h1>
             </div>
 
@@ -761,13 +761,13 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               <div className="bg-white/85 backdrop-blur-md rounded-2xl border border-neutral-200/90 p-3 sm:p-3.5 shadow-[0_4px_18px_-4px_rgba(0,0,0,0.06)] space-y-1.5 transition-all">
                 <div className="flex items-center justify-center gap-2 text-neutral-400">
                   <span className="h-[1px] w-5 bg-neutral-200" />
-                  <p className="font-gaegu font-bold text-[11px] sm:text-xs text-neutral-500 uppercase tracking-wider">
+                  <p className="font-erabura font-bold text-[11px] sm:text-xs text-neutral-500 uppercase tracking-wider">
                     Kepada Yth. Bapak/Ibu/Saudara/i:
                   </p>
                   <span className="h-[1px] w-5 bg-neutral-200" />
                 </div>
                 <div className="px-2 py-0.5">
-                  <p className="font-gaegu font-bold text-lg sm:text-xl text-neutral-900 tracking-wide truncate drop-shadow-2xs">
+                  <p className="font-brawford font-bold text-xl sm:text-2xl text-neutral-900 tracking-wide truncate drop-shadow-2xs">
                     {guestName}
                   </p>
                 </div>
@@ -841,7 +841,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.6 }}
-            className="text-xs sm:text-sm font-gaegu tracking-[0.25em] text-neutral-800 uppercase font-bold"
+            className="text-xs sm:text-sm font-erabura tracking-[0.25em] text-neutral-800 uppercase font-bold"
           >
             YOU ARE INVITED TO OUR WEDDING
           </motion.p>
@@ -868,10 +868,10 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             whileInView={{ scale: 1, opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="font-gaegu font-bold text-4xl sm:text-5xl text-neutral-900 leading-tight tracking-wide drop-shadow-sm"
+            className="font-beautylife text-5xl sm:text-6xl text-[#6B1020] leading-tight tracking-wide drop-shadow-sm"
           >
             {brideNickname} <br />
-            <span className="text-red-600 font-gaegu font-bold text-3xl sm:text-4xl inline-block animate-pulse">&amp;</span> <br />
+            <span className="text-[#8B1D2C] font-beautylife text-4xl sm:text-5xl inline-block">&amp;</span> <br />
             {groomNickname}
           </motion.h1>
 
@@ -883,7 +883,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               transition={{ delay: 0.1, duration: 0.6 }}
               className="mt-2 space-y-0.5"
             >
-              <p className="font-gaegu text-lg sm:text-xl font-bold text-neutral-800 tracking-wide">
+              <p className="font-brawford text-xl sm:text-2xl text-neutral-800 tracking-wide">
                 {brideFull} &amp; {groomFull}
               </p>
               {Boolean(brideFather || brideMother) && (

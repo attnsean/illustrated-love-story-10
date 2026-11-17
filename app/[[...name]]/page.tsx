@@ -68,10 +68,10 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
     guestName = dbData.guest.name;
   }
 
-  const brideName = dbData.project?.bride_nickname || "Natalie";
-  const groomName = dbData.project?.groom_nickname || "Marvel";
-  const brideFull = dbData.project?.bride_name || "Natalie C";
-  const groomFull = dbData.project?.groom_name || "Marvel A";
+  const brideName = dbData.project?.bride_nickname || "Annisa";
+  const groomName = dbData.project?.groom_nickname || "Firman";
+  const brideFull = dbData.project?.bride_name || "Annisa Rahmawati";
+  const groomFull = dbData.project?.groom_name || "Firman Hidayat";
 
   const title = `Wedding Invitation for ${guestName} | ${groomName} & ${brideName}`;
   const description = `We cordially invite ${guestName} to share our special day. The wedding celebration of ${groomFull} & ${brideFull}.`;
@@ -156,10 +156,10 @@ export default async function Home({ params, searchParams }: Props) {
     guestName = dbData.guest.name;
   }
 
-  const brideNickname = dbData.project?.bride_nickname || "Natalie";
-  const groomNickname = dbData.project?.groom_nickname || "Marvel";
-  const brideFull = dbData.project?.bride_name || "Natalie C";
-  const groomFull = dbData.project?.groom_name || "Marvel A";
+  const brideNickname = dbData.project?.bride_nickname || "Annisa";
+  const groomNickname = dbData.project?.groom_nickname || "Firman";
+  const brideFull = dbData.project?.bride_name || "Annisa Rahmawati";
+  const groomFull = dbData.project?.groom_name || "Firman Hidayat";
   const weddingDateRaw = dbData.events?.[0]?.event_date || dbData.project?.wedding_date || (dbData.project?.countdown_target ? dbData.project.countdown_target.split('T')[0] : null);
 
   const formatDateDot = (dateStr?: string | null) => {
@@ -207,7 +207,7 @@ export default async function Home({ params, searchParams }: Props) {
 
         {/* Center Card / Typography Overlay */}
         <div className="relative z-10 text-center px-8 py-10 rounded-3xl bg-white/85 backdrop-blur-md border-2 border-neutral-900 shadow-2xl max-w-md mx-6">
-          <p className="text-xs uppercase font-gaegu font-bold tracking-[0.25em] text-neutral-800 mb-2">
+          <p className="text-xs uppercase font-erabura font-bold tracking-[0.25em] text-neutral-800 mb-2">
             The Wedding Of
           </p>
 
@@ -215,21 +215,21 @@ export default async function Home({ params, searchParams }: Props) {
             <img src={ASSETS.topRings} alt="Rings" className="w-10 h-auto object-contain" />
           </div>
 
-          <h1 className="font-gaegu font-bold text-4xl lg:text-5xl text-neutral-900 leading-tight mb-2">
+          <h1 className="font-beautylife text-5xl lg:text-6xl text-[#6B1020] leading-tight mb-2">
             {brideNickname} <br />
-            <span className="text-red-600 font-gaegu font-bold text-3xl lg:text-4xl">&amp;</span> <br />
+            <span className="text-[#8B1D2C] font-beautylife text-4xl lg:text-5xl">&amp;</span> <br />
             {groomNickname}
           </h1>
 
           {(brideFull || groomFull) && (
-            <p className="font-gaegu text-base lg:text-lg text-neutral-700 font-bold tracking-wide mb-1">
+            <p className="font-brawford text-base lg:text-lg text-neutral-700 tracking-wide mb-1">
               {brideFull} &amp; {groomFull}
             </p>
           )}
 
-          <div className="h-0.5 w-16 bg-neutral-900 mx-auto my-3"></div>
+          <div className="h-0.5 w-16 bg-[#6B1020] mx-auto my-3"></div>
 
-          <p className="text-base font-gaegu font-bold tracking-[0.3em] text-neutral-800 uppercase">
+          <p className="text-base font-erabura font-bold tracking-[0.3em] text-[#6B1020] uppercase">
             {formattedDate}
           </p>
 
