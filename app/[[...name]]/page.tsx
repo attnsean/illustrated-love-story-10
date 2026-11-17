@@ -208,18 +208,18 @@ export default async function Home({ params, searchParams }: Props) {
               <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-14 lg:w-16 h-auto object-contain select-none pointer-events-none drop-shadow-sm" />
             </div>
 
-            {/* Couple Name in RT Brawford (Matching Gambar 3: Larger, Firman shifted right) */}
-            <h1 className="text-[#6C1420] w-full max-w-[320px] lg:max-w-[340px] mx-auto my-0 select-none">
-              <div className="flex items-baseline justify-start pl-2 lg:pl-3 leading-[0.75]">
-                <span className="font-brawford font-normal text-[108px] lg:text-[124px] tracking-tight">
+            {/* Couple Name in RT Brawford (Matching Gambar 3: Much Larger, Staggered Right) */}
+            <h1 className="text-[#6C1420] w-full px-2 lg:px-4 my-1 select-none">
+              <div className="flex items-baseline justify-start pl-1 lg:pl-2 leading-[0.72]">
+                <span className="font-brawford font-normal text-[130px] lg:text-[148px] tracking-tight">
                   {brideNickname}
                 </span>
-                <span className="font-brawford font-normal text-[72px] lg:text-[82px] ml-2">
+                <span className="font-brawford font-normal text-[82px] lg:text-[94px] ml-2 lg:ml-3">
                   &amp;
                 </span>
               </div>
-              <div className="flex justify-end pr-2 lg:pr-3 leading-[0.75] -mt-4 lg:-mt-5">
-                <span className="font-brawford font-normal text-[108px] lg:text-[124px] tracking-tight">
+              <div className="flex justify-end pr-1 lg:pr-2 leading-[0.72] -mt-5 lg:-mt-7">
+                <span className="font-brawford font-normal text-[130px] lg:text-[148px] tracking-tight">
                   {groomNickname}
                 </span>
               </div>
