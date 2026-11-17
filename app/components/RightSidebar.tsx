@@ -460,18 +460,18 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                   className="w-14 sm:w-16 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
               </div>
-              {/* Couple Name: Annisa & on line 1, Firman on line 2 (Matching Gambar 1) */}
-              <h1 className="text-[#6C1420] text-center my-0 select-none">
-                <div className="flex items-baseline justify-center leading-[0.75]">
-                  <span className="font-brawford font-normal text-[90px] sm:text-[104px] tracking-tight">
+              {/* Couple Name: Annisa & on line 1, Firman on line 2 (Matching Gambar 3: Larger, Firman shifted right) */}
+              <h1 className="text-[#6C1420] w-full max-w-[320px] sm:max-w-[360px] mx-auto my-0 select-none">
+                <div className="flex items-baseline justify-start pl-2 sm:pl-4 leading-[0.75]">
+                  <span className="font-brawford font-normal text-[106px] sm:text-[124px] tracking-tight">
                     {brideNickname}
                   </span>
-                  <span className="font-brawford font-normal text-[58px] sm:text-[68px] ml-2">
+                  <span className="font-brawford font-normal text-[70px] sm:text-[82px] ml-2">
                     &amp;
                   </span>
                 </div>
-                <div className="leading-[0.75] -mt-3.5 sm:-mt-4">
-                  <span className="font-brawford font-normal text-[90px] sm:text-[104px] tracking-tight">
+                <div className="flex justify-end pr-2 sm:pr-4 leading-[0.75] -mt-4 sm:-mt-5">
+                  <span className="font-brawford font-normal text-[106px] sm:text-[124px] tracking-tight">
                     {groomNickname}
                   </span>
                 </div>
@@ -547,18 +547,18 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             />
           </div>
 
-          {/* Couple Name: Annisa & Firman (2 lines, exactly matching Gambar 1) */}
-          <h1 className="text-[#6C1420] text-center my-0 select-none">
-            <div className="flex items-baseline justify-center leading-[0.75]">
-              <span className="font-brawford font-normal text-[100px] sm:text-[124px] md:text-[136px] tracking-tight">
+          {/* Couple Name: Annisa & Firman (Matching Gambar 3: Larger, Firman shifted right) */}
+          <h1 className="text-[#6C1420] w-full max-w-[340px] sm:max-w-[390px] mx-auto my-0 select-none">
+            <div className="flex items-baseline justify-start pl-3 sm:pl-5 leading-[0.75]">
+              <span className="font-brawford font-normal text-[118px] sm:text-[142px] md:text-[156px] tracking-tight">
                 {brideNickname}
               </span>
-              <span className="font-brawford font-normal text-[66px] sm:text-[80px] md:text-[88px] ml-2 sm:ml-3">
+              <span className="font-brawford font-normal text-[76px] sm:text-[92px] md:text-[102px] ml-2 sm:ml-3">
                 &amp;
               </span>
             </div>
-            <div className="leading-[0.75] -mt-5 sm:-mt-6">
-              <span className="font-brawford font-normal text-[100px] sm:text-[124px] md:text-[136px] tracking-tight">
+            <div className="flex justify-end pr-3 sm:pr-5 leading-[0.75] -mt-5 sm:-mt-6">
+              <span className="font-brawford font-normal text-[118px] sm:text-[142px] md:text-[156px] tracking-tight">
                 {groomNickname}
               </span>
             </div>
