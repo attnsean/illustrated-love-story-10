@@ -209,17 +209,17 @@ export default async function Home({ params, searchParams }: Props) {
           </div>
 
           {/* Couple Name in RT Brawford (Matching Gambar 1) */}
-          <h1 className="text-[#6C1420] text-center my-1 select-none">
-            <div className="flex items-baseline justify-center leading-[0.9]">
-              <span className="font-brawford font-normal text-4xl lg:text-5xl tracking-tight">
+          <h1 className="text-[#6C1420] text-center my-0.5 select-none">
+            <div className="flex items-baseline justify-center leading-[0.8]">
+              <span className="font-brawford font-normal text-5xl lg:text-6xl tracking-tight">
                 {brideNickname}
               </span>
-              <span className="font-brawford font-normal text-2xl lg:text-3xl ml-2">
+              <span className="font-brawford font-normal text-3xl lg:text-4xl ml-2">
                 &amp;
               </span>
             </div>
-            <div className="leading-[0.9] -mt-1">
-              <span className="font-brawford font-normal text-4xl lg:text-5xl tracking-tight">
+            <div className="leading-[0.8] -mt-2">
+              <span className="font-brawford font-normal text-5xl lg:text-6xl tracking-tight">
                 {groomNickname}
               </span>
             </div>

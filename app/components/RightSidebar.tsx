@@ -418,17 +418,17 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                 />
               </div>
               {/* Couple Name: Annisa & on line 1, Firman on line 2 (Matching Gambar 1) */}
-              <h1 className="text-[#6C1420] text-center my-0.5 select-none">
-                <div className="flex items-baseline justify-center leading-[0.88]">
-                  <span className="font-brawford font-normal text-5xl sm:text-6xl tracking-tight">
+              <h1 className="text-[#6C1420] text-center my-0 select-none">
+                <div className="flex items-baseline justify-center leading-[0.78]">
+                  <span className="font-brawford font-normal text-6xl sm:text-7xl tracking-tight">
                     {brideNickname}
                   </span>
-                  <span className="font-brawford font-normal text-3xl sm:text-4xl ml-2">
+                  <span className="font-brawford font-normal text-4xl sm:text-5xl ml-2">
                     &amp;
                   </span>
                 </div>
-                <div className="leading-[0.88] -mt-1.5 sm:-mt-2">
-                  <span className="font-brawford font-normal text-5xl sm:text-6xl tracking-tight">
+                <div className="leading-[0.78] -mt-2.5 sm:-mt-3">
+                  <span className="font-brawford font-normal text-6xl sm:text-7xl tracking-tight">
                     {groomNickname}
                   </span>
                 </div>
@@ -506,22 +506,22 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
 
           {/* Couple Name: Annisa & Firman (2 lines, exactly matching Gambar 1) */}
           <h1 className="text-[#6C1420] text-center my-0 select-none">
-            <div className="flex items-baseline justify-center leading-[0.85]">
-              <span className="font-brawford font-normal text-7xl sm:text-8xl md:text-[96px] tracking-tight">
+            <div className="flex items-baseline justify-center leading-[0.75]">
+              <span className="font-brawford font-normal text-[100px] sm:text-[124px] md:text-[136px] tracking-tight">
                 {brideNickname}
               </span>
-              <span className="font-brawford font-normal text-5xl sm:text-6xl md:text-7xl ml-2 sm:ml-3">
+              <span className="font-brawford font-normal text-[66px] sm:text-[80px] md:text-[88px] ml-2 sm:ml-3">
                 &amp;
               </span>
             </div>
-            <div className="leading-[0.85] -mt-3 sm:-mt-4">
-              <span className="font-brawford font-normal text-7xl sm:text-8xl md:text-[96px] tracking-tight">
+            <div className="leading-[0.75] -mt-5 sm:-mt-6">
+              <span className="font-brawford font-normal text-[100px] sm:text-[124px] md:text-[136px] tracking-tight">
                 {groomNickname}
               </span>
             </div>
           </h1>
 
-          <div className="-mt-1 sm:-mt-2 flex justify-center">
+          <div className="-mt-3 sm:-mt-4 flex justify-center">
             <motion.img 
               animate={{ y: [0, -5, 0] }}
               transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}
