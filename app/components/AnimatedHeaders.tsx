@@ -39,6 +39,8 @@ interface AnimatedCoupleNameProps {
   groomSize?: string;
   line2NegativeMargin?: string;
   isCover?: boolean;
+  isOpened?: boolean;
+  delayChildren?: number;
 }
 
 export function AnimatedCoupleName({
@@ -50,18 +52,38 @@ export function AnimatedCoupleName({
   groomSize = "text-[94px] sm:text-[108px]",
   line2NegativeMargin = "-mt-3.5 sm:-mt-5",
   isCover = false,
+  isOpened,
+  delayChildren = 0.1,
 }: AnimatedCoupleNameProps) {
   const brideChars = bride.split("");
   const groomChars = groom.split("");
 
+  const container: Variants = {
+    hidden: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.065,
+        delayChildren: delayChildren,
+      },
+    },
+  };
+
+  let animationProps = {};
+  if (isCover) {
+    animationProps = { animate: "visible" };
+  } else if (typeof isOpened === "boolean") {
+    animationProps = { animate: isOpened ? "visible" : "hidden" };
+  } else {
+    animationProps = { whileInView: "visible", viewport: { once: false, amount: 0.15 } };
+  }
+
   return (
     <motion.h1
-      variants={containerVariants}
+      key={typeof isOpened === "boolean" ? (isOpened ? "opened" : "closed") : undefined}
+      variants={container}
       initial="hidden"
-      {...(isCover
-        ? { animate: "visible" }
-        : { whileInView: "visible", viewport: { once: false, amount: 0.15 } }
-      )}
+      {...animationProps}
       className={className}
     >
       <div className="flex items-baseline justify-start pl-2 sm:pl-4 leading-[0.72] whitespace-nowrap">

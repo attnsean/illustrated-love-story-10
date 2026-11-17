@@ -525,36 +525,53 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
 
         {/* SECTION 1: HERO / COUPLE (Exact Match to Gambar 3) */}
         <motion.section 
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          key={isOpened ? "section1-opened" : "section1-closed"}
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={isOpened ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.92 }}
+          transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="text-center space-y-1 pt-1"
         >
-          <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
+          <motion.p 
+            initial={{ opacity: 0, y: -8 }}
+            animate={isOpened ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight"
+          >
             you are invited to our wedding
-          </p>
+          </motion.p>
 
-          <div className="flex justify-center py-0.5">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.6 }}
+            animate={isOpened ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
+            transition={{ duration: 0.45, delay: 0.25 }}
+            className="flex justify-center py-0.5"
+          >
             <img 
               src={ASSETS.bowRibbon} 
               alt="Bow Ribbon" 
               className="w-14 sm:w-16 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
             />
-          </div>
+          </motion.div>
 
-          {/* Couple Name: Annisa & Firman (Matching Comp_1.mp4 Staggered Character Easy Scale) */}
+          {/* Couple Name: Annisa & Firman (Matching Comp_1.mp4 Staggered Character Easy Scale & Date & Place font size) */}
           <AnimatedCoupleName
             bride={brideNickname}
             groom={groomNickname}
-            className="text-[#6C1420] w-full px-3 sm:px-5 my-1 select-none"
-            brideSize="text-[104px] sm:text-[120px] md:text-[132px]"
-            ampSize="text-[68px] sm:text-[78px] md:text-[86px]"
-            groomSize="text-[104px] sm:text-[120px] md:text-[132px]"
-            line2NegativeMargin="-mt-4 sm:-mt-6"
+            isOpened={isOpened}
+            delayChildren={0.3}
+            className="text-[#6C1420] w-full px-2 sm:px-4 my-1 select-none"
+            brideSize="text-[130px] sm:text-[148px] md:text-[160px]"
+            ampSize="text-[84px] sm:text-[96px] md:text-[104px]"
+            groomSize="text-[130px] sm:text-[148px] md:text-[160px]"
+            line2NegativeMargin="-mt-6 sm:-mt-8 md:-mt-10"
           />
 
-          <div className="-mt-3 sm:-mt-4 flex justify-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={isOpened ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="-mt-3 sm:-mt-4 flex justify-center"
+          >
             <motion.img 
               animate={{ y: [0, -5, 0] }}
               transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}
@@ -562,7 +579,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               alt="Illustrated Couple" 
               className="w-full max-w-[380px] sm:max-w-[400px] h-auto object-contain select-none pointer-events-none drop-shadow-md" 
             />
-          </div>
+          </motion.div>
         </motion.section>
 
         {/* SECTION 2: DATE & PLACE (Easy Scale) */}
