@@ -419,16 +419,16 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               </div>
               {/* Couple Name: Annisa & on line 1, Firman on line 2 (Matching Gambar 1) */}
               <h1 className="text-[#6C1420] text-center my-0.5 select-none">
-                <div className="flex items-baseline justify-center leading-[0.9]">
-                  <span className="font-brawford font-normal text-4xl sm:text-5xl tracking-tight">
+                <div className="flex items-baseline justify-center leading-[0.88]">
+                  <span className="font-brawford font-normal text-5xl sm:text-6xl tracking-tight">
                     {brideNickname}
                   </span>
-                  <span className="font-brawford font-normal text-2xl sm:text-3xl ml-2">
+                  <span className="font-brawford font-normal text-3xl sm:text-4xl ml-2">
                     &amp;
                   </span>
                 </div>
-                <div className="leading-[0.9] -mt-1">
-                  <span className="font-brawford font-normal text-4xl sm:text-5xl tracking-tight">
+                <div className="leading-[0.88] -mt-1.5 sm:-mt-2">
+                  <span className="font-brawford font-normal text-5xl sm:text-6xl tracking-tight">
                     {groomNickname}
                   </span>
                 </div>
@@ -482,7 +482,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
       </AnimatePresence>
 
       {/* MAIN INVITATION STRIP (Scrollable after opening) */}
-      <div className="relative max-w-md mx-auto px-5 py-6 space-y-6 sm:space-y-8 z-10">
+      <div className="relative max-w-md mx-auto px-4 py-6 space-y-6 sm:space-y-8 z-10">
 
         {/* SECTION 1: HERO / COUPLE (Exact Match to Gambar 1) */}
         <motion.section 
@@ -490,7 +490,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.15 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="text-center space-y-1.5 pt-1"
+          className="text-center space-y-1 pt-1"
         >
           <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
             you are invited to our wedding
@@ -505,29 +505,29 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
 
           {/* Couple Name: Annisa & Firman (2 lines, exactly matching Gambar 1) */}
-          <h1 className="text-[#6C1420] text-center my-1 select-none">
-            <div className="flex items-baseline justify-center leading-[0.9]">
-              <span className="font-brawford font-normal text-6xl sm:text-7xl md:text-[84px] tracking-tight">
+          <h1 className="text-[#6C1420] text-center my-0 select-none">
+            <div className="flex items-baseline justify-center leading-[0.85]">
+              <span className="font-brawford font-normal text-7xl sm:text-8xl md:text-[96px] tracking-tight">
                 {brideNickname}
               </span>
-              <span className="font-brawford font-normal text-4xl sm:text-5xl md:text-6xl ml-3">
+              <span className="font-brawford font-normal text-5xl sm:text-6xl md:text-7xl ml-2 sm:ml-3">
                 &amp;
               </span>
             </div>
-            <div className="leading-[0.9] -mt-2 sm:-mt-3">
-              <span className="font-brawford font-normal text-6xl sm:text-7xl md:text-[84px] tracking-tight">
+            <div className="leading-[0.85] -mt-3 sm:-mt-4">
+              <span className="font-brawford font-normal text-7xl sm:text-8xl md:text-[96px] tracking-tight">
                 {groomNickname}
               </span>
             </div>
           </h1>
 
-          <div className="pt-2 flex justify-center">
+          <div className="-mt-1 sm:-mt-2 flex justify-center">
             <motion.img 
               animate={{ y: [0, -5, 0] }}
               transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}
               src={ASSETS.couple} 
               alt="Illustrated Couple" 
-              className="w-full max-w-[340px] sm:max-w-[360px] h-auto object-contain select-none pointer-events-none drop-shadow-md" 
+              className="w-full max-w-[380px] sm:max-w-[400px] h-auto object-contain select-none pointer-events-none drop-shadow-md" 
             />
           </div>
         </motion.section>
@@ -538,7 +538,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.15 }}
           transition={{ duration: 0.7 }}
-          className="text-center space-y-4 pt-4"
+          className="text-center space-y-4 pt-1 sm:pt-2"
         >
           <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
             the details of our big day
