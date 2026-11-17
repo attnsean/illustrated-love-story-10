@@ -143,8 +143,8 @@ export default async function Home({ params, searchParams }: Props) {
     return (
       <main className="min-h-[100dvh] w-full flex items-center justify-center bg-neutral-950 px-4">
         <div className="max-w-md w-full text-center space-y-6 p-8 rounded-3xl bg-neutral-900 border border-neutral-800 text-white">
-          <h2 className="text-2xl font-gaegu font-bold text-neutral-200">Undangan Nonaktif</h2>
-          <p className="text-sm font-gaegu text-neutral-400">
+          <h2 className="text-2xl font-brawford font-bold text-neutral-200">Undangan Nonaktif</h2>
+          <p className="text-sm font-brawford text-neutral-400">
             Masa aktif undangan pernikahan digital ini telah selesai.
           </p>
         </div>
@@ -163,9 +163,9 @@ export default async function Home({ params, searchParams }: Props) {
   const weddingDateRaw = dbData.events?.[0]?.event_date || dbData.project?.wedding_date || (dbData.project?.countdown_target ? dbData.project.countdown_target.split('T')[0] : null);
 
   const formatDateDot = (dateStr?: string | null) => {
-    if (!dateStr) return "28 . 02 . 2028";
+    if (!dateStr) return "02 . 02 . 2028";
     const date = new Date(dateStr);
-    if (isNaN(date.getTime())) return "28 . 02 . 2028";
+    if (isNaN(date.getTime())) return "02 . 02 . 2028";
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
@@ -179,10 +179,10 @@ export default async function Home({ params, searchParams }: Props) {
     || (!isDefaultStorageUrl(dbData.project?.groom_photo_url) ? dbData.project?.groom_photo_url : null);
 
   return (
-    <main className="min-h-[100dvh] w-full flex flex-col md:flex-row bg-[#fffdf3] text-neutral-900 overflow-hidden relative font-gaegu">
+    <main className="min-h-[100dvh] w-full flex flex-col md:flex-row bg-[#FFFDF3] text-neutral-900 overflow-hidden relative font-brawford">
       
-      {/* Left side: Desktop Cover / Prewedding (Hidden on mobile) */}
-      <div className="hidden md:flex relative md:w-[58%] lg:w-[62%] md:h-[100dvh] items-center justify-center overflow-hidden bg-neutral-100 border-r border-neutral-200">
+      {/* Left side: Desktop Cover Mockup (Hidden on mobile) */}
+      <div className="hidden md:flex relative md:w-[58%] lg:w-[62%] md:h-[100dvh] items-center justify-center overflow-hidden bg-[#FAF7EE] border-r border-neutral-200 p-8">
         {userPhoto ? (
           <>
             <Image 
@@ -190,54 +190,47 @@ export default async function Home({ params, searchParams }: Props) {
               alt={`Prewedding ${groomNickname} & ${brideNickname}`} 
               fill 
               sizes="(max-width: 768px) 0vw, 62vw"
-              className="object-cover object-center brightness-[0.82] select-none"
+              className="object-cover object-center brightness-[0.85] select-none"
               draggable={false}
               priority
             />
-            <div className="absolute inset-0 bg-black/30 backdrop-blur-[0.5px]"></div>
+            <div className="absolute inset-0 bg-black/25 backdrop-blur-[0.5px]"></div>
           </>
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-[#fcfbf9] via-[#f7f4ed] to-[#ede7dc] flex flex-col items-center justify-center p-12">
-            {/* Subtle doodle rings in background */}
-            <div className="w-80 h-80 opacity-10 absolute pointer-events-none">
-              <img src={ASSETS.topRings} alt="Rings watermark" className="w-full h-full object-contain" />
-            </div>
-          </div>
-        )}
+        ) : null}
 
-        {/* Center Card / Typography Overlay */}
-        <div className="relative z-10 text-center px-8 py-10 rounded-3xl bg-white/90 backdrop-blur-md border-2 border-[#701020] shadow-2xl max-w-md mx-6">
-          <p className="font-beautylife text-2xl text-[#701020] mb-2 leading-tight">
+        {/* Center Smartphone Mockup Frame */}
+        <div className="relative z-10 text-center px-6 py-8 rounded-[36px] bg-[#FFFDF3] border-[2.5px] border-neutral-800 shadow-[0_20px_50px_rgba(0,0,0,0.12)] max-w-sm w-full mx-6 space-y-2">
+          <p className="font-beautylife text-2xl text-[#6C1420] leading-tight">
             you are invited to our wedding
           </p>
 
-          <div className="flex justify-center mb-2">
-            <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-10 h-auto object-contain" />
+          <div className="flex justify-center py-0.5">
+            <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-10 h-auto object-contain select-none" />
           </div>
 
-          <h1 className="font-beautylife text-5xl lg:text-6xl text-[#701020] leading-[1.1] mb-2">
+          <h1 className="font-beautylife text-5xl lg:text-6xl text-[#6C1420] leading-[1.08]">
             {brideNickname} &amp; <br />
             {groomNickname}
           </h1>
 
           {(brideFull || groomFull) && (
-            <p className="font-brawford text-base lg:text-lg text-[#701020] tracking-wide mb-1">
+            <p className="font-brawford text-base text-[#6C1420] tracking-wide pt-1">
               {brideFull} &amp; {groomFull}
             </p>
           )}
 
-          <div className="h-0.5 w-16 bg-[#701020] mx-auto my-3"></div>
+          <div className="h-0.5 w-12 bg-[#6C1420] mx-auto my-2 opacity-50"></div>
 
-          <p className="text-base font-brawford font-bold tracking-[0.2em] text-[#701020] uppercase">
+          <p className="text-sm font-brawford font-bold tracking-[0.25em] text-[#6C1420] uppercase">
             {formattedDate}
           </p>
 
-          {/* Cute Illustrated couple illustration in the card */}
-          <div className="mt-4 flex justify-center">
+          {/* Illustrated couple in heart */}
+          <div className="pt-2 flex justify-center">
             <img 
               src={ASSETS.couple} 
               alt="Illustrated Couple" 
-              className="w-56 h-auto max-h-[240px] object-contain select-none pointer-events-none"
+              className="w-56 h-auto max-h-[260px] object-contain select-none pointer-events-none drop-shadow-md"
             />
           </div>
         </div>

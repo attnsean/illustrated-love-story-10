@@ -35,74 +35,38 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
   const brideFull = project?.bride_name || "Annisa Rahmawati";
   const groomFull = project?.groom_name || "Firman Hidayat";
 
-  const defaultBrideFather = "Bpk. H. Rahmat Hidayat";
-  const defaultBrideMother = "Ibu Hj. Siti Aminah";
-  const defaultGroomFather = "Bpk. H. Mansur Hidayat";
-  const defaultGroomMother = "Ibu Hj. Nurjanah";
-
-  const isDemo = !project || (!project.id && !project.project_name);
-  const brideFather = isDemo ? defaultBrideFather : ((project as any)?.bride_father?.trim() || "");
-  const brideMother = isDemo ? defaultBrideMother : ((project as any)?.bride_mother?.trim() || "");
-  const groomFather = isDemo ? defaultGroomFather : ((project as any)?.groom_father?.trim() || "");
-  const groomMother = isDemo ? defaultGroomMother : ((project as any)?.groom_mother?.trim() || "");
-
   // Event Info
   const mainEvent = events && events.length > 0 ? events[0] : null;
-  const weddingDateRaw = mainEvent?.event_date || project?.wedding_date || (project?.countdown_target ? project.countdown_target.split("T")[0] : null);
+  const weddingDateRaw = mainEvent?.event_date || project?.wedding_date || "2028-02-02";
   
   const formatDateDisplay = (dateStr?: string | null) => {
-    if (!dateStr) return "02.02.2028";
+    if (!dateStr) return "02 . 02 . 2028";
     try {
       const parts = dateStr.split("-");
       if (parts.length === 3) {
-        return `${parts[2]}.${parts[1]}.${parts[0]}`;
+        return `${parts[2]} . ${parts[1]} . ${parts[0]}`;
       }
       const d = new Date(dateStr);
       const dd = String(d.getDate()).padStart(2, "0");
       const mm = String(d.getMonth() + 1).padStart(2, "0");
       const yyyy = d.getFullYear();
-      return `${dd}.${mm}.${yyyy}`;
+      return `${dd} . ${mm} . ${yyyy}`;
     } catch {
-      return "02.02.2028";
+      return "02 . 02 . 2028";
     }
   };
   const formattedDate = formatDateDisplay(weddingDateRaw);
 
-  const formatEventTimeDisplay = (timeStr?: string | null, endTimeStr?: string | null) => {
+  const formatEventTimeDisplay = (timeStr?: string | null) => {
     if (!timeStr || !timeStr.trim()) return "15:00";
     const trimmed = timeStr.trim();
-    if (/WIB|WITA|WIT|selesai|-/i.test(trimmed)) {
-      return trimmed;
-    }
     const cleanTime = trimmed.includes(".") ? trimmed.replace(".", ":") : trimmed;
-    const base = cleanTime.length >= 5 ? cleanTime.slice(0, 5) : cleanTime;
-    if (endTimeStr && endTimeStr.trim()) {
-      const endTrimmed = endTimeStr.trim();
-      const endClean = endTrimmed.includes(".") ? endTrimmed.replace(".", ":") : endTrimmed;
-      const endBase = endClean.length >= 5 ? endClean.slice(0, 5) : endClean;
-      return `${base} - ${endBase}`;
-    }
-    return base;
+    return cleanTime.length >= 5 ? cleanTime.slice(0, 5) : cleanTime;
   };
+  const formattedTime = formatEventTimeDisplay(mainEvent?.event_time || (project as any)?.wedding_time || "15:00");
 
-  const extractTime = () => {
-    if (mainEvent?.event_time) {
-      return formatEventTimeDisplay(mainEvent.event_time, mainEvent.end_time);
-    }
-    if ((project as any)?.wedding_time) {
-      return formatEventTimeDisplay((project as any).wedding_time);
-    }
-    if (project?.countdown_target && project.countdown_target.includes("T")) {
-      const timePart = project.countdown_target.split("T")[1];
-      if (timePart) return formatEventTimeDisplay(timePart);
-    }
-    return "15:00";
-  };
-  const formattedTime = extractTime();
-
-  const venueName = mainEvent?.venue_name || (project as any)?.venue_name || "VILLA DAGO";
-  const venueAddress = mainEvent?.venue_address || (project as any)?.venue_address || "Jl. Dago Pakar Permai No. 1, Bandung";
-  const mapsUrl = mainEvent?.venue_maps_url || (project as any)?.venue_maps_url || "https://maps.google.com";
+  const venueName = mainEvent?.venue_name || (project as any)?.venue_name || "Villa Dago";
+  const mapsUrl = mainEvent?.venue_maps_url || (project as any)?.venue_maps_url || "https://maps.google.com/?q=Villa+Dago+Bandung";
 
   // Story Milestones
   const rawDbStories = (project as any)?.love_story_items || (project as any)?.wedding_stories;
@@ -153,7 +117,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
 
   const brideBank = paymentAccounts[0]
     ? {
-        bank_name: paymentAccounts[0].provider || paymentAccounts[0].bank_name || "BCA",
+        bank_name: paymentAccounts[0].bank || paymentAccounts[0].bank_name || "BCA",
         account_number: paymentAccounts[0].account_number || "777555231",
         owner_name: paymentAccounts[0].account_name || paymentAccounts[0].owner_name || "ANNISA",
         nickname: "ANNISA",
@@ -167,7 +131,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
 
   const groomBank = paymentAccounts[1]
     ? {
-        bank_name: paymentAccounts[1].provider || paymentAccounts[1].bank_name || "BCA",
+        bank_name: paymentAccounts[1].bank || paymentAccounts[1].bank_name || "BCA",
         account_number: paymentAccounts[1].account_number || "777555333",
         owner_name: paymentAccounts[1].account_name || paymentAccounts[1].owner_name || "FIRMAN",
         nickname: "FIRMAN",
@@ -190,6 +154,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
   );
   const [rsvpName, setRsvpName] = useState(isGuestLocked ? guestName : "");
   const [rsvpEmail, setRsvpEmail] = useState(guest?.email || "");
+  const [rsvpPhone, setRsvpPhone] = useState(guest?.phone || "");
   const [rsvpStatus, setRsvpStatus] = useState<string>(
     existingRsvp ? (isDeclined(existingRsvp.attendance) ? "not_attending" : "attending") : "attending"
   );
@@ -311,6 +276,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           name: rsvpName,
           guest_name: rsvpName,
           email: rsvpEmail,
+          phone: rsvpPhone,
           status: rsvpStatus === "attending" ? "hadir" : "tidak_hadir",
           attendance: rsvpStatus === "attending" ? "hadir" : "tidak_hadir",
           pax: guestCount,
@@ -372,7 +338,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
   };
 
   return (
-    <div className={`relative w-full md:w-[42%] lg:w-[38%] ${isOpened ? "min-h-[100dvh] md:h-[100dvh] md:overflow-y-auto md:overflow-x-hidden" : "h-[100dvh] max-h-[100dvh] overflow-hidden overscroll-none touch-none"} bg-[#FAF7F2] text-neutral-900 border-l border-neutral-200 shadow-2xl flex-shrink-0 font-gaegu`}>
+    <div className={`relative w-full md:w-[42%] lg:w-[38%] ${isOpened ? "min-h-[100dvh] md:h-[100dvh] md:overflow-y-auto md:overflow-x-hidden" : "h-[100dvh] max-h-[100dvh] overflow-hidden overscroll-none touch-none"} bg-[#FFFDF3] text-neutral-900 border-l border-neutral-200 shadow-2xl flex-shrink-0 font-brawford`}>
       {/* Audio Element */}
       <audio 
         ref={audioRef} 
@@ -392,7 +358,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           e.stopPropagation();
           toggleMusic(e);
         }}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-white/95 backdrop-blur-md rounded-full shadow-lg border border-neutral-300 flex items-center justify-center text-neutral-900 transition-all hover:bg-[#701020] hover:text-white group cursor-pointer"
+        className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-white/95 backdrop-blur-md rounded-full shadow-lg border border-neutral-300 flex items-center justify-center text-neutral-900 transition-all hover:bg-[#6C1420] hover:text-white group cursor-pointer"
         title={isPlaying ? "Jeda Musik" : "Putar Musik"}
       >
         {isPlaying ? (
@@ -420,7 +386,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[#701020] text-white px-5 py-2.5 rounded-full shadow-2xl font-gaegu text-sm font-bold flex items-center gap-2 border border-white/20 select-none"
+            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-[#6C1420] text-white px-5 py-2.5 rounded-full shadow-2xl font-brawford text-sm font-bold flex items-center gap-2 border border-white/20 select-none"
           >
             <span className="text-emerald-300">✓</span>
             <span>{copiedText} berhasil disalin!</span>
@@ -436,21 +402,21 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             initial={{ opacity: 1, y: 0 }}
             exit={{ y: "-100%", opacity: 0 }}
             transition={{ duration: 0.85, ease: [0.65, 0, 0.35, 1] }}
-            className="fixed md:absolute inset-0 z-50 h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between items-center text-center px-4 sm:px-6 py-4 overflow-hidden select-none bg-[#FAF7F2]"
+            className="fixed md:absolute inset-0 z-50 h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between items-center text-center px-4 sm:px-6 py-5 overflow-hidden select-none bg-[#FFFDF3]"
           >
             {/* Top Text & Ribbon */}
-            <div className="relative z-10 pt-2 space-y-1 shrink-0">
-              <p className="font-beautylife text-2xl sm:text-3xl text-[#701020] leading-tight">
+            <div className="relative z-10 pt-2 space-y-1.5 shrink-0">
+              <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
                 you are invited to our wedding
               </p>
-              <div className="flex justify-center py-1">
+              <div className="flex justify-center py-0.5">
                 <img
                   src={ASSETS.bowRibbon}
                   alt="Bow Ribbon"
-                  className="w-10 sm:w-12 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
+                  className="w-10 sm:w-11 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
               </div>
-              <h1 className="font-beautylife text-5xl sm:text-6xl text-[#701020] leading-[1.1] my-1">
+              <h1 className="font-beautylife text-5xl sm:text-6xl text-[#6C1420] leading-[1.08] my-1">
                 {brideNickname} &amp; <br />
                 {groomNickname}
               </h1>
@@ -459,7 +425,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             {/* Center: Couple Illustration */}
             <div className="relative z-10 my-auto flex-1 min-h-0 w-full max-w-sm flex flex-col items-center justify-center py-2 px-2 overflow-hidden">
               {coverPhoto ? (
-                <div className="relative flex-1 min-h-0 max-h-[46vh] aspect-[4/5] rounded-2xl overflow-hidden border-2 border-[#701020] shadow-xl bg-white p-1.5 flex items-center justify-center">
+                <div className="relative flex-1 min-h-0 max-h-[46vh] aspect-[4/5] rounded-2xl overflow-hidden border-2 border-[#6C1420] shadow-xl bg-white p-1.5 flex items-center justify-center">
                   <img src={coverPhoto} alt="Cover Photo" className="w-full h-full object-cover rounded-xl" />
                 </div>
               ) : (
@@ -478,12 +444,12 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             </div>
 
             {/* Bottom: Guest Greeting & Button */}
-            <div className="relative z-10 w-full max-w-[300px] space-y-3 pb-2 shrink-0 mx-auto">
+            <div className="relative z-10 w-full max-w-[300px] space-y-3 pb-3 shrink-0 mx-auto">
               <div className="bg-white/90 backdrop-blur-md rounded-2xl border border-neutral-300 p-3 shadow-sm space-y-1">
-                <p className="font-erabura font-bold text-xs text-neutral-600 uppercase tracking-wider">
+                <p className="font-brawford font-bold text-xs text-neutral-600 uppercase tracking-wider">
                   Kepada Yth. Bapak/Ibu/Saudara/i:
                 </p>
-                <p className="font-brawford font-bold text-xl sm:text-2xl text-[#701020] tracking-wide truncate">
+                <p className="font-brawford font-bold text-xl sm:text-2xl text-[#6C1420] tracking-wide truncate">
                   {formatHonorific(guestName)}
                 </p>
               </div>
@@ -493,7 +459,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                 whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={handleOpenInvitation}
-                className="w-full py-3 px-6 bg-[#6B1020] hover:bg-[#58111A] text-white rounded-full font-erabura font-bold text-sm tracking-widest uppercase shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
+                className="w-full py-3.5 px-6 bg-[#6C1420] hover:bg-[#58111A] text-white rounded-full font-brawford font-bold text-sm tracking-widest uppercase shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
                 <span>BUKA UNDANGAN</span>
               </motion.button>
@@ -503,7 +469,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
       </AnimatePresence>
 
       {/* MAIN INVITATION STRIP (Scrollable after opening) */}
-      <div className="relative max-w-md mx-auto px-5 py-8 space-y-14 z-10">
+      <div className="relative max-w-md mx-auto px-5 py-8 space-y-16 z-10">
 
         {/* SECTION 1: HERO / COUPLE */}
         <motion.section 
@@ -513,7 +479,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center space-y-3 pt-2"
         >
-          <p className="font-beautylife text-2xl sm:text-3xl text-[#701020] leading-tight">
+          <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
             you are invited to our wedding
           </p>
 
@@ -521,34 +487,16 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             <img 
               src={ASSETS.bowRibbon} 
               alt="Bow Ribbon" 
-              className="w-12 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
+              className="w-11 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
             />
           </div>
 
-          <h1 className="font-beautylife text-5xl sm:text-6xl text-[#701020] leading-[1.1]">
+          <h1 className="font-beautylife text-5xl sm:text-6xl text-[#6C1420] leading-[1.08]">
             {brideNickname} &amp; <br />
             {groomNickname}
           </h1>
 
-          {(brideFull || groomFull) && (
-            <div className="mt-2 space-y-0.5">
-              <p className="font-brawford text-xl sm:text-2xl text-[#701020] tracking-wide">
-                {brideFull} &amp; {groomFull}
-              </p>
-              {Boolean(brideFather || brideMother) && (
-                <p className="font-gaegu text-xs sm:text-sm text-neutral-600">
-                  Putri dari {formatHonorific(brideFather, "Bpk.")}{Boolean(brideFather && brideMother) ? " & " : ""}{formatHonorific(brideMother, "Ibu")}
-                </p>
-              )}
-              {Boolean(groomFather || groomMother) && (
-                <p className="font-gaegu text-xs sm:text-sm text-neutral-600">
-                  Putra dari {formatHonorific(groomFather, "Bpk.")}{Boolean(groomFather && groomMother) ? " & " : ""}{formatHonorific(groomMother, "Ibu")}
-                </p>
-              )}
-            </div>
-          )}
-
-          <div className="pt-3 flex justify-center">
+          <div className="pt-4 flex justify-center">
             <motion.img 
               animate={{ y: [0, -6, 0] }}
               transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut" }}
@@ -567,7 +515,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           transition={{ duration: 0.7 }}
           className="text-center space-y-4 pt-4"
         >
-          <p className="font-beautylife text-2xl sm:text-3xl text-[#701020] leading-tight">
+          <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
             the details of our big day
           </p>
 
@@ -591,13 +539,13 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             <div className="flex items-center justify-center gap-6 pt-1">
               <div className="flex items-center gap-2">
                 <img src={ASSETS.clockIcon} alt="Clock" className="w-5 sm:w-6 h-auto object-contain" />
-                <span className="font-brawford text-xl sm:text-2xl font-bold text-[#701020] tracking-wide">
+                <span className="font-brawford text-xl sm:text-2xl font-bold text-[#6C1420] tracking-wide">
                   {formattedTime}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <img src={ASSETS.pinIcon} alt="Pin" className="w-5 sm:w-6 h-auto object-contain" />
-                <span className="font-brawford text-xl sm:text-2xl font-bold text-[#701020] tracking-wide uppercase">
+                <span className="font-brawford text-xl sm:text-2xl font-bold text-[#6C1420] tracking-wide uppercase">
                   {venueName}
                 </span>
               </div>
@@ -626,7 +574,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           transition={{ duration: 0.7 }}
           className="text-center space-y-4 pt-4"
         >
-          <p className="font-beautylife text-2xl sm:text-3xl text-[#701020] leading-tight px-4">
+          <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight px-4">
             a journey of a thousand miles begins with a single step.
           </p>
 
@@ -667,17 +615,17 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                     <div className="w-[45%] text-right pr-2">
                       {!isEven ? (
                         <div className="space-y-1">
-                          <h4 className="font-gaegu font-bold text-base text-neutral-900 leading-tight">
+                          <h4 className="font-brawford font-bold text-base text-[#6C1420] leading-tight">
                             {item.title}
                           </h4>
-                          <p className="font-gaegu text-xs text-neutral-700 leading-relaxed">
+                          <p className="font-brawford text-xs text-[#6C1420] leading-relaxed">
                             {item.story || item.desc || item.description}
                           </p>
                         </div>
                       ) : (
                         <div className="flex flex-col items-end">
                           <img src={iconSrc} alt="Milestone Icon" className="w-14 h-14 object-contain" />
-                          <span className="font-brawford text-3xl sm:text-4xl font-bold text-[#0E4D2B] block tracking-wide mt-1">
+                          <span className="font-brawford text-3xl sm:text-4xl font-bold text-[#014F2E] block tracking-wide mt-1">
                             {item.year}
                           </span>
                         </div>
@@ -690,17 +638,17 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                     <div className="w-[45%] text-left pl-2">
                       {isEven ? (
                         <div className="space-y-1">
-                          <h4 className="font-gaegu font-bold text-base text-neutral-900 leading-tight">
+                          <h4 className="font-brawford font-bold text-base text-[#6C1420] leading-tight">
                             {item.title}
                           </h4>
-                          <p className="font-gaegu text-xs text-neutral-700 leading-relaxed">
+                          <p className="font-brawford text-xs text-[#6C1420] leading-relaxed">
                             {item.story || item.desc || item.description}
                           </p>
                         </div>
                       ) : (
                         <div className="flex flex-col items-start">
                           <img src={iconSrc} alt="Milestone Icon" className="w-14 h-14 object-contain" />
-                          <span className="font-brawford text-3xl sm:text-4xl font-bold text-[#0E4D2B] block tracking-wide mt-1">
+                          <span className="font-brawford text-3xl sm:text-4xl font-bold text-[#014F2E] block tracking-wide mt-1">
                             {item.year}
                           </span>
                         </div>
@@ -721,7 +669,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           transition={{ duration: 0.7 }}
           className="text-center space-y-4 pt-4"
         >
-          <p className="font-beautylife text-lg sm:text-xl text-[#701020] leading-tight max-w-xs mx-auto px-2">
+          <p className="font-beautylife text-lg sm:text-xl text-[#6C1420] leading-tight max-w-xs mx-auto px-2">
             to maintain the harmony of our wedding theme, we kindly request our guests to wear
           </p>
 
@@ -742,12 +690,12 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
 
           <div className="pt-1 space-y-2">
-            <p className="font-gaegu font-bold text-lg text-[#701020] tracking-wide">
+            <p className="font-brawford font-bold text-xl text-[#6C1420] tracking-wide">
               Monocrome
             </p>
             <div className="flex items-center justify-center gap-4">
-              <div className="w-9 h-9 rounded-full bg-black shadow-md border border-neutral-700"></div>
-              <div className="w-9 h-9 rounded-full bg-white shadow-md border border-neutral-300"></div>
+              <div className="w-8 h-8 rounded-full bg-black shadow-md border border-neutral-700"></div>
+              <div className="w-8 h-8 rounded-full bg-white shadow-md border border-neutral-300"></div>
             </div>
           </div>
         </motion.section>
@@ -761,8 +709,8 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             transition={{ duration: 0.7 }}
             className="text-center space-y-4 pt-4"
           >
-            <p className="font-beautylife text-base sm:text-lg text-[#701020] leading-relaxed max-w-sm mx-auto px-4">
-              your presence is the greatest gift of all. However, if you are unable to attend and would like to send us your wishes in the form of a gift, please use the account details below.
+            <p className="font-beautylife text-base sm:text-lg text-[#6C1420] leading-relaxed max-w-sm mx-auto px-4">
+              your presence is the greatest gift of all. However, if you are unable to attend and would like to send us your wishes in the form of a gift, please use the account details below:
             </p>
 
             <div className="flex justify-center">
@@ -777,22 +725,22 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               {/* Card 1: Annisa */}
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                className="bg-[#6B1020] text-white p-5 rounded-2xl shadow-lg relative text-left overflow-hidden"
+                className="bg-[#6C1420] text-white p-5 rounded-2xl shadow-lg relative text-left overflow-hidden border border-[#58111A]"
               >
                 <div className="flex justify-between items-start">
-                  <span className="font-bold text-2xl tracking-wider font-sans">{brideBank.bank_name}</span>
+                  <span className="font-bold text-2xl tracking-wider font-brawford text-[#F2F2F2]">{brideBank.bank_name}</span>
                   <div className="w-10 h-8 rounded-md bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 border border-amber-200/80 shadow-inner flex items-center justify-center opacity-95">
                     <div className="w-7 h-5 border border-amber-600/40 rounded grid grid-cols-2"></div>
                   </div>
                 </div>
                 <div className="mt-6 space-y-0.5">
-                  <p className="font-brawford text-lg font-bold tracking-wider uppercase">{brideBank.owner_name}</p>
-                  <p className="font-mono text-xl tracking-widest font-semibold">{brideBank.account_number}</p>
+                  <p className="font-brawford text-lg font-bold tracking-wider uppercase text-[#F2F2F2]">{brideBank.owner_name}</p>
+                  <p className="font-mono text-xl tracking-widest font-semibold text-[#F2F2F2]">{brideBank.account_number}</p>
                 </div>
                 <button 
                   type="button" 
                   onClick={() => copyToClipboard(brideBank.account_number, `BCA ${brideBank.nickname}`)}
-                  className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-gaegu font-bold tracking-wider uppercase transition-colors cursor-pointer"
+                  className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-brawford font-bold tracking-wider uppercase transition-colors cursor-pointer"
                 >
                   SALIN REKENING
                 </button>
@@ -801,32 +749,32 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               {/* Card 2: Firman */}
               <motion.div 
                 whileHover={{ scale: 1.02 }}
-                className="bg-[#6B1020] text-white p-5 rounded-2xl shadow-lg relative text-left overflow-hidden"
+                className="bg-[#6C1420] text-white p-5 rounded-2xl shadow-lg relative text-left overflow-hidden border border-[#58111A]"
               >
                 <div className="flex justify-between items-start">
-                  <span className="font-bold text-2xl tracking-wider font-sans">{groomBank.bank_name}</span>
+                  <span className="font-bold text-2xl tracking-wider font-brawford text-[#F2F2F2]">{groomBank.bank_name}</span>
                   <div className="w-10 h-8 rounded-md bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 border border-amber-200/80 shadow-inner flex items-center justify-center opacity-95">
                     <div className="w-7 h-5 border border-amber-600/40 rounded grid grid-cols-2"></div>
                   </div>
                 </div>
                 <div className="mt-6 space-y-0.5">
-                  <p className="font-brawford text-lg font-bold tracking-wider uppercase">{groomBank.owner_name}</p>
-                  <p className="font-mono text-xl tracking-widest font-semibold">{groomBank.account_number}</p>
+                  <p className="font-brawford text-lg font-bold tracking-wider uppercase text-[#F2F2F2]">{groomBank.owner_name}</p>
+                  <p className="font-mono text-xl tracking-widest font-semibold text-[#F2F2F2]">{groomBank.account_number}</p>
                 </div>
                 <button 
                   type="button" 
                   onClick={() => copyToClipboard(groomBank.account_number, `BCA ${groomBank.nickname}`)}
-                  className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-gaegu font-bold tracking-wider uppercase transition-colors cursor-pointer"
+                  className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-brawford font-bold tracking-wider uppercase transition-colors cursor-pointer"
                 >
                   SALIN REKENING
                 </button>
               </motion.div>
             </div>
 
-            <div className="text-center font-gaegu text-[#701020] space-y-0.5 pt-3 max-w-xs mx-auto">
+            <div className="text-center font-brawford text-[#C82127] space-y-0.5 pt-3 max-w-xs mx-auto">
               <p className="text-lg font-bold">#Note:</p>
               <p className="text-xs font-bold leading-snug">Before making Transfer/Shipment, please note:</p>
-              <p className="text-xs font-bold leading-snug">- Bank Name, Recipient Name are already in accordance with the couple's names</p>
+              <p className="text-xs font-bold leading-snug">- Bank Name, Recipient Name are already in accordance with the couple&apos;s names</p>
               <p className="text-xs font-bold leading-snug">- Confirm the gift shipment via personal chat to the couple</p>
             </div>
           </motion.section>
@@ -840,7 +788,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           transition={{ duration: 0.7 }}
           className="text-center space-y-4 pt-4"
         >
-          <p className="font-beautylife text-2xl sm:text-3xl text-[#701020] leading-tight px-4">
+          <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight px-4">
             your presence is our greatest honor
           </p>
 
@@ -853,126 +801,137 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
 
           {hasSubmittedRsvp ? (
-            <div className="bg-white/95 border-2 border-[#701020] rounded-3xl p-6 shadow-sm max-w-sm mx-auto text-center space-y-3.5 my-2">
+            <div className="bg-white/95 border-2 border-[#6C1420] rounded-3xl p-6 shadow-sm max-w-sm mx-auto text-center space-y-3.5 my-2">
               <div className="w-12 h-12 bg-emerald-50 border-2 border-emerald-500 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
                 ✓
               </div>
-              <h4 className="font-gaegu font-bold text-2xl text-neutral-900 leading-tight">
+              <h4 className="font-brawford font-bold text-2xl text-neutral-900 leading-tight">
                 Konfirmasi Kehadiran Tersimpan
               </h4>
-              <p className="font-gaegu text-sm text-neutral-600">
+              <p className="font-brawford text-sm text-neutral-600">
                 Halo <strong>{rsvpName || guestName}</strong>, konfirmasi kehadiran Anda telah tercatat. Terima kasih!
               </p>
             </div>
           ) : (
             <form onSubmit={handleRsvpSubmit} className="space-y-4 pt-2 text-left max-w-sm mx-auto">
+              {/* Field 1: Guest Identity */}
               <div>
-                <label className="block text-sm font-gaegu font-bold text-[#701020] mb-1 ml-3">
+                <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
                   Guest Identity
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={isGuestLocked ? guestName : rsvpName}
-                  onChange={(e) => {
-                    if (!isGuestLocked) setRsvpName(e.target.value);
-                  }}
-                  readOnly={isGuestLocked}
-                  placeholder="Guest Name"
-                  className="w-full border-2 border-[#701020] rounded-full px-5 py-2.5 font-gaegu text-base text-neutral-900 placeholder:text-neutral-400 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#701020]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-gaegu font-bold text-[#701020] mb-1 ml-3">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  value={rsvpEmail}
-                  onChange={(e) => setRsvpEmail(e.target.value)}
-                  placeholder="To Receive your digital invitation"
-                  className="w-full border-2 border-[#701020] rounded-full px-5 py-2.5 font-gaegu text-base text-neutral-900 placeholder:text-neutral-400 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#701020]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-gaegu font-bold text-[#701020] mb-1 ml-3">
-                  WhatsApp Number
-                </label>
-                <input
-                  type="tel"
-                  placeholder="Example: 081955562"
-                  className="w-full border-2 border-[#701020] rounded-full px-5 py-2.5 font-gaegu text-base text-neutral-900 placeholder:text-neutral-400 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#701020]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-gaegu font-bold text-[#701020] mb-1 ml-3">
-                  Confirmation
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setRsvpStatus("attending");
-                      setWillBeThere("yes");
+                <div className="relative w-full h-[52px] flex items-center">
+                  <img src={ASSETS.inputBorder} alt="" className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none" />
+                  <input
+                    type="text"
+                    required
+                    value={isGuestLocked ? guestName : rsvpName}
+                    onChange={(e) => {
+                      if (!isGuestLocked) setRsvpName(e.target.value);
                     }}
-                    className={`py-2 px-4 rounded-full font-gaegu font-bold text-sm border-2 border-[#701020] transition-all cursor-pointer ${
-                      rsvpStatus === "attending" ? "bg-[#701020] text-white shadow-sm" : "bg-white/70 text-[#701020]"
-                    }`}
-                  >
-                    ✓ Hadir (Yes!)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setRsvpStatus("not_attending");
-                      setWillBeThere("no");
-                    }}
-                    className={`py-2 px-4 rounded-full font-gaegu font-bold text-sm border-2 border-[#701020] transition-all cursor-pointer ${
-                      rsvpStatus === "not_attending" ? "bg-[#701020] text-white shadow-sm" : "bg-white/70 text-[#701020]"
-                    }`}
-                  >
-                    ✕ Tidak Hadir
-                  </button>
+                    readOnly={isGuestLocked}
+                    placeholder="Guest Name"
+                    className="relative z-10 w-full h-full bg-transparent px-6 font-brawford text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
+                  />
                 </div>
               </div>
 
+              {/* Field 2: Email Address */}
               <div>
-                <label className="block text-sm font-gaegu font-bold text-[#701020] mb-1 ml-3">
-                  Total Persons
+                <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+                  Email Address
                 </label>
-                <div className="relative">
+                <div className="relative w-full h-[52px] flex items-center">
+                  <img src={ASSETS.inputBorder} alt="" className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none" />
+                  <input
+                    type="email"
+                    value={rsvpEmail}
+                    onChange={(e) => setRsvpEmail(e.target.value)}
+                    placeholder="To Receive your digital invitation"
+                    className="relative z-10 w-full h-full bg-transparent px-6 font-brawford text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Field 3: WhatsApp Number */}
+              <div>
+                <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+                  WhatsApp Number
+                </label>
+                <div className="relative w-full h-[52px] flex items-center">
+                  <img src={ASSETS.inputBorder} alt="" className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none" />
+                  <input
+                    type="tel"
+                    value={rsvpPhone}
+                    onChange={(e) => setRsvpPhone(e.target.value)}
+                    placeholder="Example: 081955562"
+                    className="relative z-10 w-full h-full bg-transparent px-6 font-brawford text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Field 4: Confirmation */}
+              <div>
+                <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+                  Confirmation
+                </label>
+                <div className="relative w-full h-[52px] flex items-center">
+                  <img src={ASSETS.inputBorder} alt="" className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none" />
                   <select
-                    value={guestCount}
-                    onChange={(e) => setGuestCount(Number(e.target.value))}
-                    className="w-full appearance-none border-2 border-[#701020] rounded-full pl-5 pr-11 py-2.5 font-gaegu text-base font-bold text-neutral-900 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#701020] cursor-pointer"
+                    value={rsvpStatus}
+                    onChange={(e) => setRsvpStatus(e.target.value)}
+                    className="relative z-10 w-full h-full bg-transparent appearance-none pl-6 pr-10 font-brawford text-base font-bold text-[#6C1420] focus:outline-none cursor-pointer"
                   >
-                    <option value={1}>1 GUEST</option>
-                    <option value={2}>2 GUESTS</option>
-                    <option value={3}>3 GUESTS</option>
+                    <option value="attending" className="bg-white text-neutral-900">Hadir (Attend)</option>
+                    <option value="not_attending" className="bg-white text-neutral-900">Tidak Hadir (Decline)</option>
                   </select>
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#701020]">
+                  <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-[#6C1420] text-xs font-bold">
                     ▼
                   </div>
                 </div>
               </div>
 
-              <div className="pt-2 flex justify-center">
+              {/* Field 5: Total Persons */}
+              <div>
+                <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+                  Total Persons
+                </label>
+                <div className="relative w-full h-[52px] flex items-center justify-between px-6">
+                  <img src={ASSETS.inputBorder} alt="" className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none" />
+                  <button
+                    type="button"
+                    onClick={() => setGuestCount(Math.max(1, guestCount - 1))}
+                    className="relative z-10 w-8 h-8 rounded-full text-2xl font-bold font-brawford text-[#6C1420] hover:bg-[#6C1420]/10 flex items-center justify-center transition-colors cursor-pointer select-none"
+                  >
+                    -
+                  </button>
+                  <span className="relative z-10 font-brawford font-bold text-base text-[#6C1420] tracking-wider select-none">
+                    {guestCount} {guestCount > 1 ? "GUESTS" : "GUEST"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setGuestCount(Math.min(10, guestCount + 1))}
+                    className="relative z-10 w-8 h-8 rounded-full text-2xl font-bold font-brawford text-[#6C1420] hover:bg-[#6C1420]/10 flex items-center justify-center transition-colors cursor-pointer select-none"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* Submit Button using Asset 10-21.png */}
+              <div className="pt-3 flex justify-center">
                 <motion.button
                   type="submit"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   disabled={rsvpSubmitting}
-                  className="w-full py-3 bg-[#6B1020] hover:bg-[#58111A] text-white font-erabura font-bold text-sm sm:text-base tracking-widest rounded-full shadow-lg transition-all uppercase select-none disabled:opacity-60 cursor-pointer"
+                  className="relative w-full max-w-[320px] mx-auto h-[52px] block transition-transform cursor-pointer drop-shadow-md disabled:opacity-60"
                 >
-                  {rsvpSubmitting ? "Menyimpan..." : "CONFIRM PRESENCE"}
+                  <img src={ASSETS.btnConfirmPresence} alt="CONFIRM PRESENCE" className="w-full h-full object-contain" />
                 </motion.button>
               </div>
 
               {rsvpSuccess && (
-                <div className="text-center text-xs font-gaegu font-bold text-emerald-600 bg-emerald-50 py-2 rounded-xl border border-emerald-200 mt-2">
+                <div className="text-center text-xs font-brawford font-bold text-emerald-600 bg-emerald-50 py-2 rounded-xl border border-emerald-200 mt-2">
                   Terima kasih! Konfirmasi kehadiran Anda telah tersimpan.
                 </div>
               )}
@@ -988,7 +947,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           transition={{ duration: 0.7 }}
           className="text-center space-y-4 pt-4"
         >
-          <p className="font-beautylife text-2xl sm:text-3xl text-[#701020] leading-tight px-4">
+          <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight px-4">
             leave your warmest words for the beginning of our new chapter.
           </p>
 
@@ -1001,50 +960,56 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
 
           <form onSubmit={handleWishSubmit} className="space-y-4 pt-2 text-left max-w-sm mx-auto">
+            {/* Name Input */}
             <div>
-              <label className="block text-sm font-gaegu font-bold text-[#701020] mb-1 ml-3">
+              <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
                 Name
               </label>
-              <input
-                type="text"
-                required
-                value={wishName}
-                onChange={(e) => setWishName(e.target.value)}
-                placeholder="Your Name"
-                className="w-full border-2 border-[#701020] rounded-full px-5 py-2.5 font-gaegu text-base text-neutral-900 placeholder:text-neutral-400 bg-white/70 focus:outline-none focus:ring-2 focus:ring-[#701020]"
-              />
-            </div>
-
-            <div className="relative">
-              <label className="block text-sm font-gaegu font-bold text-[#701020] mb-1 ml-3">
-                Prayers &amp; Wishes
-              </label>
-              <div className="relative rounded-[30px] border-2 border-[#701020] bg-white/80 p-4 shadow-sm">
-                <textarea
+              <div className="relative w-full h-[52px] flex items-center">
+                <img src={ASSETS.inputBorder} alt="" className="absolute inset-0 w-full h-full object-fill pointer-events-none select-none" />
+                <input
+                  type="text"
                   required
-                  rows={4}
-                  value={wishMessage}
-                  onChange={(e) => setWishMessage(e.target.value)}
-                  placeholder="Write your warmest wishes for the bride & groom..."
-                  className="w-full bg-transparent font-gaegu text-base text-neutral-900 placeholder:text-neutral-400 focus:outline-none resize-none leading-relaxed"
+                  value={wishName}
+                  onChange={(e) => setWishName(e.target.value)}
+                  placeholder="Your Name"
+                  className="relative z-10 w-full h-full bg-transparent px-6 font-brawford text-base text-[#6C1420] placeholder:text-[#5B5B5B] focus:outline-none"
                 />
               </div>
             </div>
 
+            {/* Prayers & Wishes inside Speech Bubble 10-23.png */}
+            <div>
+              <label className="block text-sm font-brawford font-bold text-[#6C1420] mb-1.5 ml-2">
+                Prayers &amp; Wishes
+              </label>
+              <div className="relative w-full max-w-[340px] mx-auto aspect-[4437/2717] flex items-center justify-center p-6">
+                <img src={ASSETS.bubbleContainer} alt="" className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none" />
+                <textarea
+                  required
+                  value={wishMessage}
+                  onChange={(e) => setWishMessage(e.target.value)}
+                  placeholder="Write your warmest wishes for the bride & groom..."
+                  className="relative z-10 w-[82%] h-[68%] bg-transparent font-brawford text-sm sm:text-base text-[#6C1420] placeholder:text-[#6C1420]/50 focus:outline-none resize-none leading-relaxed text-center flex items-center justify-center pt-4"
+                />
+              </div>
+            </div>
+
+            {/* Submit Button using Asset 10-22.png */}
             <div className="pt-2 flex justify-center">
               <motion.button
                 type="submit"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 disabled={wishSubmitting}
-                className="w-full py-3 bg-[#6B1020] hover:bg-[#58111A] text-white font-erabura font-bold text-sm sm:text-base tracking-widest rounded-full shadow-lg transition-all uppercase select-none disabled:opacity-60 cursor-pointer"
+                className="relative w-full max-w-[320px] mx-auto h-[52px] block transition-transform cursor-pointer drop-shadow-md disabled:opacity-60"
               >
-                {wishSubmitting ? "Mengirim..." : "SUBMIT BLESSING"}
+                <img src={ASSETS.btnSubmitBlessing} alt="SUBMIT BLESSING" className="w-full h-full object-contain" />
               </motion.button>
             </div>
 
             {wishSuccess && (
-              <div className="text-center text-xs font-gaegu font-bold text-emerald-600 bg-emerald-50 py-2 rounded-xl border border-emerald-200 mt-2">
+              <div className="text-center text-xs font-brawford font-bold text-emerald-600 bg-emerald-50 py-2 rounded-xl border border-emerald-200 mt-2">
                 Terima kasih atas doa dan ucapan hangatnya!
               </div>
             )}
@@ -1053,22 +1018,22 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           {/* Wishes List */}
           <div className="pt-6 space-y-3 max-w-sm mx-auto text-left">
             <div className="flex items-center justify-between px-2">
-              <span className="font-gaegu text-sm font-bold text-[#701020] uppercase tracking-widest">
+              <span className="font-brawford text-sm font-bold text-[#6C1420] uppercase tracking-widest">
                 Wishes Wall ({wishesList.length})
               </span>
-              <span className="text-[#701020] font-bold text-sm">♥ with love</span>
+              <span className="text-[#6C1420] font-bold text-sm">♥ with love</span>
             </div>
 
             <div className="space-y-3.5 max-h-[460px] overflow-y-auto p-1.5 pb-6 scrollbar-thin scrollbar-thumb-neutral-300 scrollbar-track-transparent">
               {wishesList.map((w, idx) => (
                 <div
                   key={w.id || idx}
-                  className="bg-white/90 border-2 border-[#701020]/25 rounded-2xl p-4 shadow-sm relative transition-all"
+                  className="bg-white/90 border-2 border-[#6C1420]/25 rounded-2xl p-4 shadow-sm relative transition-all"
                 >
-                  <h5 className="font-gaegu font-bold text-base text-neutral-900 mb-0.5">
+                  <h5 className="font-brawford font-bold text-base text-[#6C1420] mb-0.5">
                     {w.name}
                   </h5>
-                  <p className="font-gaegu text-sm text-neutral-700 leading-relaxed">
+                  <p className="font-brawford text-sm text-[#6C1420]/80 leading-relaxed">
                     {w.message}
                   </p>
                 </div>
@@ -1085,7 +1050,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           transition={{ duration: 0.7 }}
           className="text-center space-y-4 pt-4"
         >
-          <p className="font-beautylife text-2xl sm:text-3xl text-[#701020] leading-tight px-4">
+          <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight px-4">
             kindly let us know if you can join us
           </p>
 
@@ -1097,35 +1062,41 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             />
           </div>
 
-          <div className="text-center space-y-2 pt-2">
-            <h3 className="font-brawford text-[#701020] text-2xl font-bold tracking-wider">
+          <div className="text-center space-y-3 pt-2">
+            <h3 className="font-brawford text-[#6C1420] text-2xl font-bold tracking-wider">
               WILL YOU BE THERE?
             </h3>
-            <div className="inline-block text-left font-gaegu text-lg font-bold text-[#701020] space-y-1.5">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  checked={willBeThere === "yes"} 
-                  onChange={() => {
-                    setWillBeThere("yes");
-                    setRsvpStatus("attending");
-                  }} 
-                  className="accent-[#701020] w-5 h-5 rounded cursor-pointer" 
-                />
-                <span>Yes!</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  checked={willBeThere === "no"} 
-                  onChange={() => {
-                    setWillBeThere("no");
-                    setRsvpStatus("not_attending");
-                  }} 
-                  className="accent-[#701020] w-5 h-5 rounded cursor-pointer" 
-                />
-                <span>Sorry, cant make it</span>
-              </label>
+            <div className="inline-flex flex-col items-start font-brawford text-lg font-bold text-[#6C1420] space-y-2">
+              <button 
+                type="button"
+                onClick={() => {
+                  setWillBeThere("yes");
+                  setRsvpStatus("attending");
+                }}
+                className="flex items-center gap-3 cursor-pointer group"
+              >
+                <div className="w-5 h-5 rounded border-2 border-[#6C1420] flex items-center justify-center bg-white">
+                  {willBeThere === "yes" && (
+                    <span className="text-[#C82127] font-bold text-lg leading-none">✓</span>
+                  )}
+                </div>
+                <span className="group-hover:opacity-80 transition-opacity">Yes!</span>
+              </button>
+              <button 
+                type="button"
+                onClick={() => {
+                  setWillBeThere("no");
+                  setRsvpStatus("not_attending");
+                }}
+                className="flex items-center gap-3 cursor-pointer group"
+              >
+                <div className="w-5 h-5 rounded border-2 border-[#6C1420] flex items-center justify-center bg-white">
+                  {willBeThere === "no" && (
+                    <span className="text-[#C82127] font-bold text-lg leading-none">✓</span>
+                  )}
+                </div>
+                <span className="group-hover:opacity-80 transition-opacity">Sorry, cant make it</span>
+              </button>
             </div>
           </div>
 
@@ -1134,17 +1105,17 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             <img 
               src={ASSETS.tableBanquet} 
               alt="Banquet Dinner Table" 
-              className="w-full max-w-sm h-auto object-contain select-none pointer-events-none drop-shadow-xs" 
+              className="w-full max-w-[340px] sm:max-w-[360px] h-auto object-contain select-none pointer-events-none drop-shadow-xs" 
             />
           </div>
         </motion.section>
 
         {/* FOOTER */}
-        <footer className="text-center space-y-2 pt-6 pb-6 border-t border-[#701020]/20">
-          <p className="font-beautylife text-3xl text-[#701020]">
+        <footer className="text-center space-y-2 pt-6 pb-6 border-t border-[#6C1420]/20">
+          <p className="font-beautylife text-3xl text-[#6C1420]">
             {brideNickname} &amp; {groomNickname}
           </p>
-          <p className="font-gaegu text-xs text-neutral-500 tracking-wider">
+          <p className="font-brawford text-xs text-[#6C1420]/70 tracking-wider">
             Thank you for being part of our special love story.
           </p>
           <div className="pt-1">
@@ -1152,7 +1123,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               href="https://www.serastory.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-[11px] font-gaegu font-bold text-neutral-400 hover:text-neutral-700 transition-colors uppercase tracking-widest"
+              className="text-[11px] font-brawford font-bold text-[#6C1420]/50 hover:text-[#6C1420] transition-colors uppercase tracking-widest"
             >
               Crafted with ♥ by SERA STORY
             </a>
