@@ -410,18 +410,18 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
                 you are invited to our wedding
               </p>
-              <div className="flex justify-center py-0.5">
+              <div className="flex justify-center py-1">
                 <img
                   src={ASSETS.bowRibbon}
                   alt="Bow Ribbon"
-                  className="w-10 sm:w-11 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
+                  className="w-20 sm:w-24 h-auto object-contain select-none pointer-events-none drop-shadow-sm"
                 />
               </div>
               {/* Couple Name: Annisa (500pt ratio) & (330pt ratio) Firman (500pt ratio) in RT Brawford */}
-              <h1 className="text-[#6C1420] leading-[1.05] tracking-tight my-1">
-                <span className="font-brawford font-bold text-4xl sm:text-5xl block">{brideNickname}</span>
-                <span className="font-brawford font-normal text-2xl sm:text-3xl block my-0.5">&amp;</span>
-                <span className="font-brawford font-bold text-4xl sm:text-5xl block">{groomNickname}</span>
+              <h1 className="text-[#6C1420] leading-[0.95] tracking-tight my-1">
+                <span className="font-brawford font-bold text-5xl sm:text-6xl block">{brideNickname}</span>
+                <span className="font-brawford font-normal text-3xl sm:text-4xl block my-0.5">&amp;</span>
+                <span className="font-brawford font-bold text-5xl sm:text-6xl block">{groomNickname}</span>
               </h1>
             </div>
 
@@ -452,7 +452,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                 <p className="font-gaegu font-bold text-xs text-neutral-600 uppercase tracking-wider">
                   Kepada Yth. Bapak/Ibu/Saudara/i:
                 </p>
-                <p className="font-brawford font-bold text-xl sm:text-2xl text-[#6C1420] tracking-wide truncate">
+                <p className="font-gaegu font-bold text-2xl sm:text-3xl text-[#6C1420] tracking-wide truncate">
                   {formatHonorific(guestName)}
                 </p>
               </div>
@@ -462,7 +462,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                 whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={handleOpenInvitation}
-                className="w-full py-3.5 px-6 bg-[#6C1420] hover:bg-[#58111A] text-white rounded-full font-brawford font-bold text-sm tracking-widest uppercase shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
+                className="w-full py-3.5 px-6 bg-[#6C1420] hover:bg-[#58111A] text-white rounded-full font-gaegu font-bold text-xl tracking-wider uppercase shadow-lg flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
                 <span>BUKA UNDANGAN</span>
               </motion.button>
@@ -490,15 +490,15 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             <img 
               src={ASSETS.bowRibbon} 
               alt="Bow Ribbon" 
-              className="w-11 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
+              className="w-20 sm:w-24 h-auto object-contain select-none pointer-events-none drop-shadow-sm" 
             />
           </div>
 
           {/* Couple Name: Annisa (500pt ratio) & (330pt ratio) Firman (500pt ratio) in RT Brawford */}
-          <h1 className="text-[#6C1420] leading-[1.05] tracking-tight">
-            <span className="font-brawford font-bold text-4xl sm:text-5xl block">{brideNickname}</span>
-            <span className="font-brawford font-normal text-2xl sm:text-3xl block my-0.5">&amp;</span>
-            <span className="font-brawford font-bold text-4xl sm:text-5xl block">{groomNickname}</span>
+          <h1 className="text-[#6C1420] leading-[0.95] tracking-tight">
+            <span className="font-brawford font-bold text-5xl sm:text-6xl block">{brideNickname}</span>
+            <span className="font-brawford font-normal text-3xl sm:text-4xl block my-0.5">&amp;</span>
+            <span className="font-brawford font-bold text-5xl sm:text-6xl block">{groomNickname}</span>
           </h1>
 
           <div className="pt-4 flex justify-center">

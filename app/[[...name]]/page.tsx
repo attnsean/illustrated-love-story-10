@@ -204,14 +204,15 @@ export default async function Home({ params, searchParams }: Props) {
             you are invited to our wedding
           </p>
 
-          <div className="flex justify-center py-0.5">
-            <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-10 h-auto object-contain select-none" />
+          <div className="flex justify-center py-1">
+            <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-20 lg:w-24 h-auto object-contain select-none" />
           </div>
 
           {/* Couple Name in RT Brawford */}
-          <h1 className="font-brawford text-4xl lg:text-5xl text-[#6C1420] font-bold leading-[1.1]">
-            {brideNickname} &amp; <br />
-            {groomNickname}
+          <h1 className="text-[#6C1420] leading-[0.95] tracking-tight my-1">
+            <span className="font-brawford font-bold text-5xl lg:text-6xl block">{brideNickname}</span>
+            <span className="font-brawford font-normal text-3xl lg:text-4xl block my-0.5">&amp;</span>
+            <span className="font-brawford font-bold text-5xl lg:text-6xl block">{groomNickname}</span>
           </h1>
 
           {(brideFull || groomFull) && (
