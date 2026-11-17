@@ -206,30 +206,29 @@ export default async function Home({ params, searchParams }: Props) {
         )}
 
         {/* Center Card / Typography Overlay */}
-        <div className="relative z-10 text-center px-8 py-10 rounded-3xl bg-white/85 backdrop-blur-md border-2 border-neutral-900 shadow-2xl max-w-md mx-6">
-          <p className="text-xs uppercase font-erabura font-bold tracking-[0.25em] text-neutral-800 mb-2">
-            The Wedding Of
+        <div className="relative z-10 text-center px-8 py-10 rounded-3xl bg-white/90 backdrop-blur-md border-2 border-[#701020] shadow-2xl max-w-md mx-6">
+          <p className="font-beautylife text-2xl text-[#701020] mb-2 leading-tight">
+            you are invited to our wedding
           </p>
 
           <div className="flex justify-center mb-2">
-            <img src={ASSETS.topRings} alt="Rings" className="w-10 h-auto object-contain" />
+            <img src={ASSETS.bowRibbon} alt="Bow Ribbon" className="w-10 h-auto object-contain" />
           </div>
 
-          <h1 className="font-beautylife text-5xl lg:text-6xl text-[#6B1020] leading-tight mb-2">
-            {brideNickname} <br />
-            <span className="text-[#8B1D2C] font-beautylife text-4xl lg:text-5xl">&amp;</span> <br />
+          <h1 className="font-beautylife text-5xl lg:text-6xl text-[#701020] leading-[1.1] mb-2">
+            {brideNickname} &amp; <br />
             {groomNickname}
           </h1>
 
           {(brideFull || groomFull) && (
-            <p className="font-brawford text-base lg:text-lg text-neutral-700 tracking-wide mb-1">
+            <p className="font-brawford text-base lg:text-lg text-[#701020] tracking-wide mb-1">
               {brideFull} &amp; {groomFull}
             </p>
           )}
 
-          <div className="h-0.5 w-16 bg-[#6B1020] mx-auto my-3"></div>
+          <div className="h-0.5 w-16 bg-[#701020] mx-auto my-3"></div>
 
-          <p className="text-base font-erabura font-bold tracking-[0.3em] text-[#6B1020] uppercase">
+          <p className="text-base font-brawford font-bold tracking-[0.2em] text-[#701020] uppercase">
             {formattedDate}
           </p>
 
@@ -238,7 +237,7 @@ export default async function Home({ params, searchParams }: Props) {
             <img 
               src={ASSETS.couple} 
               alt="Illustrated Couple" 
-              className="w-52 h-auto max-h-[220px] object-contain select-none pointer-events-none"
+              className="w-56 h-auto max-h-[240px] object-contain select-none pointer-events-none"
             />
           </div>
         </div>
