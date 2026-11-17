@@ -72,10 +72,13 @@ export function AnimatedCoupleName({
   let animationProps = {};
   if (isCover) {
     animationProps = { animate: "visible" };
-  } else if (typeof isOpened === "boolean") {
-    animationProps = { animate: isOpened ? "visible" : "hidden" };
+  } else if (!isOpened) {
+    animationProps = { animate: "hidden" };
   } else {
-    animationProps = { whileInView: "visible", viewport: { once: false, amount: 0.15 } };
+    animationProps = {
+      whileInView: "visible",
+      viewport: { once: false, amount: 0.15 },
+    };
   }
 
   return (

@@ -526,24 +526,36 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
         {/* SECTION 1: HERO / COUPLE (Exact Match to Gambar 3) */}
         <motion.section 
           key={isOpened ? "section1-opened" : "section1-closed"}
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={isOpened ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.92 }}
-          transition={{ duration: 0.65, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          initial="hidden"
+          {...(!isOpened
+            ? { animate: "hidden" }
+            : { whileInView: "visible", viewport: { once: false, amount: 0.15 } }
+          )}
+          variants={{
+            hidden: { opacity: 0, scale: 0.92 },
+            visible: {
+              opacity: 1,
+              scale: 1,
+              transition: { duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] },
+            },
+          }}
           className="text-center space-y-1 pt-1"
         >
           <motion.p 
-            initial={{ opacity: 0, y: -8 }}
-            animate={isOpened ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            variants={{
+              hidden: { opacity: 0, y: -8 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.15 } },
+            }}
             className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight"
           >
             you are invited to our wedding
           </motion.p>
 
           <motion.div 
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={isOpened ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.6 }}
-            transition={{ duration: 0.45, delay: 0.25 }}
+            variants={{
+              hidden: { opacity: 0, scale: 0.6 },
+              visible: { opacity: 1, scale: 1, transition: { duration: 0.45, delay: 0.2 } },
+            }}
             className="flex justify-center py-0.5"
           >
             <img 
@@ -558,7 +570,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             bride={brideNickname}
             groom={groomNickname}
             isOpened={isOpened}
-            delayChildren={0.3}
+            delayChildren={0.25}
             className="text-[#6C1420] w-full px-2 sm:px-4 my-1 select-none"
             brideSize="text-[130px] sm:text-[148px] md:text-[160px]"
             ampSize="text-[84px] sm:text-[96px] md:text-[104px]"
@@ -567,9 +579,10 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           />
 
           <motion.div 
-            initial={{ opacity: 0, y: 15 }}
-            animate={isOpened ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-            transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            variants={{
+              hidden: { opacity: 0, y: 15 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] } },
+            }}
             className="-mt-3 sm:-mt-4 flex justify-center"
           >
             <motion.img 
