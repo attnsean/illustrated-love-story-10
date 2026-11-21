@@ -147,45 +147,31 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
   const stories = Array.isArray(dbStories) && dbStories.length > 0 ? dbStories : defaultMilestones;
 
   // Cashless & Bank Info
-  const isCashlessEnabled = (project as any)?.has_cashless !== false;
-  let paymentAccounts: any[] = [];
+  let rawPaymentAccounts: any[] = [];
   try {
     if (Array.isArray((project as any)?.payment_accounts)) {
-      paymentAccounts = (project as any).payment_accounts;
+      rawPaymentAccounts = (project as any).payment_accounts;
     } else if (typeof (project as any)?.payment_accounts === "string") {
-      paymentAccounts = JSON.parse((project as any).payment_accounts);
+      rawPaymentAccounts = JSON.parse((project as any).payment_accounts);
     }
   } catch (e) {
-    paymentAccounts = [];
+    rawPaymentAccounts = [];
   }
 
-  const brideBank = paymentAccounts[0]
-    ? {
-        bank_name: paymentAccounts[0].bank || paymentAccounts[0].bank_name || "BCA",
-        account_number: paymentAccounts[0].account_number || "777555231",
-        owner_name: paymentAccounts[0].account_name || paymentAccounts[0].owner_name || "ANNISA",
-        nickname: "ANNISA",
-      }
-    : {
-        bank_name: "BCA",
-        account_number: "777555231",
-        owner_name: "ANNISA",
-        nickname: "ANNISA",
-      };
+  // Filter out empty or dummy account numbers
+  const paymentAccounts = (rawPaymentAccounts || []).filter(
+    (acc: any) =>
+      acc &&
+      acc.account_number &&
+      String(acc.account_number).trim() !== "" &&
+      String(acc.account_number).trim() !== "777555231" &&
+      String(acc.account_number).trim() !== "777555333"
+  );
 
-  const groomBank = paymentAccounts[1]
-    ? {
-        bank_name: paymentAccounts[1].bank || paymentAccounts[1].bank_name || "BCA",
-        account_number: paymentAccounts[1].account_number || "777555333",
-        owner_name: paymentAccounts[1].account_name || paymentAccounts[1].owner_name || "FIRMAN",
-        nickname: "FIRMAN",
-      }
-    : {
-        bank_name: "BCA",
-        account_number: "777555333",
-        owner_name: "FIRMAN",
-        nickname: "FIRMAN",
-      };
+  const isCashlessEnabled = Boolean(
+    ((project as any)?.has_cashless || (project as any)?.subscriptions?.packages?.has_amplop_digital) &&
+    paymentAccounts.length > 0
+  );
 
   const coverPhoto = (!isDefaultStorageUrl(project?.opening_photo_url) ? project?.opening_photo_url : null)
     || (!isDefaultStorageUrl(project?.cover_photo_url) ? project?.cover_photo_url : null);
@@ -849,7 +835,7 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
         </motion.section>
 
         {/* SECTION 5: WEDDING GIFT (HankRnd Black for Cards & Gaegu for #Note, Easy Scale) */}
-        {isCashlessEnabled && (
+        {isCashlessEnabled && paymentAccounts.length > 0 && (
           <motion.section 
             initial={{ opacity: 0, scale: 0.88 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -871,53 +857,38 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             </div>
 
             <div className="space-y-4 max-w-[300px] sm:max-w-[320px] mx-auto pt-2">
-              {/* Card 1: Annisa in HankRnd Black */}
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="bg-[#6C1420] text-white p-5 rounded-2xl shadow-lg relative text-left overflow-hidden border border-[#58111A]"
-              >
-                <div className="flex justify-between items-start">
-                  <span className="font-hankrnd text-2xl tracking-wider text-[#F2F2F2]">{brideBank.bank_name}</span>
-                  <div className="w-10 h-8 rounded-md bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 border border-amber-200/80 shadow-inner flex items-center justify-center opacity-95">
-                    <div className="w-7 h-5 border border-amber-600/40 rounded grid grid-cols-2"></div>
-                  </div>
-                </div>
-                <div className="mt-6 space-y-0.5">
-                  <p className="font-hankrnd text-lg tracking-wider uppercase text-[#F2F2F2]">{brideBank.owner_name}</p>
-                  <p className="font-hankrnd text-xl tracking-widest text-[#F2F2F2]">{brideBank.account_number}</p>
-                </div>
-                <button 
-                  type="button" 
-                  onClick={() => copyToClipboard(brideBank.account_number, `BCA ${brideBank.nickname}`)}
-                  className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-gaegu font-bold tracking-wider uppercase transition-colors cursor-pointer"
-                >
-                  SALIN REKENING
-                </button>
-              </motion.div>
+              {paymentAccounts.map((acc: any, idx: number) => {
+                const bankName = (acc.bank || acc.provider || acc.bank_name || "BCA").toUpperCase();
+                const accNum = acc.account_number || "";
+                const ownerName = acc.account_name || acc.owner_name || (idx === 0 ? brideName : groomName);
+                const nick = acc.nickname || (idx === 0 ? brideName : groomName);
 
-              {/* Card 2: Firman in HankRnd Black */}
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                className="bg-[#6C1420] text-white p-5 rounded-2xl shadow-lg relative text-left overflow-hidden border border-[#58111A]"
-              >
-                <div className="flex justify-between items-start">
-                  <span className="font-hankrnd text-2xl tracking-wider text-[#F2F2F2]">{groomBank.bank_name}</span>
-                  <div className="w-10 h-8 rounded-md bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 border border-amber-200/80 shadow-inner flex items-center justify-center opacity-95">
-                    <div className="w-7 h-5 border border-amber-600/40 rounded grid grid-cols-2"></div>
-                  </div>
-                </div>
-                <div className="mt-6 space-y-0.5">
-                  <p className="font-hankrnd text-lg tracking-wider uppercase text-[#F2F2F2]">{groomBank.owner_name}</p>
-                  <p className="font-hankrnd text-xl tracking-widest text-[#F2F2F2]">{groomBank.account_number}</p>
-                </div>
-                <button 
-                  type="button" 
-                  onClick={() => copyToClipboard(groomBank.account_number, `BCA ${groomBank.nickname}`)}
-                  className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-gaegu font-bold tracking-wider uppercase transition-colors cursor-pointer"
-                >
-                  SALIN REKENING
-                </button>
-              </motion.div>
+                return (
+                  <motion.div 
+                    key={idx}
+                    whileHover={{ scale: 1.02 }}
+                    className="bg-[#6C1420] text-white p-5 rounded-2xl shadow-lg relative text-left overflow-hidden border border-[#58111A]"
+                  >
+                    <div className="flex justify-between items-start">
+                      <span className="font-hankrnd text-2xl tracking-wider text-[#F2F2F2]">{bankName}</span>
+                      <div className="w-10 h-8 rounded-md bg-gradient-to-br from-amber-300 via-amber-400 to-amber-500 border border-amber-200/80 shadow-inner flex items-center justify-center opacity-95">
+                        <div className="w-7 h-5 border border-amber-600/40 rounded grid grid-cols-2"></div>
+                      </div>
+                    </div>
+                    <div className="mt-6 space-y-0.5">
+                      <p className="font-hankrnd text-lg tracking-wider uppercase text-[#F2F2F2]">{ownerName}</p>
+                      <p className="font-hankrnd text-xl tracking-widest text-[#F2F2F2]">{accNum}</p>
+                    </div>
+                    <button 
+                      type="button" 
+                      onClick={() => copyToClipboard(accNum, `${bankName} ${nick}`)}
+                      className="mt-3 w-full py-1.5 bg-white/15 hover:bg-white/25 text-white rounded-lg text-xs font-gaegu font-bold tracking-wider uppercase transition-colors cursor-pointer"
+                    >
+                      SALIN REKENING
+                    </button>
+                  </motion.div>
+                );
+              })}
             </div>
 
             {/* Note in Gaegu font */}
