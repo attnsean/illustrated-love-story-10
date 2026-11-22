@@ -648,8 +648,8 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block transition-transform cursor-pointer"
-              >
-                <img src={ASSETS.openMapBtn} alt="OPEN MAP" className="h-10 sm:h-12 w-auto object-contain drop-shadow-sm" />
+               onClick={(e) => { e.stopPropagation(); window.open(mapsUrl, "_blank", "noopener,noreferrer"); }} >
+                <img src={ASSETS.openMapBtn} alt="Buka Google Maps" className="h-10 sm:h-12 w-auto object-contain drop-shadow-sm" />
               </motion.a>
             </div>
 
