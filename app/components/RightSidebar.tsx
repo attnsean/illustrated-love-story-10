@@ -860,8 +860,8 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               {paymentAccounts.map((acc: any, idx: number) => {
                 const bankName = (acc.bank || acc.provider || acc.bank_name || "BCA").toUpperCase();
                 const accNum = acc.account_number || "";
-                const ownerName = acc.account_name || acc.owner_name || (idx === 0 ? brideName : groomName);
-                const nick = acc.nickname || (idx === 0 ? brideName : groomName);
+                const ownerName = acc.account_name || acc.owner_name || (idx === 0 ? brideFull : groomFull);
+                const nick = acc.nickname || (idx === 0 ? brideFull : groomFull);
 
                 return (
                   <motion.div 
