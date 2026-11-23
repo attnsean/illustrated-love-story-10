@@ -40,23 +40,57 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
   const mainEvent = events && events.length > 0 ? events[0] : null;
   const weddingDateRaw = mainEvent?.event_date || project?.wedding_date || "2028-02-02";
   
-  const formatDateDisplay = (dateStr?: string | null) => {
-    if (!dateStr) return "02 . 02 . 2028";
-    try {
-      const parts = dateStr.split("-");
-      if (parts.length === 3) {
-        return `${parts[2]} . ${parts[1]} . ${parts[0]}`;
-      }
-      const d = new Date(dateStr);
-      const dd = String(d.getDate()).padStart(2, "0");
-      const mm = String(d.getMonth() + 1).padStart(2, "0");
-      const yyyy = d.getFullYear();
-      return `${dd} . ${mm} . ${yyyy}`;
-    } catch {
-      return "02 . 02 . 2028";
+  const getParsedWeddingDate = () => {
+    const raw = (project as any)?.countdown_target || mainEvent?.event_date || (project as any)?.wedding_date || weddingDateRaw;
+    if (!raw) {
+      return { day: "02", monthYear: "February 2028", fullDate: "02 . 02 . 2028" };
     }
+
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    if (typeof raw === "string" && /^\d{4}-\d{2}-\d{2}$/.test(raw.trim())) {
+      const [y, m, d] = raw.trim().split("-");
+      const monthIndex = parseInt(m, 10) - 1;
+      return {
+        day: d.padStart(2, "0"),
+        monthYear: `${monthNames[monthIndex] || "February"} ${y}`,
+        fullDate: `${d.padStart(2, "0")} . ${m.padStart(2, "0")} . ${y}`
+      };
+    }
+
+    const d = new Date(raw);
+    if (!isNaN(d.getTime())) {
+      const formatter = new Intl.DateTimeFormat("en-US", {
+        timeZone: "Asia/Jakarta",
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      });
+      const parts = formatter.formatToParts(d);
+      const day = parts.find(p => p.type === "day")?.value || "02";
+      const month = parts.find(p => p.type === "month")?.value || "February";
+      const year = parts.find(p => p.type === "year")?.value || "2028";
+
+      const numFormatter = new Intl.DateTimeFormat("en-US", {
+        timeZone: "Asia/Jakarta",
+        month: "2-digit"
+      });
+      const month2Digit = numFormatter.format(d);
+
+      return {
+        day: day.padStart(2, "0"),
+        monthYear: `${month} ${year}`,
+        fullDate: `${day.padStart(2, "0")} . ${month2Digit} . ${year}`
+      };
+    }
+
+    return { day: "02", monthYear: "February 2028", fullDate: "02 . 02 . 2028" };
   };
-  const formattedDate = formatDateDisplay(weddingDateRaw);
+
+  const { day: calendarDay, monthYear: calendarMonthYear, fullDate: formattedDate } = getParsedWeddingDate();
 
   const formatEventTimeDisplay = (timeStr?: string | null) => {
     if (!timeStr || !timeStr.trim()) return "15:00";
@@ -603,23 +637,23 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
 
           <div className="space-y-4 pt-2">
-            {/* Calendar with 02 in heart & February 2028 below */}
+            {/* Calendar with dynamic day in heart & Month Year below */}
             <div className="relative w-48 sm:w-56 aspect-[1918/2258] mx-auto select-none">
               <img 
                 src={ASSETS.calendarIcon} 
-                alt="02 February 2028 Calendar" 
+                alt={`${calendarDay} ${calendarMonthYear} Calendar`} 
                 className="w-full h-full object-contain pointer-events-none drop-shadow-sm" 
               />
-              {/* Inside Heart: 02 */}
+              {/* Inside Heart: day */}
               <div className="absolute top-[49%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
                 <span className="font-beautylife text-4xl sm:text-5xl text-[#C82127] font-bold tracking-tight">
-                  02
+                  {calendarDay}
                 </span>
               </div>
-              {/* Under Heart: February 2028 */}
+              {/* Under Heart: Month Year */}
               <div className="absolute bottom-[16%] left-[50%] -translate-x-1/2 text-center pointer-events-none w-full">
                 <span className="font-beautylife text-base sm:text-lg text-[#6C1420] block leading-tight tracking-wide">
-                  February 2028
+                  {calendarMonthYear}
                 </span>
               </div>
             </div>
