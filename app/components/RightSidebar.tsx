@@ -696,13 +696,13 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               />
               {/* Inside Heart: day */}
               <div className="absolute top-[49%] left-[50%] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
-                <span className="font-beautylife text-4xl sm:text-5xl text-[#C82127] font-bold tracking-tight">
+                <span className="font-beautylife text-5xl sm:text-6xl text-[#014F2E] font-bold tracking-tight">
                   {calendarDay}
                 </span>
               </div>
               {/* Under Heart: Month Year */}
               <div className="absolute bottom-[16%] left-[50%] -translate-x-1/2 text-center pointer-events-none w-full">
-                <span className="font-beautylife text-base sm:text-lg text-[#6C1420] block leading-tight tracking-wide">
+                <span className="font-beautylife text-xl sm:text-2xl text-[#014F2E] font-bold block leading-tight tracking-wide">
                   {calendarMonthYear}
                 </span>
               </div>
