@@ -83,8 +83,26 @@
 }
 
 :root {
-  --background: #ffffff;
+  color-scheme: light only !important;
+  supported-color-schemes: light !important;
+  --background: #FFFDF3;
   --foreground: #111111;
+}
+
+html, body {
+  color-scheme: light only !important;
+  background-color: #FFFDF3 !important;
+  background: #FFFDF3 !important;
+  color: #111111 !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root, html, body {
+    color-scheme: light only !important;
+    background-color: #FFFDF3 !important;
+    background: #FFFDF3 !important;
+    color: #111111 !important;
+  }
 }
 
 @theme inline {
