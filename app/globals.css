@@ -83,22 +83,29 @@
 }
 
 :root {
-  color-scheme: light only !important;
-  supported-color-schemes: light !important;
+  color-scheme: light dark !important;
+  supported-color-schemes: light dark !important;
   --background: #FFFDF3;
   --foreground: #111111;
 }
 
 html, body {
-  color-scheme: light only !important;
+  color-scheme: light dark !important;
   background-color: #FFFDF3 !important;
   background: #FFFDF3 !important;
   color: #111111 !important;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root, html, body {
-    color-scheme: light only !important;
+  :root {
+    color-scheme: light dark !important;
+    --background: #FFFDF3 !important;
+    --foreground: #111111 !important;
+  }
+  html, body, main, section, div {
+    color-scheme: light dark !important;
+  }
+  html, body {
     background-color: #FFFDF3 !important;
     background: #FFFDF3 !important;
     color: #111111 !important;
