@@ -67,6 +67,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = `We cordially invite you to celebrate the wedding of ${brideName} & ${groomName}.`;
 
   return {
+    colorScheme: 'light',
+    other: {
+      'color-scheme': 'light only',
+      'supported-color-schemes': 'light',
+    },
     metadataBase: new URL(cleanSiteUrl),
     title,
     description,
@@ -105,9 +110,15 @@ export default function RootLayout({
   return (
     <html 
       lang="en"
+      style={{ colorScheme: "light" }}
       className={`${geistSans.variable} ${geistMono.variable} ${customSerif.variable} ${customScript.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <head>
+        <meta name="color-scheme" content="light only" />
+        <meta name="supported-color-schemes" content="light" />
+        <meta name="theme-color" content="#FFFDF3" />
+      </head>
+      <body style={{ colorScheme: "light", backgroundColor: "#FFFDF3", color: "#111111" }} className="min-h-full flex flex-col bg-[#FFFDF3] text-neutral-900">
         {/* Suppress and remove Vercel Toolbar if injected */}
         <script
           dangerouslySetInnerHTML={{
