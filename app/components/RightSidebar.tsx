@@ -110,6 +110,8 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
         return "Midodareni";
       case "pengajian":
         return "Pengajian";
+      case "syukuran":
+        return "Syukuran";
       case "pawiwahan":
         return "Pawiwahan";
       case "ngaben":
