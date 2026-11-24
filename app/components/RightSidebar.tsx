@@ -92,15 +92,63 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
 
   const { day: calendarDay, monthYear: calendarMonthYear, fullDate: formattedDate } = getParsedWeddingDate();
 
-  const formatEventTimeDisplay = (timeStr?: string | null) => {
-    if (!timeStr || !timeStr.trim()) return "15:00";
-    const trimmed = timeStr.trim();
-    const cleanTime = trimmed.includes(".") ? trimmed.replace(".", ":") : trimmed;
-    return cleanTime.length >= 5 ? cleanTime.slice(0, 5) : cleanTime;
+  const getEventTitle = (evt: any, idx: number) => {
+    if (evt.custom_label && evt.custom_label.trim()) {
+      return evt.custom_label.trim();
+    }
+    const type = (evt.event_type || "").toLowerCase();
+    switch (type) {
+      case "akad":
+        return "Akad Nikah";
+      case "resepsi":
+        return "Resepsi Pernikahan";
+      case "pemberkatan":
+        return "Pemberkatan";
+      case "siraman":
+        return "Siraman";
+      case "midodareni":
+        return "Midodareni";
+      case "pengajian":
+        return "Pengajian";
+      case "pawiwahan":
+        return "Pawiwahan";
+      case "ngaben":
+        return "Ngaben";
+      default:
+        return `Acara ${idx + 1}`;
+    }
   };
-  const formattedTime = formatEventTimeDisplay(mainEvent?.event_time || (project as any)?.wedding_time || "15:00");
+
+  const formatDateDisplay = (dateStr?: string | null) => {
+    if (!dateStr) return formattedDate;
+    try {
+      const parts = dateStr.split("T")[0].split("-");
+      if (parts.length === 3) {
+        return `${parts[2]} . ${parts[1]} . ${parts[0]}`;
+      }
+      return dateStr;
+    } catch {
+      return formattedDate;
+    }
+  };
+
+  const formatEventTimeDisplay = (timeStr?: string | null, endTimeStr?: string | null) => {
+    if (!timeStr || !timeStr.trim()) return "15:00";
+    let formatted = timeStr.trim().replace(/\./g, ":");
+    if (formatted.includes("-")) {
+      const parts = formatted.split("-").map((p) => p.trim());
+      formatted = parts.join(" - ");
+    }
+    if (endTimeStr && endTimeStr.trim()) {
+      const endClean = endTimeStr.trim().replace(/\./g, ":");
+      formatted = `${formatted} - ${endClean}`;
+    }
+    return formatted;
+  };
+  const formattedTime = formatEventTimeDisplay(mainEvent?.event_time || (project as any)?.wedding_time || "15:00", mainEvent?.end_time);
 
   const venueName = mainEvent?.venue_name || (project as any)?.venue_name || "Villa Dago";
+  const venueAddress = mainEvent?.venue_address || (project as any)?.venue_address || "";
   const mapsUrl = mainEvent?.venue_maps_url || (project as any)?.venue_maps_url || "https://maps.google.com/?q=Villa+Dago+Bandung";
 
   // Countdown Timer
@@ -658,34 +706,121 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
               </div>
             </div>
 
-            {/* Time & Venue in Erabura font */}
-            <div className="flex items-center justify-center gap-6 pt-1">
-              <div className="flex items-center gap-2">
-                <img src={ASSETS.clockIcon} alt="Clock" className="w-5 sm:w-6 h-auto object-contain" />
-                <span className="font-erabura text-2xl sm:text-3xl text-[#6C1420] tracking-wide">
-                  {formattedTime}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <img src={ASSETS.pinIcon} alt="Pin" className="w-5 sm:w-6 h-auto object-contain" />
-                <span className="font-erabura text-2xl sm:text-3xl text-[#6C1420] tracking-wide uppercase">
-                  {venueName}
-                </span>
-              </div>
-            </div>
+            {/* Events Section (Supports multiple events / addresses) */}
+            {events && events.length > 1 ? (
+              <div className="space-y-4 pt-3 max-w-sm mx-auto">
+                {events.map((evt: any, idx: number) => {
+                  const evtTitle = getEventTitle(evt, idx);
+                  const evtDate = formatDateDisplay(evt.event_date || weddingDateRaw);
+                  const evtTime = evt.event_time ? formatEventTimeDisplay(evt.event_time, evt.end_time) : formattedTime;
+                  const evtVenue = evt.venue_name || venueName;
+                  const evtAddr = evt.venue_address || "";
+                  const evtMaps = evt.venue_maps_url || mapsUrl;
+                  const isDifferentDate = evt.event_date && weddingDateRaw && evt.event_date.split("T")[0] !== weddingDateRaw.split("T")[0];
 
-            <div className="flex justify-center pt-1">
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block transition-transform cursor-pointer"
-               onClick={(e) => { e.stopPropagation(); window.open(mapsUrl, "_blank", "noopener,noreferrer"); }} >
-                <img src={ASSETS.openMapBtn} alt="Buka Google Maps" className="h-10 sm:h-12 w-auto object-contain drop-shadow-sm" />
-              </motion.a>
-            </div>
+                  return (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: false, amount: 0.2 }}
+                      transition={{ duration: 0.5, delay: idx * 0.1 }}
+                      className="bg-white/80 backdrop-blur-sm p-4 sm:p-5 rounded-3xl border border-[#6C1420]/20 shadow-sm space-y-3 text-center"
+                    >
+                      <div className="inline-block px-4 py-1 bg-[#6C1420] text-white rounded-full text-sm font-gaegu font-bold tracking-wider uppercase shadow-xs">
+                        {evtTitle}
+                      </div>
+
+                      <div className="space-y-2 text-[#6C1420]">
+                        {isDifferentDate && (
+                          <div className="flex items-center justify-center gap-2">
+                            <svg className="w-4 h-4 text-[#6C1420]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span className="font-gaegu text-xl sm:text-2xl font-bold tracking-wide">{evtDate}</span>
+                          </div>
+                        )}
+
+                        <div className="flex items-center justify-center gap-2">
+                          <img src={ASSETS.clockIcon} alt="Clock" className="w-5 sm:w-6 h-auto object-contain" />
+                          <span className="font-gaegu text-xl sm:text-2xl font-bold tracking-wide">
+                            {evtTime}
+                          </span>
+                        </div>
+
+                        <div className="flex flex-col items-center justify-center gap-0.5">
+                          <div className="flex items-center justify-center gap-2">
+                            <img src={ASSETS.pinIcon} alt="Pin" className="w-5 sm:w-6 h-auto object-contain shrink-0" />
+                            <span className="font-gaegu text-xl sm:text-2xl font-bold tracking-wide uppercase text-center leading-tight">
+                              {evtVenue}
+                            </span>
+                          </div>
+                          {evtAddr && (
+                            <p className="text-sm font-gaegu font-bold text-[#6C1420]/80 text-center px-2 mt-1 leading-snug">
+                              {evtAddr}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {evtMaps && (
+                        <div className="pt-1 flex justify-center">
+                          <motion.a
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            href={evtMaps}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block transition-transform cursor-pointer"
+                            onClick={(e) => { e.stopPropagation(); window.open(evtMaps, "_blank", "noopener,noreferrer"); }}
+                          >
+                            <img src={ASSETS.openMapBtn} alt="Buka Google Maps" className="h-10 sm:h-11 w-auto object-contain drop-shadow-sm" />
+                          </motion.a>
+                        </div>
+                      )}
+                    </motion.div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="space-y-3 pt-1 text-center">
+                <div className="flex flex-col items-center justify-center gap-2 pt-1">
+                  <div className="flex items-center justify-center gap-2">
+                    <img src={ASSETS.clockIcon} alt="Clock" className="w-5 sm:w-6 h-auto object-contain" />
+                    <span className="font-gaegu font-bold text-2xl sm:text-3xl text-[#6C1420] tracking-wide">
+                      {formattedTime}
+                    </span>
+                  </div>
+                  <div className="flex flex-col items-center justify-center gap-1">
+                    <div className="flex items-center justify-center gap-2">
+                      <img src={ASSETS.pinIcon} alt="Pin" className="w-5 sm:w-6 h-auto object-contain shrink-0" />
+                      <span className="font-gaegu font-bold text-2xl sm:text-3xl text-[#6C1420] tracking-wide uppercase text-center leading-tight">
+                        {venueName}
+                      </span>
+                    </div>
+                    {venueAddress && (
+                      <p className="text-sm font-gaegu font-bold text-[#6C1420]/80 text-center max-w-xs px-4 mt-0.5 leading-snug">
+                        {venueAddress}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex justify-center pt-1">
+                  <motion.a
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    href={mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block transition-transform cursor-pointer"
+                    onClick={(e) => { e.stopPropagation(); window.open(mapsUrl, "_blank", "noopener,noreferrer"); }}
+                  >
+                    <img src={ASSETS.openMapBtn} alt="Buka Google Maps" className="h-10 sm:h-12 w-auto object-contain drop-shadow-sm" />
+                  </motion.a>
+                </div>
+              </div>
+            )}
 
             {/* Countdown Timer */}
             <div className="pt-3 pb-1">
