@@ -257,6 +257,32 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
     paymentAccounts.length > 0
   );
 
+  // Dress Code
+  const hasDresscode = Boolean((project as any)?.has_dresscode && (project as any)?.has_dresscode !== "false");
+  const parseDresscodeColors = (): { hex: string; name?: string }[] => {
+    const rawColors = (project as any)?.dresscode_colors;
+    if (Array.isArray(rawColors) && rawColors.length > 0) {
+      return rawColors.map((c: any) => ({
+        hex: typeof c === "string" ? c : (c?.hex || c?.color || "#ffffff"),
+        name: typeof c === "string" ? c : (c?.name || c?.label || "")
+      }));
+    }
+    if (typeof rawColors === "string" && rawColors.trim()) {
+      try {
+        const parsed = JSON.parse(rawColors);
+        if (Array.isArray(parsed)) {
+          return parsed.map((c: any) => ({
+            hex: typeof c === "string" ? c : (c?.hex || c?.color || "#ffffff"),
+            name: typeof c === "string" ? c : (c?.name || c?.label || "")
+          }));
+        }
+      } catch {}
+    }
+    return [];
+  };
+  const dresscodeColors = parseDresscodeColors();
+  const dresscodeLabel = (project as any)?.dresscode_note || (project as any)?.dresscode_label || (project as any)?.dresscode_name || "";
+
   const coverPhoto = (!isDefaultStorageUrl(project?.opening_photo_url) ? project?.opening_photo_url : null)
     || (!isDefaultStorageUrl(project?.cover_photo_url) ? project?.cover_photo_url : null);
 
@@ -965,45 +991,59 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
           </div>
         </motion.section>
 
-        {/* SECTION 4: DRESS CODE (Easy Scale) */}
-        <motion.section 
-          initial={{ opacity: 0, scale: 0.88 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: false, amount: 0.15 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center space-y-4 pt-4"
-        >
-          <p className="font-beautylife text-lg sm:text-xl text-[#6C1420] leading-tight max-w-xs mx-auto px-2">
-            to maintain the harmony of our wedding theme, we kindly request our guests to wear
-          </p>
-
-          <div className="flex justify-center">
-            <AnimatedTitle
-              type="dressCode"
-              alt="DRESS CODE"
-              className="w-56 sm:w-64"
-              fallbackSrc={ASSETS.titleDressCode}
-            />
-          </div>
-
-          <div className="flex justify-center pt-2">
-            <img 
-              src={ASSETS.dressCodeAttire} 
-              alt="Formal Attire" 
-              className="w-48 sm:w-56 h-auto object-contain select-none drop-shadow-sm" 
-            />
-          </div>
-
-          <div className="pt-1 space-y-2">
-            <p className="font-brawford font-bold text-xl text-[#6C1420] tracking-wide">
-              Monocrome
+        {/* SECTION 4: DRESS CODE (Only rendered when enabled in project) */}
+        {hasDresscode && (
+          <motion.section 
+            initial={{ opacity: 0, scale: 0.88 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.15 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center space-y-4 pt-4"
+          >
+            <p className="font-beautylife text-lg sm:text-xl text-[#6C1420] leading-tight max-w-xs mx-auto px-2">
+              to maintain the harmony of our wedding theme, we kindly request our guests to wear
             </p>
-            <div className="flex items-center justify-center gap-4">
-              <div className="w-8 h-8 rounded-full bg-black shadow-md border border-neutral-700"></div>
-              <div className="w-8 h-8 rounded-full bg-white shadow-md border border-neutral-300"></div>
+
+            <div className="flex justify-center">
+              <AnimatedTitle
+                type="dressCode"
+                alt="DRESS CODE"
+                className="w-56 sm:w-64"
+                fallbackSrc={ASSETS.titleDressCode}
+              />
             </div>
-          </div>
-        </motion.section>
+
+            <div className="flex justify-center pt-2">
+              <img 
+                src={ASSETS.dressCodeAttire} 
+                alt="Formal Attire" 
+                className="w-48 sm:w-56 h-auto object-contain select-none drop-shadow-sm" 
+              />
+            </div>
+
+            {(dresscodeLabel || dresscodeColors.length > 0) && (
+              <div className="pt-1 space-y-2">
+                {dresscodeLabel && (
+                  <p className="font-gaegu font-bold text-xl text-[#6C1420] tracking-wide">
+                    {dresscodeLabel}
+                  </p>
+                )}
+                {dresscodeColors.length > 0 && (
+                  <div className="flex items-center justify-center gap-4">
+                    {dresscodeColors.map((c, i) => (
+                      <div
+                        key={i}
+                        className="w-8 h-8 rounded-full shadow-md border border-neutral-300"
+                        style={{ backgroundColor: c.hex }}
+                        title={c.name || c.hex}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </motion.section>
+        )}
 
         {/* SECTION 5: WEDDING GIFT (HankRnd Black for Cards & Gaegu for #Note, Easy Scale) */}
         {isCashlessEnabled && paymentAccounts.length > 0 && (
