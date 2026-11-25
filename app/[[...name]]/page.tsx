@@ -79,12 +79,15 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   const weddingDateRaw = dbData.events?.[0]?.event_date || dbData.project?.wedding_date;
   const formattedDate = formatDateDisplay(weddingDateRaw);
 
+  const venueName = dbData.events?.[0]?.venue_name || dbData.project?.venue_name || "";
   const rawCover = dbData.project?.cover_photo_url || dbData.project?.opening_photo_url;
   const hasCustomCover = Boolean(rawCover && !rawCover.includes("/defaults") && !rawCover.includes("onyx") && rawCover.trim() !== "");
   
   const protocol = host && (host.includes("localhost") || host.includes("127.0.0.1")) ? "http" : "https";
   const baseUrl = host ? `${protocol}://${host}` : "https://illustrated-love-story-10.serastory.com";
-  const imageUrl = hasCustomCover ? (rawCover as string) : `${baseUrl}/og-image.jpg?v=3`;
+  const guestParam = guestName && guestName !== "Guest Name" && guestName !== "Special Guest" ? `&to=${encodeURIComponent(guestName)}` : "";
+  const dynamicOgUrl = `${baseUrl}/api/og?b=${encodeURIComponent(brideName)}&g=${encodeURIComponent(groomName)}&bf=${encodeURIComponent(brideFull)}&gf=${encodeURIComponent(groomFull)}&d=${encodeURIComponent(formattedDate)}${venueName ? `&v=${encodeURIComponent(venueName)}` : ""}${guestParam}`;
+  const imageUrl = hasCustomCover ? (rawCover as string) : dynamicOgUrl;
 
   return {
     title,
@@ -98,7 +101,7 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
           url: imageUrl,
           width: 1200,
           height: 630,
-          alt: `${groomName} & ${brideName} Wedding Invitation`,
+          alt: `${brideName} & ${groomName} Wedding Invitation`,
         },
       ],
       locale: "id_ID",

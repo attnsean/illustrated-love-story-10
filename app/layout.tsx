@@ -59,9 +59,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const rawCover = data?.cover_photo_url || data?.opening_photo_url;
   const siteUrl = data?.custom_domain || data?.site_url || 'https://illustrated-love-story-10.serastory.com';
   const cleanSiteUrl = siteUrl.startsWith('http') ? siteUrl : `https://${siteUrl}`;
+  const dynamicOgUrl = `${cleanSiteUrl}/api/og?b=${encodeURIComponent(brideNick)}&g=${encodeURIComponent(groomNick)}&bf=${encodeURIComponent(brideName)}&gf=${encodeURIComponent(groomName)}`;
   const coverUrl = (rawCover && !rawCover.includes("/defaults") && !rawCover.includes("onyx")) 
     ? rawCover 
-    : `${cleanSiteUrl}/og-image.jpg?v=3`;
+    : dynamicOgUrl;
 
   const title = `${brideNick} & ${groomNick} Wedding Invitation`;
   const description = `We cordially invite you to celebrate the wedding of ${brideName} & ${groomName}.`;

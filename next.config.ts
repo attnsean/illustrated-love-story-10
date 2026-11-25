@@ -60,6 +60,18 @@ const nextConfig: NextConfig = {
   },
   serverExternalPackages: ['nodemailer'],
   allowedDevOrigins: ['172.20.10.4', '192.168.20.104'],
+  async rewrites() {
+    return [
+      {
+        source: '/og-image.jpg',
+        destination: '/api/og',
+      },
+      {
+        source: '/opengraph-image.jpg',
+        destination: '/api/og',
+      },
+    ];
+  },
   async headers() {
     return [
       {
