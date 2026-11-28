@@ -17,10 +17,28 @@ export async function GET(request: NextRequest) {
 
     if (!bride || !groom) {
       try {
-        const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || '84ea6217-b9ed-4ce2-baca-e14b30086d98';
+        const host = request.headers.get("host")?.split(":")[0].toLowerCase() || "";
         const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://sdnuzcdcaxuydoyocqgj.supabase.co';
         const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_CakDY3TRcwAUw8FvXBynkw_PaeoCuGW';
-        const res = await fetch(`${supabaseUrl}/rest/v1/wedding_details?project_id=eq.${projectId}&select=*`, {
+        
+        let targetProjectId = process.env.NEXT_PUBLIC_PROJECT_ID;
+        if (!targetProjectId && host) {
+          try {
+            const pRes = await fetch(`${supabaseUrl}/rest/v1/projects?or=(custom_domain.eq.${host},site_url.ilike.%25${host}%25)&select=id&limit=1`, {
+              headers: {
+                'apikey': anonKey,
+                'Authorization': `Bearer ${anonKey}`
+              }
+            });
+            const pData = await pRes.json();
+            if (Array.isArray(pData) && pData.length > 0) {
+              targetProjectId = pData[0].id;
+            }
+          } catch {}
+        }
+        targetProjectId = targetProjectId || 'b888a41c-3833-424e-a2a0-94e18146e50a';
+
+        const res = await fetch(`${supabaseUrl}/rest/v1/wedding_details?project_id=eq.${targetProjectId}&select=*`, {
           headers: {
             'apikey': anonKey,
             'Authorization': `Bearer ${anonKey}`
@@ -29,10 +47,10 @@ export async function GET(request: NextRequest) {
         const rows = await res.json();
         if (Array.isArray(rows) && rows.length > 0) {
           const w = rows[0];
-          groom = groom || w.groom_nickname || "Andre";
-          bride = bride || w.bride_nickname || "Melia";
+          groom = groom || w.groom_nickname || "Nouval";
+          bride = bride || w.bride_nickname || "Putri";
           groomFull = groomFull || w.groom_name || "";
-          brideFull = brideFull || w.bride_name || "";
+          brideFull = brideFull || (w.bride_name ? w.bride_name.replace(/NIngrum/g, "Ningrum") : "");
           if (!date && w.wedding_date) {
             const parts = w.wedding_date.split('-');
             if (parts.length === 3) date = `${parts[2]} . ${parts[1]} . ${parts[0]}`;

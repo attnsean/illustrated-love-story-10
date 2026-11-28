@@ -223,6 +223,12 @@ export default async function Home({ params, searchParams }: Props) {
               groomSize="text-[94px] lg:text-[108px]"
               line2NegativeMargin="-mt-3.5 lg:-mt-5"
             />
+
+            {(brideFull || groomFull) && (
+              <p className="font-gaegu text-xs lg:text-sm text-[#6C1420]/80 font-bold tracking-wide -mt-1 select-none">
+                {brideFull.replace(/NIngrum/g, "Ningrum")} &amp; {groomFull}
+              </p>
+            )}
           </div>
 
           {/* Illustrated couple in heart (Matching Gambar 1, Large and never cut off) */}

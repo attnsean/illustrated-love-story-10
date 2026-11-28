@@ -29,12 +29,71 @@ const formatHonorific = (name?: string | null, prefix: string = "") => {
   return `${prefix} ${trimmed}`.trim();
 };
 
+const formatParent = (name?: string | null, isFather: boolean = true, isDeceased: boolean = false) => {
+  if (!name || !name.trim()) return "";
+  const trimmed = name.trim();
+  const prefix = isFather ? "Bpk." : "Ibu";
+  const deceasedPrefix = isFather ? "(Alm.)" : "(Almh.)";
+
+  if (/^(alm\.?|almarhum|almarhumah|\(alm\.?\)|\(almarhum\)|\(almarhumah\))/i.test(trimmed)) {
+    return trimmed;
+  }
+  if (/^(bpk\.?|bapak|ibu|h\.|hj\.|dr\.|drs\.|dra\.|prof\.)/i.test(trimmed)) {
+    return isDeceased ? `${deceasedPrefix} ${trimmed}` : trimmed;
+  }
+  return isDeceased ? `${deceasedPrefix} ${prefix} ${trimmed}` : `${prefix} ${trimmed}`;
+};
+
+const formatParentsSentence = (
+  childGender: "daughter" | "son",
+  father?: string | null,
+  fatherDeceased: boolean = false,
+  mother?: string | null,
+  motherDeceased: boolean = false
+) => {
+  const f = formatParent(father, true, fatherDeceased);
+  const m = formatParent(mother, false, motherDeceased);
+  const label = childGender === "daughter" ? "Putri dari" : "Putra dari";
+
+  if (f && m) return `${label} ${f} & ${m}`;
+  if (f) return `${label} ${f}`;
+  if (m) return `${label} ${m}`;
+  return "";
+};
+
 export default function RightSidebar({ guestName, guest, project, events, wishes: initialWishes, stats, existingRsvp }: Props) {
   // Couple Info
   const brideNickname = project?.bride_nickname || "Annisa";
   const groomNickname = project?.groom_nickname || "Firman";
   const brideFull = project?.bride_name || "Annisa Rahmawati";
   const groomFull = project?.groom_name || "Firman Hidayat";
+  const cleanBrideFull = (brideFull || "").replace(/NIngrum/g, "Ningrum");
+  const cleanGroomFull = groomFull || "";
+
+  const isDemo = !project || (!project.id && !project.project_name);
+  const defaultBrideFather = "Bpk. H. Faisal Bahri";
+  const defaultBrideMother = "Ibu Hj. Aminah Bahri";
+  const defaultGroomFather = "Bpk. H. Irfan Maulana";
+  const defaultGroomMother = "Ibu Hj. Dewi Sartika";
+
+  const brideFather = (project as any)?.bride_father?.trim() || (isDemo ? defaultBrideFather : "");
+  const brideMother = (project as any)?.bride_mother?.trim() || (isDemo ? defaultBrideMother : "");
+  const brideFatherDeceased = Boolean((project as any)?.bride_father_deceased);
+  const brideMotherDeceased = Boolean((project as any)?.bride_mother_deceased);
+  const brideInstagram = (project as any)?.bride_instagram?.trim()?.replace(/^@/, "") || (isDemo ? "annisa.rahma" : "");
+  const bridePhoto = (!isDefaultStorageUrl((project as any)?.bride_photo_url) ? (project as any)?.bride_photo_url : null);
+
+  const groomFather = (project as any)?.groom_father?.trim() || (isDemo ? defaultGroomFather : "");
+  const groomMother = (project as any)?.groom_mother?.trim() || (isDemo ? defaultGroomMother : "");
+  const groomFatherDeceased = Boolean((project as any)?.groom_father_deceased);
+  const groomMotherDeceased = Boolean((project as any)?.groom_mother_deceased);
+  const groomInstagram = (project as any)?.groom_instagram?.trim()?.replace(/^@/, "") || (isDemo ? "firman.hidayat" : "");
+  const groomPhoto = (!isDefaultStorageUrl((project as any)?.groom_photo_url) ? (project as any)?.groom_photo_url : null);
+
+  const religion = ((project as any)?.religion || "").toLowerCase();
+
+  const brideParentsText = formatParentsSentence("daughter", brideFather, brideFatherDeceased, brideMother, brideMotherDeceased);
+  const groomParentsText = formatParentsSentence("son", groomFather, groomFatherDeceased, groomMother, groomMotherDeceased);
 
   // Event Info
   const mainEvent = events && events.length > 0 ? events[0] : null;
@@ -674,6 +733,18 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             line2NegativeMargin="-mt-6 sm:-mt-8 md:-mt-10"
           />
 
+          {(cleanBrideFull || cleanGroomFull) && (
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, y: 10 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.3 } },
+              }}
+              className="font-gaegu font-bold text-base sm:text-lg text-[#6C1420]/80 tracking-wide -mt-2 sm:-mt-3"
+            >
+              {cleanBrideFull} &amp; {cleanGroomFull}
+            </motion.p>
+          )}
+
           <motion.div 
             variants={{
               hidden: { opacity: 0, y: 15 },
@@ -690,6 +761,128 @@ export default function RightSidebar({ guestName, guest, project, events, wishes
             />
           </motion.div>
         </motion.section>
+
+        {/* SECTION: THE BRIDE & GROOM PROFILES (Full names, parents & social) */}
+        {(cleanBrideFull || cleanGroomFull || brideParentsText || groomParentsText) && (
+          <motion.section 
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.15 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="text-center space-y-4 pt-2"
+          >
+            <div className="space-y-1.5 px-3">
+              <p className="font-beautylife text-2xl sm:text-3xl text-[#6C1420] leading-tight">
+                the happy couple
+              </p>
+              {religion === "islam" ? (
+                <div className="space-y-1">
+                  <p className="font-gaegu font-bold text-base sm:text-lg text-[#6C1420]">
+                    Assalamu’alaikum Warahmatullahi Wabarakatuh
+                  </p>
+                  <p className="font-gaegu text-xs sm:text-sm text-[#6C1420]/80 max-w-xs mx-auto leading-relaxed">
+                    Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan kami:
+                  </p>
+                </div>
+              ) : (
+                <p className="font-gaegu text-xs sm:text-sm text-[#6C1420]/80 max-w-xs mx-auto leading-relaxed">
+                  Dengan penuh rasa syukur dan sukacita, kami mengundang Bapak/Ibu/Saudara/i untuk merayakan momen bahagia pernikahan kami:
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-3.5 max-w-sm mx-auto pt-1 px-1">
+              {/* Mempelai Wanita (Bride) */}
+              <motion.div 
+                whileHover={{ scale: 1.01 }}
+                className="bg-white/90 backdrop-blur-sm border-2 border-[#6C1420] rounded-2xl p-4 sm:p-5 shadow-sm text-center space-y-2 relative"
+              >
+                <div className="space-y-1">
+                  <span className="inline-block px-3 py-0.5 rounded-full bg-[#6C1420]/10 text-[#6C1420] font-gaegu font-bold text-xs uppercase tracking-wider">
+                    Mempelai Wanita
+                  </span>
+                  {bridePhoto ? (
+                    <div className="w-20 h-20 mx-auto my-2 rounded-full overflow-hidden border-2 border-[#6C1420] shadow-inner">
+                      <img src={bridePhoto} alt={cleanBrideFull || brideNickname} className="w-full h-full object-cover" />
+                    </div>
+                  ) : null}
+                  <h3 className="font-brawford text-2xl sm:text-3xl text-[#6C1420] leading-tight pt-1">
+                    {cleanBrideFull || brideNickname}
+                  </h3>
+                  {brideParentsText && (
+                    <p className="font-gaegu text-sm sm:text-base text-[#6C1420]/85 leading-snug pt-0.5">
+                      {brideParentsText}
+                    </p>
+                  )}
+                </div>
+
+                {brideInstagram && (
+                  <div className="pt-1 flex justify-center">
+                    <a
+                      href={`https://instagram.com/${brideInstagram}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#6C1420] text-white hover:bg-[#58111A] transition-colors text-xs font-gaegu font-bold tracking-wide shadow-sm"
+                    >
+                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                      </svg>
+                      <span>@{brideInstagram}</span>
+                    </a>
+                  </div>
+                )}
+              </motion.div>
+
+              {/* Decorative separator */}
+              <div className="flex items-center justify-center gap-3 py-0.5">
+                <div className="h-[1.5px] w-12 bg-[#6C1420]/30 rounded-full" />
+                <span className="font-brawford text-2xl text-[#6C1420]">&amp;</span>
+                <div className="h-[1.5px] w-12 bg-[#6C1420]/30 rounded-full" />
+              </div>
+
+              {/* Mempelai Pria (Groom) */}
+              <motion.div 
+                whileHover={{ scale: 1.01 }}
+                className="bg-white/90 backdrop-blur-sm border-2 border-[#6C1420] rounded-2xl p-4 sm:p-5 shadow-sm text-center space-y-2 relative"
+              >
+                <div className="space-y-1">
+                  <span className="inline-block px-3 py-0.5 rounded-full bg-[#6C1420]/10 text-[#6C1420] font-gaegu font-bold text-xs uppercase tracking-wider">
+                    Mempelai Pria
+                  </span>
+                  {groomPhoto ? (
+                    <div className="w-20 h-20 mx-auto my-2 rounded-full overflow-hidden border-2 border-[#6C1420] shadow-inner">
+                      <img src={groomPhoto} alt={cleanGroomFull || groomNickname} className="w-full h-full object-cover" />
+                    </div>
+                  ) : null}
+                  <h3 className="font-brawford text-2xl sm:text-3xl text-[#6C1420] leading-tight pt-1">
+                    {cleanGroomFull || groomNickname}
+                  </h3>
+                  {groomParentsText && (
+                    <p className="font-gaegu text-sm sm:text-base text-[#6C1420]/85 leading-snug pt-0.5">
+                      {groomParentsText}
+                    </p>
+                  )}
+                </div>
+
+                {groomInstagram && (
+                  <div className="pt-1 flex justify-center">
+                    <a
+                      href={`https://instagram.com/${groomInstagram}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#6C1420] text-white hover:bg-[#58111A] transition-colors text-xs font-gaegu font-bold tracking-wide shadow-sm"
+                    >
+                      <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                      </svg>
+                      <span>@{groomInstagram}</span>
+                    </a>
+                  </div>
+                )}
+              </motion.div>
+            </div>
+          </motion.section>
+        )}
 
         {/* SECTION 2: DATE & PLACE (Easy Scale) */}
         <motion.section 

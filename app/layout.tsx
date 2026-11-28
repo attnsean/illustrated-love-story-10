@@ -31,9 +31,29 @@ const customScript = Great_Vibes({
 });
 
 import { supabase } from "../lib/supabase";
+import { headers } from "next/headers";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || 'fc4a817c-0f4b-4f0a-8e92-574e2921d280';
+  let projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
+
+  if (!projectId) {
+    try {
+      const headersList = await headers();
+      const host = headersList.get("host")?.split(":")[0].toLowerCase();
+      if (host) {
+        const { data: matchedProject } = await supabase
+          .from("projects")
+          .select("id")
+          .or(`custom_domain.eq.${host},site_url.ilike.%${host}%`)
+          .limit(1)
+          .maybeSingle();
+        if (matchedProject?.id) {
+          projectId = matchedProject.id;
+        }
+      }
+    } catch {}
+  }
+  projectId = projectId || 'fc4a817c-0f4b-4f0a-8e92-574e2921d280';
   
   const { data: projectData } = await supabase
     .from('projects')
@@ -52,7 +72,8 @@ export async function generateMetadata(): Promise<Metadata> {
     ...weddingData
   };
 
-  const brideName = data?.bride_name || "Annisa Rahmawati";
+  const rawBrideName = data?.bride_name || "Annisa Rahmawati";
+  const brideName = rawBrideName.replace(/NIngrum/g, "Ningrum");
   const groomName = data?.groom_name || "Firman Hidayat";
   const brideNick = data?.bride_nickname || "Annisa";
   const groomNick = data?.groom_nickname || "Firman";
